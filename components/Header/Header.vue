@@ -43,7 +43,7 @@
   height: 100%;
   background-image: url(../../assets/images/rectangle-113.svg);
   background-repeat: no-repeat;
-  background-position: 80% 80%;
+  background-position: 80% 90%;
   background-size: cover;
 }
 

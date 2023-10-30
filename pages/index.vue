@@ -1,16 +1,29 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div class="w-full h-full">
-    <div class="header-up-dev h-20" />
-    <div>hi</div>
+  <div class="w-full h-screen">
+    <div class="w-full h-full content-main-about-div">
+      <div class="header-up-dev h-20" />
+      <AboutHeroSection />
+    </div>
+    <div class="w-3/4 h-full content-main-div">
+      <div class="header-up-dev h-20" />
+      <AboutHeroSection />
+    </div>
   </div>
 </template>
 <style scoped>
-.header-up-dev {
+.content-main-div {
   position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.header-up-dev {
   width: 100%;
-  background: #8dc9f6;
-  z-index: -50;
+  background-color: #8dc9f6;
 }
 </style>
