@@ -111,7 +111,7 @@
   align-items: center;
   background-color: #18171d;
   height: 105px;
-  width: 100vw;
+  width: 100%;
 }
 
 .footer .navigation-section ul li {
