@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <Default>
     <NuxtPage />
-  </div>
+  </Default>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import Default from '~/layouts/default.vue'
+</script>
 <style>
 * {
   margin: 0;
@@ -12,7 +14,7 @@
 }
 
 body {
-  width: 100vh;
+  width: 100%;
   height: 100%;
 }
 </style>
