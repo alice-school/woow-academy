@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePageMeta({
+  layout: 'user',
+})
+</script>
 
 <template>
   <div class="language-page">
@@ -38,10 +42,10 @@
         English proficiency test <br />Pre-hire screening assessment to find the best candidates .
       </p>
       <div class="overlap-wrapper">
-        <div class="div-wrapper"><button type="button" class="text-wrapper-32">Practice Test</button></div>
+        <div class="div-wrapper"><a href="/language/practiceTest" class="text-wrapper-32">Practice Test</a></div>
       </div>
       <div class="group-4">
-        <div class="div-wrapper"><button type="button" class="text-wrapper-33">Get Started</button></div>
+        <div class="div-wrapper"><a href="/language/languageQuestion" class="text-wrapper-33">Get Started</a></div>
       </div>
     </div>
   </div>
@@ -847,8 +851,8 @@
   width: 351px;
   height: 50px;
   border-radius: 10px;
-  box-shadow: 0px 8px 21px #00000029;
-  background: linear-gradient(180deg, rgb(112.43, 125.95, 247.56) 0%, rgb(188.06, 194.95, 255) 100%);
+  background: var(--new-mix-button-color, linear-gradient(218deg, #172554 -5.84%, #1e40af 106.73%));
+  box-shadow: 0px 8px 21px 0px rgba(0, 0, 0, 0.16);
 }
 
 .language-page .text-wrapper-32 {
@@ -885,5 +889,8 @@
   letter-spacing: 0;
   line-height: 20px;
   white-space: nowrap;
+  border-radius: 10px;
+  background: var(--new-mix-button-color, linear-gradient(218deg, #172554 -5.84%, #1e40af 106.73%));
+  box-shadow: 0px 8px 21px 0px rgba(0, 0, 0, 0.16);
 }
 </style>
