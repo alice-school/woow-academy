@@ -3,15 +3,16 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
-        --darkgreen: 24 96 73 1;
-        --eden: 36, 113, 88, 1;
-        --tradewind: 106, 178, 155, 1;
-        --dawnpink: 228, 213, 199, 0.5;
-        --almondfrost: 149, 135, 122, 1;
-        --gold: 255, 214, 0, 1;
-        --gulfblue: 54, 58, 89, 1;
-        --selectiveyellow: 255, 188, 0, 1;
-        --high-light-text-yellow: 246, 233, 200, 0.41;
-    }
+  :root {
+    --darkgreen: 24 96 73 1;
+    --eden: 36, 113, 88, 1;
+    --tradewind: 106, 178, 155, 1;
+    --dawnpink: 228, 213, 199, 0.5;
+    --almondfrost: 149, 135, 122, 1;
+    --gold: 255, 214, 0, 1;
+    --gulfblue: 54, 58, 89, 1;
+    --selectiveyellow: 255, 188, 0, 1;
+    --high-light-text-yellow: 246, 233, 200, 0.41;
+    --primary-color: linear-gradient(to left, #172554 -5.84%, #1e40af 106.73%);
+  }
 }

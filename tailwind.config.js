@@ -1,4 +1,5 @@
 import { tailwindConfig } from '@storefront-ui/vue/tailwind-config'
+import animate from 'tailwindcss-animate'
 
 export default {
   presets: [tailwindConfig],
@@ -15,8 +16,11 @@ export default {
       colors: {
         transparent: 'transparent',
         current: 'currentColor',
-        primary: 'rgb(var(--color-primary) / <alpha-value>)',
-        secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+        primaryDark: '#5038ED',
+        primaryLight: '#707EF8',
+        primaryExtraLight: '#BCC3FF',
+        textLink: '#2493DF',
+        textGrayParent: '#6B7F99',
       },
       height: {
         '35vh': '35vh',
@@ -45,14 +49,18 @@ export default {
         '65vh': '65vh',
       },
       screens: {
-        mobile: { max: '639px' },
+        mobile: { max: '639px', xs: '400px' },
       },
       fontFamily: {
         body: ['Poppins'],
         sans: ['Open Sans'],
         poppins: ['Poppins'],
       },
+      transitionDuration: {
+        medium: '300ms',
+        long: '500ms',
+      },
     },
   },
-  plugins: [],
+  plugins: [animate],
 }

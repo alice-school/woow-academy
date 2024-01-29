@@ -1,11 +1,39 @@
 export default {
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@nuxt/image'],
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@nuxt/image', '@nuxtjs/google-fonts'],
   css: ['@/assets/css/tailwind.css'],
   pinia: {
     autoImports: ['defineStore', ['defineStore', 'definePiniaStore']],
   },
+  googleFonts: {
+    families: {
+      Roboto: true,
+      Inter: [400, 700],
+      'Josefin+Sans': true,
+      Lato: [100, 300],
+      Raleway: {
+        wght: [100, 400],
+        ital: [100],
+      },
+      'Crimson Pro': {
+        wght: '200..900',
+        ital: '200..700',
+      },
+      'Fira Sans': {
+        wght: '200..900',
+        ital: '200..700',
+      },
+      Poppins: {
+        wght: '200..900',
+        ital: '200..700',
+      },
+    },
+  },
+  alias: {
+    assets: '@/assets',
+  },
   image: {
+    inject: true,
     dir: ['~/assets/images', '~/assets/icons', '~/assets/logos'],
     screens: {
       xs: 320,

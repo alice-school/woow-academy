@@ -90,7 +90,7 @@
   height: 227px;
   left: 0;
   right: 0;
-  position: absolute;
+  position: relative;
   bottom: 0;
   width: 100%;
 }
