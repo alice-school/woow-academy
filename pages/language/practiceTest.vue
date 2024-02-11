@@ -2,31 +2,50 @@
 // Initial question count
 const currentQuestion = ref(1)
 const totalQuestions = ref(5) // Set the total number of questions
+const answeredQuestions = ref(0)
 
 // Function to update the question counter and simulate moving to the next question
 const nextQuestion = (): void => {
   if (currentQuestion.value < totalQuestions.value) {
     console.log(currentQuestion.value)
     currentQuestion.value = currentQuestion.value + 1
+    answeredQuestions.value = answeredQuestions.value + 1
     // You can add additional logic to handle the link navigation here
   } else {
-    alert('You have completed all questions.')
+    alert('You have completed all practice questions.')
   }
 }
+
+// Computed property to calculate the progress bar width
+computed(() => {
+  const progressPercentage = (answeredQuestions.value / totalQuestions.value) * 100
+  return `${progressPercentage}%`
+})
+
+// Computed property to calculate the inner progress bar width
+const innerProgressBarWidth = computed(() => {
+  const innerProgressPercentage = (currentQuestion.value / totalQuestions.value) * 100
+  return `${innerProgressPercentage}%`
+})
+
+// Computed property to check if all questions are done
+const isAllQuestionsDone = computed(() => answeredQuestions.value === totalQuestions.value)
 </script>
 
 <template>
   <div class="language-Question-page">
     <div class="div">
-      <img class="group-3" src="~/assets/images/cross.png" />
+      <NuxtLink to="/language">
+        <img class="group-3" src="~/assets/images/cross.png" />
+      </NuxtLink>
 
       <div class="text-wrapper-1">Language Test</div>
     </div>
-    <div class="rectangle-1"></div>
-    <div class="rectangle-4"></div>
-    <div class="rectangle-5"></div>
-    <div class="rectangle-6"></div>
-    <div class="rectangle-7"></div>
+    <!-- Panel -->
+    <div class="panel" :class="{ 'panel-done': isAllQuestionsDone }">
+      <!-- Inner progress bar -->
+      <div class="inner-progress-bar" :style="{ width: innerProgressBarWidth }"></div>
+    </div>
     <!-- Question counter -->
     <div class="text-wrapper-12">{{ currentQuestion + ' / ' + totalQuestions }}</div>
     <div class="div-wrapper">
@@ -68,49 +87,31 @@ const nextQuestion = (): void => {
   overflow: hidden;
 }
 
-.language-Question-page .rectangle-1 {
+.panel {
   position: absolute;
+  top: 38px;
+  left: 400px;
   width: 567px;
   height: 10px;
   flex-shrink: 0;
-  top: 38px;
-  left: 360px;
-  border-radius: 14px;
   background: #40bf9c;
 }
-.language-Question-page .rectangle-4 {
+.inner-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--eden, #247158); /* Inner progress bar color */
+}
+
+.overall-progress-bar {
   position: absolute;
   top: 38px;
-  left: 360px;
-  width: 98px;
+  left: 430px;
+  width: 44px;
   height: 10px;
   flex-shrink: 0;
   background: var(--eden, #247158);
-}
-.language-Question-page .rectangle-5 {
-  position: absolute;
-  top: 38px;
-  width: 98px;
-  height: 10px;
-  flex-shrink: 0;
-  background: #40bf9c;
-}
-.language-Question-page .rectangle-6 {
-  position: absolute;
-  top: 38px;
-  width: 98px;
-  height: 10px;
-  flex-shrink: 0;
-  background: #40bf9c;
-}
-.language-Question-page .rectangle-7 {
-  position: absolute;
-  top: 38px;
-  width: 98px;
-  height: 10px;
-  flex-shrink: 0;
-  border-radius: 0px 14px 14px 0px;
-  background: #40bf9c;
 }
 .language-Question-page .group-3 {
   position: absolute;
@@ -145,7 +146,7 @@ const nextQuestion = (): void => {
 .language-Question-page .text-wrapper-12 {
   position: absolute;
   top: 51px;
-  left: 363px;
+  left: 400px;
   width: 213px;
   color: #6b7f99;
   font-family: 'Fira Sans';
