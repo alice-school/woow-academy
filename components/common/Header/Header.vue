@@ -160,7 +160,7 @@
               <NuxtLink
                 aria-current="page"
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white"
-                to="/"
+                to="/course"
                 >Home
               </NuxtLink>
             </li>
