@@ -78,7 +78,7 @@
       <div class="overlap-20"></div>
       <div class="text-wrapper-31">By Course</div>
       <div class="text-wrapper-32">Global</div>
-      <div class="text-wrapper-33">Leaderboard</div>
+      <div class="text-wrapper-33">TOP LEARNERS</div>
       <div class="text-wrapper-34">1</div>
       <div class="text-wrapper-35">JOY</div>
       <div class="text-wrapper-36">2141865 XP</div>
@@ -128,7 +128,7 @@
         <div class="group-wrapper">
           <div class="div-wrapper">
             <div class="overlap-group-3">
-              <div class="text-wrapper-79">SEARCH</div>
+              <button class="search">Search</button>
             </div>
           </div>
         </div>
@@ -2100,20 +2100,6 @@
   background: linear-gradient(180deg, rgb(112.43, 125.95, 247.56) 0%, rgb(188.06, 194.95, 255) 100%);
 }
 
-.search-page .text-wrapper-79 {
-  position: absolute;
-  width: 123px;
-  top: 15px;
-  left: 49px;
-  font-family: 'Poppins-Bold', Helvetica;
-  font-weight: 700;
-  color: #ffffff;
-  font-size: 25px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 16px;
-}
-
 .search-page .group-2 {
   position: absolute;
   width: 812px;
@@ -2142,5 +2128,25 @@
   height: 20px;
   top: 15px;
   left: 753px;
+  cursor: pointer;
+}
+
+.search-page .search {
+  cursor: pointer;
+  position: absolute;
+  width: 123px;
+  top: 15px;
+  left: 49px;
+  font-family: 'Poppins-Bold', Helvetica;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 25px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 16px;
+}
+
+.search-page .search:active {
+  border-bottom: 0;
 }
 </style>
