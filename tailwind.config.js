@@ -19,6 +19,8 @@ export default {
         primaryDark: '#5038ED',
         primaryLight: '#707EF8',
         primaryExtraLight: '#BCC3FF',
+        textLink: '#2493DF',
+        textGrayParent: '#6B7F99',
       },
       height: {
         '35vh': '35vh',
