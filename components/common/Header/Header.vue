@@ -17,10 +17,7 @@
                     id="point-details"
                     aria-expanded="false"
                     aria-haspopup="false"
-                    @click="
-                      dropdownOpen.pointCard = !dropdownOpen.pointCard,
-                      dropdownOpen.profileCard = false
-                    "
+                    @click="(dropdownOpen.pointCard = !dropdownOpen.pointCard), (dropdownOpen.profileCard = false)"
                   >
                     <img alt="Flowbite Logo" class="mr-3 h-6 sm:h-9" src="../../../assets/images/points-icon.png" />
                     <h5 class="text-white">56473</h5>
@@ -59,10 +56,7 @@
                   aria-haspopup="false"
                   class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                   type="button"
-                  @click="
-                    dropdownOpen.profileCard = !dropdownOpen.profileCard,
-                    dropdownOpen.pointCard = false
-                  "
+                  @click="(dropdownOpen.profileCard = !dropdownOpen.profileCard), (dropdownOpen.pointCard = false)"
                 >
                   <span class="absolute -inset-1.5"></span>
                   <span class="sr-only">Open user menu</span>
