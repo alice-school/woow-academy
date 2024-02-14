@@ -1,6 +1,6 @@
 export default {
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@nuxt/image', '@nuxtjs/google-fonts'],
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@nuxt/image', '@nuxtjs/google-fonts', 'nuxt-icon'],
   css: ['@/assets/css/tailwind.css'],
   pinia: {
     autoImports: ['defineStore', ['defineStore', 'definePiniaStore']],

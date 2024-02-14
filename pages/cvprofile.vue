@@ -1,125 +1,98 @@
 <script lang="ts" setup>
-import eye from '../assets/icons/eye.png'
-import eyeSlash from '../assets/icons/eye-slash.png'
+import { useRouter } from 'vue-router'
+import eye from '~/assets/icons/eye.png'
+import eyeSlash from '~/assets/icons/eye-slash.png'
 const router = useRouter()
-const showPassword = ref(false)
-const showConfirmPassword = ref(false)
+
 definePageMeta({
   layout: 'default',
 })
-
-const signupForm = reactive({
-  firstName: '',
-  lastName: '',
-  userName: '',
-  email: '',
-  phoneNumber: '',
-  password: '',
-})
-
-const onSubmit = () => {
-  router.push({ path: '/cvprofile' })
-  // console.log(signupForm)
-}
 </script>
+
 <template>
   <div class="sign-up">
     <div class="sign-up-main-div">
       <div class="right-content">
-        <div class="signup-with-others">
-          <div class="signup-with-others-container">
-            <b>Signup</b>
-            <span class="with-others"> with Others</span>
+        <form>
+          <div class="profile-image">
+            <div class="profile-image-div" />
+            <div class="flex items-center justify-center profile-drop">
+              <label
+                for="dropzone-file"
+                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              >
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg
+                    class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 16"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                    />
+                  </svg>
+                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span class="font-semibold">Click to upload</span> or drag and drop
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                </div>
+                <input id="dropzone-file" type="file" class="hidden" />
+              </label>
+            </div>
           </div>
-          <img class="subtract-icon" alt="" src="~/assets/images/subtract.svg" />
-        </div>
-        <div class="login-link">
-          <div class="have-an-account-container">
-            <span>Have an account? </span>
-            <NuxtLink to="/" class="login">Login</NuxtLink>
-          </div>
-        </div>
-        <div class="google-signup">
-          <button class="rectangle-parent">
-            <span class="group-child" />
-            <span class="signup-with-google-parent">
-              <span class="signup-with-google-container">
-                <span>Signup with </span>
-                <b>google</b>
-              </span>
-              <img class="google-1-icon" alt="" src="~/assets/images/google-1@2x.png" />
-            </span>
-          </button>
-          <button class="rectangle-group">
-            <span class="group-child" />
-            <span class="signup-with-facebook-parent">
-              <span class="signup-with-google-container">
-                <span>Signup with </span>
-                <b>Facebook</b>
-              </span>
-              <img class="google-1-icon" alt="" src="~/assets/images/facebook-1@2x.png" />
-            </span>
-          </button>
-        </div>
-        <form @submit.prevent="onSubmit">
-          <div class="first-name">
+          <div class="date-of-birth">
             <div class="confirm-password-child" />
-            <input type="text" class="username" v-model="signupForm.firstName" placeholder="First Name" required />
-            <img class="frame-icon" alt="" src="~/assets/images/frame.svg" />
+            <input type="text" onfocus="(this.type='date')" class="username" placeholder="Date of birth" required />
+            <Icon class="frame-icon" name="uil:clock" color="black" />
           </div>
-          <div class="last-name">
+          <!--          <div class="last-name">-->
+          <!--            <div class="confirm-password-child" />-->
+          <!--            <input type="text" class="username" placeholder="Last Name" required />-->
+          <!--            <img class="frame-icon" alt="" src="~/assets/images/frame.svg" />-->
+          <!--          </div>-->
+          <div class="bio-div">
+            <div class="bio" />
+            <textarea class="bio-text-area" placeholder="Bio" required />
+            <Icon class="frame-icon" name="mdi:earth" color="black" />
+          </div>
+          <div class="street-line01">
             <div class="confirm-password-child" />
-            <input type="text" class="username" v-model="signupForm.lastName" placeholder="Last Name" required />
-            <img class="frame-icon" alt="" src="~/assets/images/frame.svg" />
+            <input type="text" class="username" placeholder="Street Line 01" required />
+            <Icon class="frame-icon" name="mdi:location" color="black" />
           </div>
-          <div class="user-name">
+          <div class="street-line02">
             <div class="confirm-password-child" />
-            <input type="text" class="username" v-model="signupForm.userName" placeholder="Username" required />
-            <img class="frame-icon" alt="" src="~/assets/images/frame.svg" />
+            <input type="text" class="username" placeholder="Street Line 02" required />
+            <Icon class="frame-icon" name="mdi:location" color="black" />
           </div>
-          <div class="email">
+          <div class="city">
             <div class="confirm-password-child" />
-            <input type="email" class="username" v-model="signupForm.email" placeholder="Email" required />
-            <img class="frame-icon" alt="" src="~/assets/images/frame-3.svg" />
+            <input type="text" class="username" placeholder="City" required />
+            <Icon class="frame-icon" name="mdi:location" color="black" />
           </div>
-          <div class="phone-number">
+          <div class="post-code">
             <div class="confirm-password-child" />
-            <input type="text" class="username" v-model="signupForm.phoneNumber" placeholder="Phone number" required />
-            <img class="frame-icon" alt="" src="~/assets/images/frame-4.svg" />
+            <input type="text" class="username" placeholder="Post code2" required />
+            <Icon class="frame-icon" name="mdi:location" color="black" />
           </div>
-          <div class="password">
-            <div class="confirm-password-child" />
-            <input
-              :type="showPassword ? 'text' : 'password'"
-              class="password-field"
-              v-model="signupForm.password"
-              placeholder="Password"
-              required
-            />
-            <img class="frame-icon" alt="" src="~/assets/images/frame-1.svg" />
-            <img
-              class="frame-icon-eye cursor-pointer"
-              alt=""
-              :src="showPassword ? eye : eyeSlash"
-              @click="showPassword = !showPassword"
-            />
-          </div>
-          <div class="confirm-password">
-            <div class="confirm-password-child" />
-            <input
-              :type="showConfirmPassword ? 'text' : 'password'"
-              class="password-field"
-              placeholder="Confirm Password"
-            />
-            <img class="frame-icon" alt="" src="~/assets/images/frame-1.svg" />
-            <img
-              class="frame-icon-eye cursor-pointer"
-              alt=""
-              :src="showConfirmPassword ? eye : eyeSlash"
-              @click="showConfirmPassword = !showConfirmPassword"
-            />
-          </div>
-          <button class="btn-signup">Signup</button>
+          <!--          <div class="email">-->
+          <!--            <div class="confirm-password-child" />-->
+          <!--            <input type="email" class="username" placeholder="Email" required />-->
+          <!--            <img class="frame-icon" alt="" src="~/assets/images/frame-3.svg" />-->
+          <!--          </div>-->
+          <!--          <div class="phone-number">-->
+          <!--            <div class="confirm-password-child" />-->
+          <!--            <input type="text" class="username" placeholder="Phone number" required />-->
+          <!--            <img class="frame-icon" alt="" src="~/assets/images/frame-4.svg" />-->
+          <!--          </div>-->
+          <button class="btn-skip">Skip</button>
+          <button class="btn-signup">Next</button>
         </form>
         <div class="create-account-prompt">
           <h1 class="signup-text-1">SignUp</h1>
@@ -134,16 +107,16 @@ const onSubmit = () => {
         <div class="left-content-child" />
         <img class="left-content-item" alt="" src="~/assets/images/rectangle-4@2x.png" />
         <div class="left-content-inner" />
-        <img class="man-and-woman-at-work" alt="" src="~/assets/images/man-and-woman-at-work@2x.png" />
+        <img class="man-and-woman-at-work" alt="" src="~/assets/images/younghappyleft%20side.png" />
         <div class="ellipse-parent">
           <img class="thunderbolt-1-icon" alt="" src="~/assets/images/thunderbolt-1@2x.png" />
         </div>
         <b class="very-good-works-container">
-          <p class="very-good">Very good</p>
-          <p class="very-good">works are</p>
-          <p class="very-good">waiting for</p>
-          <p class="very-good">you Signup</p>
-          <p class="very-good">Now!!!</p>
+          <p class="very-good">Crafting</p>
+          <p class="very-good">your digital</p>
+          <p class="very-good">identity one</p>
+          <p class="very-good">pixel at a</p>
+          <p class="very-good">time ✍️✨</p>
         </b>
       </div>
     </div>
@@ -152,14 +125,14 @@ const onSubmit = () => {
 <style scoped>
 .signup-text-1 {
   margin: 0;
-  width: 8.31rem;
+  width: 20.31rem;
   position: relative;
   font-size: 1.88rem;
   text-transform: uppercase;
   font-weight: 700;
   font-family: var(--font-poppins);
   color: var(--color-black);
-  text-align: left;
+  text-align: center;
   display: inline-block;
   padding-left: var(--padding-xl);
   padding-right: var(--padding-xl);
@@ -186,6 +159,7 @@ const onSubmit = () => {
   gap: 0.63rem;
   min-height: 3.75rem;
   text-align: center;
+  width: 23.5rem;
 }
 .left-content-child {
   position: absolute;
@@ -218,12 +192,12 @@ const onSubmit = () => {
 }
 .man-and-woman-at-work {
   position: absolute;
-  top: 170px;
-  left: 0;
+  top: 320px;
+  left: 100px;
   bottom: 0;
   right: 0;
   margin: auto;
-  width: 309px;
+  width: 319px;
   height: 358px;
   object-fit: cover;
 }
@@ -253,7 +227,7 @@ const onSubmit = () => {
 .very-good-works-container {
   position: absolute;
   top: 120px;
-  left: 130px;
+  left: 140px;
   line-height: 46px;
   display: inline-block;
   width: 198px;
@@ -377,10 +351,23 @@ const onSubmit = () => {
   width: 364px;
   height: 120px;
 }
+.btn-skip {
+  position: absolute;
+  top: 900px;
+  left: 0px;
+  width: 124px;
+  height: 52px;
+  color: #fff;
+  border-radius: 16px;
+  background: linear-gradient(217.64deg, #172554, #1e40af);
+  box-shadow: 0px 8px 21px rgba(0, 0, 0, 0.16);
+  text-align: center;
+  color: #fff;
+}
 .btn-signup {
   position: absolute;
-  top: 760px;
-  left: 120px;
+  top: 900px;
+  left: 235px;
   width: 124px;
   height: 52px;
   color: #fff;
@@ -399,6 +386,16 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+.bio {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 16px;
+  background: linear-gradient(246.75deg, rgba(23, 37, 84, 0.15), rgba(23, 37, 84, 0.08) 49.48%, rgba(23, 37, 84, 0.15));
+  width: 364px;
+  height: 152px;
+  padding-top: 18px;
+}
 .frame-icon {
   position: absolute;
   top: 14px;
@@ -406,28 +403,6 @@ const onSubmit = () => {
   width: 24px;
   height: 24px;
   overflow: hidden;
-}
-.frame-icon-eye {
-  position: absolute;
-  top: 14px;
-  right: 18px;
-  width: 24px;
-  height: 24px;
-  overflow: hidden;
-}
-.confirm-password {
-  position: absolute;
-  top: 676px;
-  left: 0px;
-  width: 364px;
-  height: 52px;
-}
-.password {
-  position: absolute;
-  top: 606px;
-  left: 0px;
-  width: 364px;
-  height: 52px;
 }
 .phone-number {
   position: absolute;
@@ -458,9 +433,8 @@ const onSubmit = () => {
   width: 308px;
   height: 52px;
 }
-.password-field {
+.bio-text-area {
   position: absolute;
-  left: 48px;
   border: none;
   outline: none;
   font-family: var(--font-poppins);
@@ -470,16 +444,80 @@ const onSubmit = () => {
   text-align: left;
   display: inline-block;
   z-index: 1;
-  width: 265px;
-  height: 52px;
+  width: 100%;
+  height: 130px;
+  left: 47px;
 }
-.user-name {
+
+.profile-drop {
   position: absolute;
-  top: 392px;
+  border: none;
+  outline: none;
+  font-family: var(--font-poppins);
+  font-size: var(--font-size-xs);
+  background-color: transparent;
+  color: var(--color-gray-100);
+  text-align: left;
+  display: inline-block;
+  z-index: 1;
+  width: 100%;
+  height: 130px;
+}
+.street-line01 {
+  position: absolute;
+  top: 592px;
   left: 0px;
   width: 364px;
   height: 52px;
 }
+.street-line02 {
+  position: absolute;
+  top: 662px;
+  left: 0px;
+  width: 364px;
+  height: 52px;
+}
+.city {
+  position: absolute;
+  top: 732px;
+  left: 0px;
+  width: 364px;
+  height: 52px;
+}
+.post-code {
+  position: absolute;
+  top: 800px;
+  left: 0px;
+  width: 364px;
+  height: 52px;
+}
+.bio-div {
+  position: absolute;
+  top: 421px;
+  left: 0px;
+  width: 364px;
+  height: 52px;
+  padding-top: 18px;
+}
+
+.profile-image {
+  position: absolute;
+  top: 76px;
+  left: 0px;
+  width: 364px;
+  height: 152px;
+}
+
+.profile-image-div {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 16px;
+  background: linear-gradient(246.75deg, rgba(23, 37, 84, 0.15), rgba(23, 37, 84, 0.08) 49.48%, rgba(23, 37, 84, 0.15));
+  width: 364px;
+  height: 152px;
+}
+
 .last-name {
   position: absolute;
   top: 321px;
@@ -487,9 +525,9 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
-.first-name {
+.date-of-birth {
   position: absolute;
-  top: 250px;
+  top: 350px;
   left: 0px;
   width: 364px;
   height: 52px;
@@ -499,7 +537,7 @@ const onSubmit = () => {
 }
 .woow-space {
   position: absolute;
-  top: 0px;
+  top: -20px;
   left: 460px;
   font-size: 25px;
   color: #000;
