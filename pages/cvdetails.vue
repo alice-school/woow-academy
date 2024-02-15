@@ -10,6 +10,16 @@ definePageMeta({
 onMounted(() => {
   initFlowbite()
 })
+
+const educationList = reactive([1])
+
+const addNewEduc = () => {
+  educationList.push(1)
+}
+
+const removeEduc = () => {
+  educationList.pop()
+}
 </script>
 
 <template>
@@ -67,16 +77,89 @@ onMounted(() => {
             <div id="accordion-open-body-1" class="hidden" aria-labelledby="accordion-open-heading-1">
               <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  Flowbite is an open-source library of interactive components built on top of Tailwind CSS including
-                  buttons, dropdowns, modals, navbars, and more.
+                  Welcome to our Education Section! Explore the enriching educational journey that awaits you. Take a
+                  step towards your academic goals with us!
                 </p>
-                <p class="text-gray-500 dark:text-gray-400">
-                  Check out this guide to learn how to
-                  <a href="/docs/getting-started/introduction/" class="text-blue-600 dark:text-blue-500 hover:underline"
-                    >get started</a
-                  >
-                  and start developing websites even faster with components on top of Tailwind CSS.
-                </p>
+                <div
+                  v-for="(education, index) of educationList"
+                  :key="index"
+                  class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg"
+                >
+                  <div class="text-gray-500 dark:text-gray-400">
+                    <div class="w-20 flex flex-row justify-between items-center float-end">
+                      <Icon
+                        :class="index === educationList.length ? 'cursor-pointer !show' : 'cursor-pointer hidden'"
+                        name="ep:circle-plus-filled"
+                        color="green"
+                        size="20px"
+                        @click="addNewEduc"
+                      />
+                      <Icon
+                        :class="index === 0 ? 'cursor-pointer !hidden' : 'cursor-pointer !show'"
+                        name="ep:remove-filled"
+                        color="red"
+                        size="20px"
+                        @click="removeEduc"
+                      />
+                    </div>
+                    <div>
+                      <label for="institute" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >Institute</label
+                      >
+                      <input
+                        type="text"
+                        id="institute"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="SLIIT"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label for="education_course" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >Education Course</label
+                      >
+                      <input
+                        type="text"
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Software Engineering"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >Start Date</label
+                      >
+                      <input
+                        type="text"
+                        onfocus="(this.type='date')"
+                        id="start_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="2020-6-14"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >End Date</label
+                      >
+                      <input
+                        type="text"
+                        onfocus="(this.type='date')"
+                        id="start_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="2020-6-14"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <h2 id="accordion-open-heading-2">
