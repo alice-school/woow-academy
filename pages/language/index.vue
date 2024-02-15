@@ -42,10 +42,17 @@ definePageMeta({
         English proficiency test <br />Pre-hire screening assessment to find the best candidates .
       </p>
       <div class="overlap-wrapper">
-        <div class="div-wrapper"><a href="/language/practiceTest" class="text-wrapper-32">Practice Test</a></div>
+        <NuxtLink to="/language/practiceTest">
+          <div class="div-wrapper"></div>
+        </NuxtLink>
+        <button type="button" class="text-wrapper-32">Practice Test</button>
       </div>
+
       <div class="group-4">
-        <div class="div-wrapper"><a href="/language/languageQuestion" class="text-wrapper-33">Get Started</a></div>
+        <NuxtLink to="/language/languageQuestion">
+          <div class="div-wrapper"></div>
+        </NuxtLink>
+        <button type="button" class="text-wrapper-33">Get Started</button>
       </div>
     </div>
   </div>
