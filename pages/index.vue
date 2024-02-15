@@ -62,13 +62,19 @@ const onSubmitLogin = () => {
         <div class="rectangle-container">
           <div class="rectangle-div" />
           <img alt="" class="google-login-icon" src="~/assets/images/google-login.svg" />
-          <input class="username" placeholder="email" type="email" required v-model="userLoginForm.email" />
+          <input
+            class="username focus:ring-0 focus:border-none border-none"
+            placeholder="email"
+            type="email"
+            required
+            v-model="userLoginForm.email"
+          />
         </div>
         <div class="group-div">
           <div class="frame-child1" />
           <img alt="" class="frame-content-icon" src="~/assets/images/frame-1.svg" />
           <input
-            class="password"
+            class="password focus:ring-0 focus:border-none border-none"
             placeholder="Password"
             :type="showPassword ? 'text' : 'password'"
             required

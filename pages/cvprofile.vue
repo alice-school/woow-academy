@@ -1,19 +1,22 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
-import eye from '~/assets/icons/eye.png'
-import eyeSlash from '~/assets/icons/eye-slash.png'
 const router = useRouter()
 
 definePageMeta({
   layout: 'default',
 })
+
+const onSubmit = () => {
+  router.push({ path: '/cvdetails' })
+  // console.log(signupForm)
+}
 </script>
 
 <template>
   <div class="sign-up">
     <div class="sign-up-main-div">
       <div class="right-content">
-        <form>
+        <form novalidate @submit.prevent="onSubmit">
           <div class="profile-image">
             <div class="profile-image-div" />
             <div class="flex items-center justify-center profile-drop">
@@ -48,7 +51,13 @@ definePageMeta({
           </div>
           <div class="date-of-birth">
             <div class="confirm-password-child" />
-            <input type="text" onfocus="(this.type='date')" class="username" placeholder="Date of birth" required />
+            <input
+              type="text"
+              onfocus="(this.type='date')"
+              class="username focus:ring-0 focus:border-none border-none"
+              placeholder="Date of birth"
+              required
+            />
             <Icon class="frame-icon" name="uil:clock" color="black" />
           </div>
           <!--          <div class="last-name">-->
@@ -58,27 +67,47 @@ definePageMeta({
           <!--          </div>-->
           <div class="bio-div">
             <div class="bio" />
-            <textarea class="bio-text-area" placeholder="Bio" required />
+            <textarea class="bio-text-area focus:ring-0 focus:border-none border-none" placeholder="Bio" required />
             <Icon class="frame-icon" name="mdi:earth" color="black" />
           </div>
           <div class="street-line01">
             <div class="confirm-password-child" />
-            <input type="text" class="username" placeholder="Street Line 01" required />
+            <input
+              type="text"
+              class="username focus:ring-0 focus:border-none border-none"
+              placeholder="Street Line 01"
+              required
+            />
             <Icon class="frame-icon" name="mdi:location" color="black" />
           </div>
           <div class="street-line02">
             <div class="confirm-password-child" />
-            <input type="text" class="username" placeholder="Street Line 02" required />
+            <input
+              type="text"
+              class="username focus:ring-0 focus:border-none border-none"
+              placeholder="Street Line 02"
+              required
+            />
             <Icon class="frame-icon" name="mdi:location" color="black" />
           </div>
           <div class="city">
             <div class="confirm-password-child" />
-            <input type="text" class="username" placeholder="City" required />
+            <input
+              type="text"
+              class="username focus:ring-0 focus:border-none border-none"
+              placeholder="City"
+              required
+            />
             <Icon class="frame-icon" name="mdi:location" color="black" />
           </div>
           <div class="post-code">
             <div class="confirm-password-child" />
-            <input type="text" class="username" placeholder="Post code2" required />
+            <input
+              type="text"
+              class="username focus:ring-0 focus:border-none border-none"
+              placeholder="Post code2"
+              required
+            />
             <Icon class="frame-icon" name="mdi:location" color="black" />
           </div>
           <!--          <div class="email">-->

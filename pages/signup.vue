@@ -61,37 +61,67 @@ const onSubmit = () => {
             </span>
           </button>
         </div>
-        <form @submit.prevent="onSubmit">
+        <form @submit.prevent="onSubmit" novalidate>
           <div class="first-name">
             <div class="confirm-password-child" />
-            <input type="text" class="username" v-model="signupForm.firstName" placeholder="First Name" required />
+            <input
+              type="text"
+              class="username focus:ring-0 focus:border-none border-none"
+              v-model="signupForm.firstName"
+              placeholder="First Name"
+              required
+            />
             <img class="frame-icon" alt="" src="~/assets/images/frame.svg" />
           </div>
           <div class="last-name">
             <div class="confirm-password-child" />
-            <input type="text" class="username" v-model="signupForm.lastName" placeholder="Last Name" required />
+            <input
+              type="text"
+              class="username focus:ring-0 focus:border-none border-none"
+              v-model="signupForm.lastName"
+              placeholder="Last Name"
+              required
+            />
             <img class="frame-icon" alt="" src="~/assets/images/frame.svg" />
           </div>
           <div class="user-name">
             <div class="confirm-password-child" />
-            <input type="text" class="username" v-model="signupForm.userName" placeholder="Username" required />
+            <input
+              type="text"
+              class="username focus:ring-0 focus:border-none border-none"
+              v-model="signupForm.userName"
+              placeholder="Username"
+              required
+            />
             <img class="frame-icon" alt="" src="~/assets/images/frame.svg" />
           </div>
           <div class="email">
             <div class="confirm-password-child" />
-            <input type="email" class="username" v-model="signupForm.email" placeholder="Email" required />
+            <input
+              type="email"
+              class="username focus:ring-0 focus:border-none border-none"
+              v-model="signupForm.email"
+              placeholder="Email"
+              required
+            />
             <img class="frame-icon" alt="" src="~/assets/images/frame-3.svg" />
           </div>
           <div class="phone-number">
             <div class="confirm-password-child" />
-            <input type="text" class="username" v-model="signupForm.phoneNumber" placeholder="Phone number" required />
+            <input
+              type="text"
+              class="username focus:ring-0 focus:border-none border-none"
+              v-model="signupForm.phoneNumber"
+              placeholder="Phone number"
+              required
+            />
             <img class="frame-icon" alt="" src="~/assets/images/frame-4.svg" />
           </div>
           <div class="password">
             <div class="confirm-password-child" />
             <input
               :type="showPassword ? 'text' : 'password'"
-              class="password-field"
+              class="password-field focus:ring-0 focus:border-none border-none"
               v-model="signupForm.password"
               placeholder="Password"
               required
@@ -108,7 +138,7 @@ const onSubmit = () => {
             <div class="confirm-password-child" />
             <input
               :type="showConfirmPassword ? 'text' : 'password'"
-              class="password-field"
+              class="password-field focus:ring-0 focus:border-none border-none"
               placeholder="Confirm Password"
             />
             <img class="frame-icon" alt="" src="~/assets/images/frame-1.svg" />

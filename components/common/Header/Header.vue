@@ -2,12 +2,12 @@
   <header>
     <nav class="border-gray-200 px-4 lg:px-6 py-2.5 z-10">
       <div class="flex flex-wrap justify-between items-center mx-auto">
-        <a class="flex items-center" href="/">
-          <span class="self-center pb-5 text-xl font-semibold whitespace-nowrap dark:text-white"
+        <NuxtLink class="flex items-center" to="/">
+          <span class="self-center pb-5 text-xl font-semibold whitespace-nowrap dark:text-white text-white"
             >Woow <br />
             Space</span
           >
-        </a>
+        </NuxtLink>
         <div class="flex items-center justify-between lg:order-2 pb-5">
           <div class="flex justify-center items-center w-fit pl-8 pr-8">
             <div>
@@ -153,65 +153,65 @@
             <li>
               <NuxtLink
                 aria-current="page"
-                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white"
-                to="/course"
+                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
+                to="/"
                 >Home
               </NuxtLink>
             </li>
             <li>
               <NuxtLink
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-100 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 to="/course"
                 >Course
               </NuxtLink>
             </li>
             <li>
-              <a
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-100 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+              <NuxtLink
+                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 href="#"
-                >Code Playground</a
+                >Code Playground</NuxtLink
               >
             </li>
             <li>
               <NuxtLink
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-100 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 to="/leaderboard"
                 >Top Learners
               </NuxtLink>
             </li>
             <li>
-              <a
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-100 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+              <NuxtLink
+                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 href="#"
-                >Blog</a
+                >Blog</NuxtLink
               >
             </li>
             <li>
-              <a
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-100 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+              <NuxtLink
+                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 href="#"
-                >FAQ</a
+                >FAQ</NuxtLink
               >
             </li>
             <li>
-              <a
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-100 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+              <NuxtLink
+                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 href="#"
-                >Contact</a
+                >Contact</NuxtLink
               >
             </li>
             <li>
-              <a
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-100 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+              <NuxtLink
+                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 href="#"
-                >Terms of Use</a
+                >Terms of Use</NuxtLink
               >
             </li>
             <li>
-              <a
-                class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-100 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+              <NuxtLink
+                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 href="#"
-                >Privacy Policy</a
+                >Privacy Policy</NuxtLink
               >
             </li>
           </ul>

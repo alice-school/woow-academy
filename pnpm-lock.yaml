@@ -11,6 +11,9 @@ dependencies:
   '@pinia/nuxt':
     specifier: ^0.4.11
     version: 0.4.11(typescript@5.3.3)(vue@3.4.3)
+  flowbite:
+    specifier: ^2.3.0
+    version: 2.3.0
   pinia:
     specifier: ^2.1.6
     version: 2.1.7(typescript@5.3.3)(vue@3.4.3)
@@ -1853,6 +1856,11 @@ packages:
     resolution:
       { integrity: sha512-2LuNTFBIO0m7kKIQvvPHN6UE63VjpmL9rnEEaOOaiSPbZK+zUOYIzBAWcED+3XYzhYsd/0mD57VdxAEqqV52CQ== }
     dev: true
+
+  /@popperjs/core@2.11.8:
+    resolution:
+      { integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A== }
+    dev: false
 
   /@rollup/plugin-alias@5.1.0(rollup@4.9.2):
     resolution:
@@ -4899,6 +4907,14 @@ packages:
       { integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ== }
     dev: true
 
+  /flowbite@2.3.0:
+    resolution:
+      { integrity: sha512-pm3JRo8OIJHGfFYWgaGpPv8E+UdWy0Z3gEAGufw+G/1dusaU/P1zoBLiQpf2/+bYAi+GBQtPVG86KYlV0W+AFQ== }
+    dependencies:
+      '@popperjs/core': 2.11.8
+      mini-svg-data-uri: 1.4.4
+    dev: false
+
   /for-each@0.3.3:
     resolution:
       { integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw== }
@@ -6593,6 +6609,12 @@ packages:
       { integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg== }
     engines: { node: '>=4' }
     dev: true
+
+  /mini-svg-data-uri@1.4.4:
+    resolution:
+      { integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg== }
+    hasBin: true
+    dev: false
 
   /minimatch@3.1.2:
     resolution:
