@@ -11,15 +11,9 @@ onMounted(() => {
   initFlowbite()
 })
 
-const educationList = reactive([1])
+const addNewEduc = () => {}
 
-const addNewEduc = () => {
-  educationList.push(1)
-}
-
-const removeEduc = () => {
-  educationList.pop()
-}
+const removeEduc = () => {}
 </script>
 
 <template>
@@ -35,11 +29,11 @@ const removeEduc = () => {
           <div id="accordion-open" data-accordion="open">
             <h2 id="accordion-open-heading-1">
               <button
-                type="button"
+                aria-controls="accordion-open-body-1"
+                aria-expanded="true"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
                 data-accordion-target="#accordion-open-body-1"
-                aria-expanded="true"
-                aria-controls="accordion-open-body-1"
+                type="button"
               >
                 <span class="flex items-center"
                   ><svg
@@ -49,126 +43,201 @@ const removeEduc = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                       clip-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                      fill-rule="evenodd"
                     ></path>
                   </svg>
                   Education</span
                 >
                 <svg
-                  data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
                   aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  data-accordion-icon
                   fill="none"
                   viewBox="0 0 10 6"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
+                    d="M9 5 5 1 1 5"
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M9 5 5 1 1 5"
                   />
                 </svg>
               </button>
             </h2>
-            <div id="accordion-open-body-1" class="hidden" aria-labelledby="accordion-open-heading-1">
+            <div id="accordion-open-body-1" aria-labelledby="accordion-open-heading-1" class="hidden">
+              <!--             start  user entered details form-->
               <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
                   Welcome to our Education Section! Explore the enriching educational journey that awaits you. Take a
                   step towards your academic goals with us!
                 </p>
-                <div
-                  v-for="(education, index) of educationList"
-                  :key="index"
-                  class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg"
-                >
+
+                <!--                v-for element start-->
+                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                  <div class="text-gray-500 dark:text-gray-400">
+                    <div class="w-20 flex flex-row justify-end items-center float-end">
+                      <Icon
+                        class="cursor-pointer show"
+                        color="red"
+                        name="ep:remove-filled"
+                        size="20px"
+                        @click="removeEduc(index)"
+                      />
+                    </div>
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="institute"
+                        >Institute</label
+                      >
+                      <input
+                        id="institute"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Education Course</label
+                      >
+                      <input
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="start_date"
+                        >Start Date</label
+                      >
+                      <input
+                        id="start_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        onfocus="(this.type='date')"
+                        readonly
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="start_date"
+                        >End Date</label
+                      >
+                      <input
+                        id="start_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        onfocus="(this.type='date')"
+                        readonly
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!--                v-for element end-->
+                <!--             end  user entered details form-->
+                <!--             start user input form div-->
+                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
                   <div class="text-gray-500 dark:text-gray-400">
                     <div class="w-20 flex flex-row justify-between items-center float-end">
                       <Icon
-                        :class="index === educationList.length ? 'cursor-pointer !show' : 'cursor-pointer hidden'"
-                        name="ep:circle-plus-filled"
+                        class="cursor-pointer"
                         color="green"
+                        name="ep:circle-plus-filled"
                         size="20px"
                         @click="addNewEduc"
                       />
                       <Icon
-                        :class="index === 0 ? 'cursor-pointer !hidden' : 'cursor-pointer !show'"
-                        name="ep:remove-filled"
+                        class="cursor-pointer"
                         color="red"
+                        name="ep:remove-filled"
                         size="20px"
                         @click="removeEduc"
                       />
                     </div>
                     <div>
-                      <label for="institute" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="institute"
                         >Institute</label
                       >
                       <input
-                        type="text"
                         id="institute"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="SLIIT"
                         required
+                        type="text"
                       />
                     </div>
                   </div>
                   <div class="text-gray-500 dark:text-gray-400 mt-2">
                     <div>
-                      <label for="education_course" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
                         >Education Course</label
                       >
                       <input
-                        type="text"
                         id="education_course"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Software Engineering"
                         required
+                        type="text"
                       />
                     </div>
                   </div>
                   <div class="text-gray-500 dark:text-gray-400 mt-2">
                     <div>
-                      <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="start_date"
                         >Start Date</label
                       >
                       <input
-                        type="text"
-                        onfocus="(this.type='date')"
                         id="start_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        onfocus="(this.type='date')"
                         placeholder="2020-6-14"
                         required
+                        type="text"
                       />
                     </div>
                   </div>
                   <div class="text-gray-500 dark:text-gray-400 mt-2">
                     <div>
-                      <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="start_date"
                         >End Date</label
                       >
                       <input
-                        type="text"
-                        onfocus="(this.type='date')"
                         id="start_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        onfocus="(this.type='date')"
                         placeholder="2020-6-14"
                         required
+                        type="text"
                       />
                     </div>
                   </div>
                 </div>
+                <!--                end user input form div-->
               </div>
             </div>
             <h2 id="accordion-open-heading-2">
               <button
-                type="button"
+                aria-controls="accordion-open-body-2"
+                aria-expanded="false"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
                 data-accordion-target="#accordion-open-body-2"
-                aria-expanded="false"
-                aria-controls="accordion-open-body-2"
+                type="button"
               >
                 <span class="flex items-center"
                   ><svg
@@ -178,52 +247,260 @@ const removeEduc = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                       clip-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                      fill-rule="evenodd"
                     ></path></svg
                   >WorkExperience</span
                 >
                 <svg
-                  data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
                   aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  data-accordion-icon
                   fill="none"
                   viewBox="0 0 10 6"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
+                    d="M9 5 5 1 1 5"
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M9 5 5 1 1 5"
                   />
                 </svg>
               </button>
             </h2>
-            <div id="accordion-open-body-2" class="hidden" aria-labelledby="accordion-open-heading-2">
+            <div id="accordion-open-body-2" aria-labelledby="accordion-open-heading-2" class="hidden">
               <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
                   Flowbite is first conceptualized and designed using the Figma software so everything you see in the
                   library has a design equivalent in our Figma file.
                 </p>
-                <p class="text-gray-500 dark:text-gray-400">
-                  Check out the
-                  <a href="https://flowbite.com/figma/" class="text-blue-600 dark:text-blue-500 hover:underline"
-                    >Figma design system</a
-                  >
-                  based on the utility classes from Tailwind CSS and components from Flowbite.
-                </p>
+
+                <!--                v-for element start-->
+                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                  <div class="text-gray-500 dark:text-gray-400">
+                    <div class="w-20 flex flex-row justify-end items-center float-end">
+                      <Icon
+                        class="cursor-pointer show"
+                        color="red"
+                        name="ep:remove-filled"
+                        size="20px"
+                        @click="removeEduc(index)"
+                      />
+                    </div>
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="institute"
+                        >Company Name</label
+                      >
+                      <input
+                        id="institute"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Job Title</label
+                      >
+                      <input
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Job Address</label
+                      >
+                      <input
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Job Description</label
+                      >
+                      <textarea
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        required
+                        type="text"
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="start_date"
+                        >Start Date</label
+                      >
+                      <input
+                        id="start_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        onfocus="(this.type='date')"
+                        readonly
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="start_date"
+                        >End Date</label
+                      >
+                      <input
+                        id="start_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        onfocus="(this.type='date')"
+                        readonly
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!--                v-for element end-->
+                <!--             end  user entered details form-->
+                <!--             start user input form div-->
+                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                  <div class="text-gray-500 dark:text-gray-400">
+                    <div class="w-20 flex flex-row justify-between items-center float-end">
+                      <Icon
+                        class="cursor-pointer"
+                        color="green"
+                        name="ep:circle-plus-filled"
+                        size="20px"
+                        @click="addNewEduc"
+                      />
+                      <Icon
+                        class="cursor-pointer"
+                        color="red"
+                        name="ep:remove-filled"
+                        size="20px"
+                        @click="removeEduc"
+                      />
+                    </div>
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="institute"
+                        >Company Name</label
+                      >
+                      <input
+                        id="institute"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        placeholder="IFS"
+                        readonly
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Job Title</label
+                      >
+                      <input
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        placeholder="Software engineer"
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Job Address</label
+                      >
+                      <input
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Colombo"
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Job Description</label
+                      >
+                      <textarea
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Lorem lorem lorem lorem"
+                        required
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="start_date"
+                        >Start Date</label
+                      >
+                      <input
+                        id="start_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        onfocus="(this.type='date')"
+                        placeholder="2020-6-14"
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="start_date"
+                        >End Date</label
+                      >
+                      <input
+                        id="start_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        onfocus="(this.type='date')"
+                        placeholder="2020-6-14"
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!--                end user input form div-->
               </div>
             </div>
             <h2 id="accordion-open-heading-3">
               <button
-                type="button"
+                aria-controls="accordion-open-body-3"
+                aria-expanded="false"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
                 data-accordion-target="#accordion-open-body-3"
-                aria-expanded="false"
-                aria-controls="accordion-open-body-3"
+                type="button"
               >
                 <span class="flex items-center"
                   ><svg
@@ -233,32 +510,32 @@ const removeEduc = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                       clip-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                      fill-rule="evenodd"
                     ></path>
                   </svg>
                   Volunteer experience</span
                 >
                 <svg
-                  data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
                   aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  data-accordion-icon
                   fill="none"
                   viewBox="0 0 10 6"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
+                    d="M9 5 5 1 1 5"
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M9 5 5 1 1 5"
                   />
                 </svg>
               </button>
             </h2>
-            <div id="accordion-open-body-3" class="hidden" aria-labelledby="accordion-open-heading-3">
+            <div id="accordion-open-body-3" aria-labelledby="accordion-open-heading-3" class="hidden">
               <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
                   The main difference is that the core components from Flowbite are open source under the MIT license,
@@ -272,15 +549,15 @@ const removeEduc = () => {
                 <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
                 <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
                   <li>
-                    <a href="https://flowbite.com/pro/" class="text-blue-600 dark:text-blue-500 hover:underline"
+                    <a class="text-blue-600 dark:text-blue-500 hover:underline" href="https://flowbite.com/pro/"
                       >Flowbite Pro</a
                     >
                   </li>
                   <li>
                     <a
+                      class="text-blue-600 dark:text-blue-500 hover:underline"
                       href="https://tailwindui.com/"
                       rel="nofollow"
-                      class="text-blue-600 dark:text-blue-500 hover:underline"
                       >Tailwind UI</a
                     >
                   </li>
@@ -289,11 +566,11 @@ const removeEduc = () => {
             </div>
             <h2 id="accordion-open-heading-4">
               <button
-                type="button"
+                aria-controls="accordion-open-body-4"
+                aria-expanded="false"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
                 data-accordion-target="#accordion-open-body-4"
-                aria-expanded="false"
-                aria-controls="accordion-open-body-4"
+                type="button"
               >
                 <span class="flex items-center"
                   ><svg
@@ -303,32 +580,32 @@ const removeEduc = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                       clip-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                      fill-rule="evenodd"
                     ></path>
                   </svg>
                   Project</span
                 >
                 <svg
-                  data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
                   aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  data-accordion-icon
                   fill="none"
                   viewBox="0 0 10 6"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
+                    d="M9 5 5 1 1 5"
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M9 5 5 1 1 5"
                   />
                 </svg>
               </button>
             </h2>
-            <div id="accordion-open-body-4" class="hidden" aria-labelledby="accordion-open-heading-4">
+            <div id="accordion-open-body-4" aria-labelledby="accordion-open-heading-4" class="hidden">
               <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
                   The main difference is that the core components from Flowbite are open source under the MIT license,
@@ -342,15 +619,15 @@ const removeEduc = () => {
                 <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
                 <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
                   <li>
-                    <a href="https://flowbite.com/pro/" class="text-blue-600 dark:text-blue-500 hover:underline"
+                    <a class="text-blue-600 dark:text-blue-500 hover:underline" href="https://flowbite.com/pro/"
                       >Flowbite Pro</a
                     >
                   </li>
                   <li>
                     <a
+                      class="text-blue-600 dark:text-blue-500 hover:underline"
                       href="https://tailwindui.com/"
                       rel="nofollow"
-                      class="text-blue-600 dark:text-blue-500 hover:underline"
                       >Tailwind UI</a
                     >
                   </li>
@@ -359,11 +636,11 @@ const removeEduc = () => {
             </div>
             <h2 id="accordion-open-heading-5">
               <button
-                type="button"
+                aria-controls="accordion-open-body-5"
+                aria-expanded="false"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
                 data-accordion-target="#accordion-open-body-5"
-                aria-expanded="false"
-                aria-controls="accordion-open-body-5"
+                type="button"
               >
                 <span class="flex items-center"
                   ><svg
@@ -373,32 +650,32 @@ const removeEduc = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                       clip-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                      fill-rule="evenodd"
                     ></path>
                   </svg>
                   Skill</span
                 >
                 <svg
-                  data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
                   aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  data-accordion-icon
                   fill="none"
                   viewBox="0 0 10 6"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
+                    d="M9 5 5 1 1 5"
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M9 5 5 1 1 5"
                   />
                 </svg>
               </button>
             </h2>
-            <div id="accordion-open-body-5" class="hidden" aria-labelledby="accordion-open-heading-5">
+            <div id="accordion-open-body-5" aria-labelledby="accordion-open-heading-5" class="hidden">
               <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
                   The main difference is that the core components from Flowbite are open source under the MIT license,
@@ -412,15 +689,15 @@ const removeEduc = () => {
                 <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
                 <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
                   <li>
-                    <a href="https://flowbite.com/pro/" class="text-blue-600 dark:text-blue-500 hover:underline"
+                    <a class="text-blue-600 dark:text-blue-500 hover:underline" href="https://flowbite.com/pro/"
                       >Flowbite Pro</a
                     >
                   </li>
                   <li>
                     <a
+                      class="text-blue-600 dark:text-blue-500 hover:underline"
                       href="https://tailwindui.com/"
                       rel="nofollow"
-                      class="text-blue-600 dark:text-blue-500 hover:underline"
                       >Tailwind UI</a
                     >
                   </li>
@@ -429,11 +706,11 @@ const removeEduc = () => {
             </div>
             <h2 id="accordion-open-heading-6">
               <button
-                type="button"
+                aria-controls="accordion-open-body-6"
+                aria-expanded="false"
                 class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
                 data-accordion-target="#accordion-open-body-6"
-                aria-expanded="false"
-                aria-controls="accordion-open-body-6"
+                type="button"
               >
                 <span class="flex items-center"
                   ><svg
@@ -443,32 +720,32 @@ const removeEduc = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                       clip-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                      fill-rule="evenodd"
                     ></path>
                   </svg>
                   Social Media</span
                 >
                 <svg
-                  data-accordion-icon
-                  class="w-3 h-3 rotate-180 shrink-0"
                   aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-3 h-3 rotate-180 shrink-0"
+                  data-accordion-icon
                   fill="none"
                   viewBox="0 0 10 6"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
+                    d="M9 5 5 1 1 5"
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M9 5 5 1 1 5"
                   />
                 </svg>
               </button>
             </h2>
-            <div id="accordion-open-body-6" class="hidden" aria-labelledby="accordion-open-heading-6">
+            <div id="accordion-open-body-6" aria-labelledby="accordion-open-heading-6" class="hidden">
               <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
                   The main difference is that the core components from Flowbite are open source under the MIT license,
@@ -482,15 +759,15 @@ const removeEduc = () => {
                 <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
                 <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
                   <li>
-                    <a href="https://flowbite.com/pro/" class="text-blue-600 dark:text-blue-500 hover:underline"
+                    <a class="text-blue-600 dark:text-blue-500 hover:underline" href="https://flowbite.com/pro/"
                       >Flowbite Pro</a
                     >
                   </li>
                   <li>
                     <a
+                      class="text-blue-600 dark:text-blue-500 hover:underline"
                       href="https://tailwindui.com/"
                       rel="nofollow"
-                      class="text-blue-600 dark:text-blue-500 hover:underline"
                       >Tailwind UI</a
                     >
                   </li>
@@ -508,11 +785,11 @@ const removeEduc = () => {
     </div>
     <div class="left-content">
       <div class="left-content-child" />
-      <img class="left-content-item" alt="" src="../assets/images/rectangle-4@2x.png" />
+      <img alt="" class="left-content-item" src="../assets/images/rectangle-4@2x.png" />
       <div class="left-content-inner" />
-      <img class="man-and-woman-at-work" alt="" src="../assets/images/younghappyleft%20side.png" />
+      <img alt="" class="man-and-woman-at-work" src="../assets/images/younghappyleft%20side.png" />
       <div class="ellipse-parent">
-        <img class="thunderbolt-1-icon" alt="" src="../assets/images/thunderbolt-1@2x.png" />
+        <img alt="" class="thunderbolt-1-icon" src="../assets/images/thunderbolt-1@2x.png" />
       </div>
       <b class="very-good-works-container">
         <p class="very-good">Crafting</p>
@@ -550,6 +827,7 @@ const removeEduc = () => {
   padding-left: var(--padding-xl);
   padding-right: var(--padding-xl);
 }
+
 .how-to-i {
   position: relative;
   font-size: var(--font-size-base);
@@ -557,6 +835,7 @@ const removeEduc = () => {
   color: var(--color-dimgray);
   text-align: left;
 }
+
 .create-account-prompt {
   position: absolute;
   top: 12%;
@@ -574,6 +853,7 @@ const removeEduc = () => {
   text-align: center;
   width: 23.5rem;
 }
+
 .left-content-child {
   position: absolute;
   top: 0px;
@@ -582,6 +862,7 @@ const removeEduc = () => {
   height: 1198px;
   left: 0;
 }
+
 .left-content-item {
   position: absolute;
   top: 0;
@@ -591,6 +872,7 @@ const removeEduc = () => {
   height: 100vh;
   object-fit: cover;
 }
+
 .left-content-inner {
   position: absolute;
   top: calc(50% - 278px);
@@ -603,6 +885,7 @@ const removeEduc = () => {
   width: 445px;
   height: 559px;
 }
+
 .man-and-woman-at-work {
   position: absolute;
   top: 320px;
@@ -614,6 +897,7 @@ const removeEduc = () => {
   height: 358px;
   object-fit: cover;
 }
+
 .thunderbolt-1-icon {
   position: absolute;
   top: 19.2px;
@@ -622,6 +906,7 @@ const removeEduc = () => {
   height: 44.8px;
   object-fit: cover;
 }
+
 .ellipse-parent {
   position: absolute;
   top: 300px;
@@ -634,9 +919,11 @@ const removeEduc = () => {
   border-radius: 50%;
   background-color: #fff;
 }
+
 .very-good {
   margin: 0;
 }
+
 .very-good-works-container {
   position: absolute;
   top: 120px;
@@ -646,6 +933,7 @@ const removeEduc = () => {
   width: 198px;
   height: 245px;
 }
+
 .left-content {
   position: fixed;
   top: 0px;
@@ -658,19 +946,23 @@ const removeEduc = () => {
   color: #fff;
   font-family: Poppins;
 }
+
 .with-others {
   color: #525252;
 }
+
 .signup-with-others-container {
   position: absolute;
   top: -10px;
   left: 120px;
 }
+
 .subtract-icon {
   position: relative;
   width: 364px;
   height: 1px;
 }
+
 .signup-with-others {
   position: absolute;
   top: 856px;
@@ -679,14 +971,17 @@ const removeEduc = () => {
   height: 24px;
   font-size: 16px;
 }
+
 .login {
   color: #5d8bf4;
 }
+
 .have-an-account-container {
   position: absolute;
   top: 0px;
   left: 0px;
 }
+
 .login-link {
   position: absolute;
   top: 1044px;
@@ -694,6 +989,7 @@ const removeEduc = () => {
   width: 146px;
   height: 18px;
 }
+
 .group-child {
   position: absolute;
   top: 0px;
@@ -704,11 +1000,13 @@ const removeEduc = () => {
   width: 364px;
   height: 52px;
 }
+
 .signup-with-google-container {
   position: absolute;
   top: 6px;
   left: 47px;
 }
+
 .google-1-icon {
   position: absolute;
   top: 0px;
@@ -717,6 +1015,7 @@ const removeEduc = () => {
   height: 30px;
   object-fit: cover;
 }
+
 .signup-with-google-parent {
   position: absolute;
   top: 11px;
@@ -724,6 +1023,7 @@ const removeEduc = () => {
   width: 163px;
   height: 30px;
 }
+
 .rectangle-parent {
   position: absolute;
   top: 0px;
@@ -731,12 +1031,14 @@ const removeEduc = () => {
   width: 364px;
   height: 52px;
 }
+
 .rectangle-parent:hover {
   background-color: var(--color-lavender-300);
   border: 1px solid var(--color-lavender-200);
   box-sizing: border-box;
   border-radius: 16px;
 }
+
 .signup-with-facebook-parent {
   position: absolute;
   top: 11px;
@@ -744,6 +1046,7 @@ const removeEduc = () => {
   width: 181px;
   height: 30px;
 }
+
 .rectangle-group {
   position: absolute;
   top: 68px;
@@ -751,12 +1054,14 @@ const removeEduc = () => {
   width: 364px;
   height: 52px;
 }
+
 .rectangle-group:hover {
   background-color: var(--color-lavender-300);
   border: 1px solid var(--color-lavender-200);
   box-sizing: border-box;
   border-radius: 16px;
 }
+
 .google-signup {
   position: absolute;
   top: 905px;
@@ -764,6 +1069,7 @@ const removeEduc = () => {
   width: 364px;
   height: 120px;
 }
+
 .btn-skip {
   position: absolute;
   top: 900px;
@@ -777,6 +1083,7 @@ const removeEduc = () => {
   text-align: center;
   color: #fff;
 }
+
 .btn-signup {
   position: absolute;
   top: 900px;
@@ -790,6 +1097,7 @@ const removeEduc = () => {
   text-align: center;
   color: #fff;
 }
+
 .confirm-password-child {
   position: absolute;
   top: 0px;
@@ -799,6 +1107,7 @@ const removeEduc = () => {
   width: 364px;
   height: 52px;
 }
+
 .bio {
   position: absolute;
   top: 0px;
@@ -809,6 +1118,7 @@ const removeEduc = () => {
   height: 152px;
   padding-top: 18px;
 }
+
 .frame-icon {
   position: absolute;
   top: 14px;
@@ -817,6 +1127,7 @@ const removeEduc = () => {
   height: 24px;
   overflow: hidden;
 }
+
 .phone-number {
   position: absolute;
   top: 536px;
@@ -824,6 +1135,7 @@ const removeEduc = () => {
   width: 364px;
   height: 52px;
 }
+
 .email {
   position: absolute;
   top: 465px;
@@ -831,6 +1143,7 @@ const removeEduc = () => {
   width: 364px;
   height: 52px;
 }
+
 .username {
   position: absolute;
   left: 48px;
@@ -846,6 +1159,7 @@ const removeEduc = () => {
   width: 308px;
   height: 52px;
 }
+
 .bio-text-area {
   position: absolute;
   border: none;
@@ -876,6 +1190,7 @@ const removeEduc = () => {
   width: 100%;
   height: 130px;
 }
+
 .street-line01 {
   position: absolute;
   top: 592px;
@@ -883,6 +1198,7 @@ const removeEduc = () => {
   width: 364px;
   height: 52px;
 }
+
 .street-line02 {
   position: absolute;
   top: 662px;
@@ -890,6 +1206,7 @@ const removeEduc = () => {
   width: 364px;
   height: 52px;
 }
+
 .city {
   position: absolute;
   top: 732px;
@@ -897,6 +1214,7 @@ const removeEduc = () => {
   width: 364px;
   height: 52px;
 }
+
 .post-code {
   position: absolute;
   top: 800px;
@@ -904,6 +1222,7 @@ const removeEduc = () => {
   width: 364px;
   height: 52px;
 }
+
 .bio-div {
   position: absolute;
   top: 421px;
@@ -938,6 +1257,7 @@ const removeEduc = () => {
   width: 364px;
   height: 52px;
 }
+
 .date-of-birth {
   position: absolute;
   top: 350px;
@@ -945,6 +1265,7 @@ const removeEduc = () => {
   width: 364px;
   height: 52px;
 }
+
 .woow {
   margin: 0;
 }
@@ -956,6 +1277,7 @@ const removeEduc = () => {
   width: 700px;
   height: auto;
 }
+
 .sign-up-main-div {
   position: absolute;
   top: -3px;
@@ -963,6 +1285,7 @@ const removeEduc = () => {
   width: 1306px;
   height: 1198px;
 }
+
 .sign-up {
   width: 1366px;
   border-radius: 24px;
