@@ -1405,10 +1405,10 @@ const removeEduc = () => {}
               </div>
             </div>
           </div>
-          <div class="flex flex-row justify-between items-center mt-12">
-            <button class="btn">Skip</button>
-            <button class="btn">Back</button>
-            <button class="btn">Next</button>
+          <div class="flex flex-row justify-between items-center mt-12 pb-10">
+            <NuxtLink to="/course"><button class="btn">Skip</button></NuxtLink>
+            <NuxtLink to="/cvprofile"><button class="btn">Back</button></NuxtLink>
+            <NuxtLink to="/course"><button class="btn">Save</button></NuxtLink>
           </div>
         </div>
       </div>
