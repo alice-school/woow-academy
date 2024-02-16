@@ -274,8 +274,8 @@ const removeEduc = () => {}
             <div id="accordion-open-body-2" aria-labelledby="accordion-open-heading-2" class="hidden">
               <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  Flowbite is first conceptualized and designed using the Figma software so everything you see in the
-                  library has a design equivalent in our Figma file.
+                  We would love to learn more about your professional journey! Share details about your working
+                  experience. Your insights will help us tailor our content and services to better suit your needs.
                 </p>
 
                 <!--                v-for element start-->
@@ -313,7 +313,6 @@ const removeEduc = () => {}
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         readonly
-                        required
                         type="text"
                       />
                     </div>
@@ -328,7 +327,6 @@ const removeEduc = () => {}
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         readonly
-                        required
                         type="text"
                       />
                     </div>
@@ -343,7 +341,6 @@ const removeEduc = () => {}
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         readonly
-                        required
                         type="text"
                       >
                       </textarea>
@@ -360,7 +357,6 @@ const removeEduc = () => {}
                         disabled
                         onfocus="(this.type='date')"
                         readonly
-                        required
                         type="text"
                       />
                     </div>
@@ -376,7 +372,6 @@ const removeEduc = () => {}
                         disabled
                         onfocus="(this.type='date')"
                         readonly
-                        required
                         type="text"
                       />
                     </div>
@@ -410,9 +405,7 @@ const removeEduc = () => {}
                       <input
                         id="institute"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        disabled
                         placeholder="IFS"
-                        readonly
                         required
                         type="text"
                       />
@@ -426,8 +419,8 @@ const removeEduc = () => {}
                       <input
                         id="education_course"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        disabled
                         placeholder="Software engineer"
+                        required
                         type="text"
                       />
                     </div>
@@ -538,30 +531,190 @@ const removeEduc = () => {}
             <div id="accordion-open-body-3" aria-labelledby="accordion-open-heading-3" class="hidden">
               <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  The main difference is that the core components from Flowbite are open source under the MIT license,
-                  whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and
-                  standalone components, whereas Tailwind UI offers sections of pages.
+                  We're eager to learn more about your volunteer experience. Whether you've dedicated your time to
+                  community service, charitable organizations, or any other meaningful cause, we'd love to hear about
+                  it. Share the roles you've taken on, and the positive change you've contributed to. Your volunteer
+                  journey is valuable, and by sharing it, you inspire others to make a difference too.
                 </p>
-                <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  However, we actually recommend using both Flowbite, Flowbite Pro, and even Tailwind UI as there is no
-                  technical reason stopping you from using the best of two worlds.
-                </p>
-                <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
-                <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
-                  <li>
-                    <a class="text-blue-600 dark:text-blue-500 hover:underline" href="https://flowbite.com/pro/"
-                      >Flowbite Pro</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="text-blue-600 dark:text-blue-500 hover:underline"
-                      href="https://tailwindui.com/"
-                      rel="nofollow"
-                      >Tailwind UI</a
-                    >
-                  </li>
-                </ul>
+                <!--                v-for element start-->
+                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                  <div class="text-gray-500 dark:text-gray-400">
+                    <div class="w-20 flex flex-row justify-end items-center float-end">
+                      <Icon
+                        class="cursor-pointer show"
+                        color="red"
+                        name="ep:remove-filled"
+                        size="20px"
+                        @click="removeEduc(index)"
+                      />
+                    </div>
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="institute"
+                        >Organization Name</label
+                      >
+                      <input
+                        id="institute"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Role</label
+                      >
+                      <input
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Volunteer Description</label
+                      >
+                      <textarea
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        type="text"
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="start_date"
+                        >Start Date</label
+                      >
+                      <input
+                        id="start_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        onfocus="(this.type='date')"
+                        readonly
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="start_date"
+                        >End Date</label
+                      >
+                      <input
+                        id="start_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        onfocus="(this.type='date')"
+                        readonly
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!--                v-for element end-->
+                <!--             end  user entered details form-->
+                <!--             start user input form div-->
+                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                  <div class="text-gray-500 dark:text-gray-400">
+                    <div class="w-20 flex flex-row justify-between items-center float-end">
+                      <Icon
+                        class="cursor-pointer"
+                        color="green"
+                        name="ep:circle-plus-filled"
+                        size="20px"
+                        @click="addNewEduc"
+                      />
+                      <Icon
+                        class="cursor-pointer"
+                        color="red"
+                        name="ep:remove-filled"
+                        size="20px"
+                        @click="removeEduc"
+                      />
+                    </div>
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="institute"
+                        >Organization Name</label
+                      >
+                      <input
+                        id="institute"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="IFS"
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Role</label
+                      >
+                      <input
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Software engineer"
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Volunteer Description</label
+                      >
+                      <textarea
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Lorem lorem lorem lorem"
+                        required
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="start_date"
+                        >Start Date</label
+                      >
+                      <input
+                        id="start_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        onfocus="(this.type='date')"
+                        placeholder="2020-6-14"
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="start_date"
+                        >End Date</label
+                      >
+                      <input
+                        id="start_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        onfocus="(this.type='date')"
+                        placeholder="2020-6-14"
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!--                end user input form div-->
               </div>
             </div>
             <h2 id="accordion-open-heading-4">
@@ -608,30 +761,100 @@ const removeEduc = () => {}
             <div id="accordion-open-body-4" aria-labelledby="accordion-open-heading-4" class="hidden">
               <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  The main difference is that the core components from Flowbite are open source under the MIT license,
-                  whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and
-                  standalone components, whereas Tailwind UI offers sections of pages.
+                  We're excited to hear about the projects you've undertaken. This information will help us better
+                  understand your requirements and tailor our services to meet your specific needs.
                 </p>
-                <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  However, we actually recommend using both Flowbite, Flowbite Pro, and even Tailwind UI as there is no
-                  technical reason stopping you from using the best of two worlds.
-                </p>
-                <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
-                <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
-                  <li>
-                    <a class="text-blue-600 dark:text-blue-500 hover:underline" href="https://flowbite.com/pro/"
-                      >Flowbite Pro</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="text-blue-600 dark:text-blue-500 hover:underline"
-                      href="https://tailwindui.com/"
-                      rel="nofollow"
-                      >Tailwind UI</a
-                    >
-                  </li>
-                </ul>
+                <!--                v-for element start-->
+                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                  <div class="text-gray-500 dark:text-gray-400">
+                    <div class="w-20 flex flex-row justify-end items-center float-end">
+                      <Icon
+                        class="cursor-pointer show"
+                        color="red"
+                        name="ep:remove-filled"
+                        size="20px"
+                        @click="removeEduc(index)"
+                      />
+                    </div>
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="institute"
+                        >Project Name</label
+                      >
+                      <input
+                        id="institute"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Project Description</label
+                      >
+                      <textarea
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        type="text"
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+                <!--                v-for element end-->
+                <!--             end  user entered details form-->
+                <!--             start user input form div-->
+                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                  <div class="text-gray-500 dark:text-gray-400">
+                    <div class="w-20 flex flex-row justify-between items-center float-end">
+                      <Icon
+                        class="cursor-pointer"
+                        color="green"
+                        name="ep:circle-plus-filled"
+                        size="20px"
+                        @click="addNewEduc"
+                      />
+                      <Icon
+                        class="cursor-pointer"
+                        color="red"
+                        name="ep:remove-filled"
+                        size="20px"
+                        @click="removeEduc"
+                      />
+                    </div>
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="institute"
+                        >Project Name</label
+                      >
+                      <input
+                        id="institute"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="IFS"
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Project Description</label
+                      >
+                      <textarea
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Lorem lorem lorem lorem"
+                        required
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+                <!--                end user input form div-->
               </div>
             </div>
             <h2 id="accordion-open-heading-5">
@@ -678,30 +901,367 @@ const removeEduc = () => {}
             <div id="accordion-open-body-5" aria-labelledby="accordion-open-heading-5" class="hidden">
               <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  The main difference is that the core components from Flowbite are open source under the MIT license,
-                  whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and
-                  standalone components, whereas Tailwind UI offers sections of pages.
+                  Share your programming prowess with us! Kindly enter your skills below, detailing the programming
+                  languages you command and your proficiency level in each. Whether you're a coding maestro or just
+                  getting started, we want to tailor our experience to match your expertise.
                 </p>
-                <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  However, we actually recommend using both Flowbite, Flowbite Pro, and even Tailwind UI as there is no
-                  technical reason stopping you from using the best of two worlds.
-                </p>
-                <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
-                <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
-                  <li>
-                    <a class="text-blue-600 dark:text-blue-500 hover:underline" href="https://flowbite.com/pro/"
-                      >Flowbite Pro</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="text-blue-600 dark:text-blue-500 hover:underline"
-                      href="https://tailwindui.com/"
-                      rel="nofollow"
-                      >Tailwind UI</a
-                    >
-                  </li>
-                </ul>
+                <!--                v-for element start-->
+                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                  <div class="text-gray-500 dark:text-gray-400">
+                    <div class="w-20 flex flex-row justify-end items-center float-end">
+                      <Icon
+                        class="cursor-pointer show"
+                        color="red"
+                        name="ep:remove-filled"
+                        size="20px"
+                        @click="removeEduc(index)"
+                      />
+                    </div>
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="institute"
+                        >Skill Name</label
+                      >
+                      <input
+                        id="institute"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label
+                        class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white"
+                        for="education_course"
+                        >Skill Level</label
+                      >
+                      <div class="flex flex-wrap gap-1 text-center">
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label for="inline-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >1</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-2-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label for="inline-2-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >2</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >3</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >4</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >5</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >6</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >7</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >8</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >9</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >10</label
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--                v-for element end-->
+                <!--             end  user entered details form-->
+                <!--             start user input form div-->
+                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                  <div class="text-gray-500 dark:text-gray-400">
+                    <div class="w-20 flex flex-row justify-between items-center float-end">
+                      <Icon
+                        class="cursor-pointer"
+                        color="green"
+                        name="ep:circle-plus-filled"
+                        size="20px"
+                        @click="addNewEduc"
+                      />
+                      <Icon
+                        class="cursor-pointer"
+                        color="red"
+                        name="ep:remove-filled"
+                        size="20px"
+                        @click="removeEduc"
+                      />
+                    </div>
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="institute"
+                        >Skill Name</label
+                      >
+                      <input
+                        id="institute"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Java"
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label
+                        class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white"
+                        for="education_course"
+                        >Skill Level</label
+                      >
+                      <div class="flex flex-wrap gap-1 text-center">
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label for="inline-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >1</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-2-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label for="inline-2-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >2</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >3</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >4</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >5</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >6</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            checked
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >7</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >8</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >9</label
+                          >
+                        </div>
+                        <div class="flex items-center me-4">
+                          <input
+                            id="inline-checked-radio"
+                            type="radio"
+                            value=""
+                            name="inline-radio-group"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                          <label
+                            for="inline-checked-radio"
+                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >10</label
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--                end user input form div-->
               </div>
             </div>
             <h2 id="accordion-open-heading-6">
@@ -748,30 +1308,100 @@ const removeEduc = () => {}
             <div id="accordion-open-body-6" aria-labelledby="accordion-open-heading-6" class="hidden">
               <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                 <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  The main difference is that the core components from Flowbite are open source under the MIT license,
-                  whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and
-                  standalone components, whereas Tailwind UI offers sections of pages.
+                  Enhance your CV and connect with opportunities by adding your social media links! Share your
+                  professional journey beyond the resume – insert links to your LinkedIn, Twitter, and other relevant
+                  platforms. Let your potential employers explore your online presence and get a holistic view of your
+                  skills and interests.
                 </p>
-                <p class="mb-2 text-gray-500 dark:text-gray-400">
-                  However, we actually recommend using both Flowbite, Flowbite Pro, and even Tailwind UI as there is no
-                  technical reason stopping you from using the best of two worlds.
-                </p>
-                <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
-                <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
-                  <li>
-                    <a class="text-blue-600 dark:text-blue-500 hover:underline" href="https://flowbite.com/pro/"
-                      >Flowbite Pro</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      class="text-blue-600 dark:text-blue-500 hover:underline"
-                      href="https://tailwindui.com/"
-                      rel="nofollow"
-                      >Tailwind UI</a
-                    >
-                  </li>
-                </ul>
+                <!--                v-for element start-->
+                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                  <div class="text-gray-500 dark:text-gray-400">
+                    <div class="w-20 flex flex-row justify-end items-center float-end">
+                      <Icon
+                        class="cursor-pointer show"
+                        color="red"
+                        name="ep:remove-filled"
+                        size="20px"
+                        @click="removeEduc(index)"
+                      />
+                    </div>
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="institute"
+                        >Social Media Name</label
+                      >
+                      <input
+                        id="institute"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Social Media Link</label
+                      >
+                      <input
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                        readonly
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!--                v-for element end-->
+                <!--             end  user entered details form-->
+                <!--             start user input form div-->
+                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                  <div class="text-gray-500 dark:text-gray-400">
+                    <div class="w-20 flex flex-row justify-between items-center float-end">
+                      <Icon
+                        class="cursor-pointer"
+                        color="green"
+                        name="ep:circle-plus-filled"
+                        size="20px"
+                        @click="addNewEduc"
+                      />
+                      <Icon
+                        class="cursor-pointer"
+                        color="red"
+                        name="ep:remove-filled"
+                        size="20px"
+                        @click="removeEduc"
+                      />
+                    </div>
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="institute"
+                        >Social Media Name</label
+                      >
+                      <input
+                        id="institute"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Github"
+                        required
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div class="text-gray-500 dark:text-gray-400 mt-2">
+                    <div>
+                      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="education_course"
+                        >Social Media Link</label
+                      >
+                      <input
+                        id="education_course"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="https://github.com/MadhushaPrasad"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!--                end user input form div-->
               </div>
             </div>
           </div>
