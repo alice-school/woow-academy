@@ -1,13 +1,32 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 const router = useRouter()
+import { ref } from 'vue'
 
 definePageMeta({
   layout: 'default',
 })
 
+const profilePicture = ref('')
+const dateOfBirth = ref('')
+const bio = ref('')
+const addressLine1 = ref('')
+const addressLine2 = ref('')
+const city = ref('')
+const postCode = ref('')
+
 const onSubmit = () => {
-  router.push({ path: '/cvdetails' })
+  console.log({
+    dob: dateOfBirth,
+    profile_img: profilePicture,
+    bio: bio,
+    points: 0,
+    lineOne: addressLine1,
+    lineTwo: addressLine2,
+    city: city,
+    postCode: postCode,
+  })
+  // router.push({ path: '/cvdetails' })
   // console.log(signupForm)
 }
 </script>
@@ -16,7 +35,7 @@ const onSubmit = () => {
   <div class="sign-up">
     <div class="sign-up-main-div">
       <div class="right-content">
-        <form novalidate @submit.prevent="onSubmit">
+        <form @submit.prevent="onSubmit" novalidate>
           <div class="profile-image">
             <div class="profile-image-div" />
             <div class="flex items-center justify-center profile-drop">
@@ -52,6 +71,7 @@ const onSubmit = () => {
           <div class="date-of-birth">
             <div class="confirm-password-child" />
             <input
+              v-model="dateOfBirth"
               type="text"
               onfocus="(this.type='date')"
               class="username focus:ring-0 focus:border-none border-none"
@@ -121,7 +141,7 @@ const onSubmit = () => {
           <!--            <img class="frame-icon" alt="" src="~/assets/images/frame-4.svg" />-->
           <!--          </div>-->
           <button class="btn-skip">Skip</button>
-          <button class="btn-signup">Next</button>
+          <NuxtLink to="/courseList"><button class="btn-signup">Next</button></NuxtLink>
         </form>
         <div class="create-account-prompt">
           <h1 class="signup-text-1">SignUp</h1>

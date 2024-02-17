@@ -2,7 +2,7 @@
   <header>
     <nav class="border-gray-200 px-4 lg:px-6 py-2.5 z-10">
       <div class="flex flex-wrap justify-between items-center mx-auto">
-        <NuxtLink class="flex items-center" to="/">
+        <NuxtLink class="flex items-center" to="/courseList">
           <span class="self-center pb-5 text-xl font-semibold whitespace-nowrap dark:text-white text-white"
             >Woow <br />
             Space</span
@@ -19,7 +19,7 @@
                     aria-haspopup="false"
                     @click="(dropdownOpen.pointCard = !dropdownOpen.pointCard), (dropdownOpen.profileCard = false)"
                   >
-                    <img alt="Flowbite Logo" class="mr-3 h-6 sm:h-9" src="../../../assets/images/points-icon.png" />
+                    <img alt="point image" class="mr-3 h-6 sm:h-7" src="../../../assets/images/points-icon.png" />
                     <h5 class="text-white">56473</h5>
                   </button>
                 </div>
@@ -154,23 +154,16 @@
               <NuxtLink
                 aria-current="page"
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
-                to="/"
+                to="/courseList"
                 >Home
               </NuxtLink>
             </li>
             <li>
               <NuxtLink
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
-                to="/course"
+                to="/courseList"
                 >Course
               </NuxtLink>
-            </li>
-            <li>
-              <NuxtLink
-                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
-                href="#"
-                >Code Playground</NuxtLink
-              >
             </li>
             <li>
               <NuxtLink
@@ -182,35 +175,21 @@
             <li>
               <NuxtLink
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
-                href="#"
-                >Blog</NuxtLink
-              >
-            </li>
-            <li>
-              <NuxtLink
-                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
-                href="#"
-                >FAQ</NuxtLink
-              >
-            </li>
-            <li>
-              <NuxtLink
-                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
-                href="#"
+                to="/contact"
                 >Contact</NuxtLink
               >
             </li>
             <li>
               <NuxtLink
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
-                href="#"
+                to="/terms"
                 >Terms of Use</NuxtLink
               >
             </li>
             <li>
               <NuxtLink
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
-                href="#"
+                to="/privacy"
                 >Privacy Policy</NuxtLink
               >
             </li>

@@ -72,6 +72,8 @@
   "dependencies": {
     "@nuxt/image": "^1.0.0",
     "@pinia/nuxt": "^0.4.11",
+    "@vueuse/core": "^10.7.2",
+    "@vueuse/nuxt": "^10.7.2",
     "flowbite": "^2.3.0",
     "pinia": "^2.1.6"
   }
