@@ -140,8 +140,8 @@ const onSubmit = () => {
           <!--            <input type="text" class="username" placeholder="Phone number" required />-->
           <!--            <img class="frame-icon" alt="" src="~/assets/images/frame-4.svg" />-->
           <!--          </div>-->
-          <button class="btn-skip">Skip</button>
-          <NuxtLink to="/courseList"><button class="btn-signup">Next</button></NuxtLink>
+          <NuxtLink to="/leaderboard"> <button class="btn-skip">Skip</button> </NuxtLink>
+          <NuxtLink to="/cvdetails"><button class="btn-signup">Next</button></NuxtLink>
         </form>
         <div class="create-account-prompt">
           <h1 class="signup-text-1">SignUp</h1>
