@@ -22,6 +22,7 @@ interface UserInfo {
   confPassword: string
 }
 
+const router: any = useRouter()
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 const userStore = useUserStore()
@@ -35,7 +36,8 @@ let validationErrors: UserInfo | any = reactive({
   userPassword: '',
   confPassword: '',
 })
-
+const userid: Ref<any> | null = ref('')
+const userEmail: Ref<any> | null = ref('')
 const signupForm = reactive({
   userID: '',
   firstName: '',
@@ -101,10 +103,18 @@ const onSubmit = async (): Promise<void> => {
 
 onBeforeMount(async () => {
   await userStore.getAllUsers()
+
+  if (localStorage.getItem('userid') && localStorage.getItem('userEmail')) {
+    userid.value = localStorage.getItem('userid')
+    userEmail.value = localStorage.getItem('userEmail')
+  }
 })
 
 onMounted(() => {
   signupForm.userID = newUserAssignedID.value
+  if (userid.value && userEmail.value) {
+    router.push('/courseList')
+  }
 })
 </script>
 <template>

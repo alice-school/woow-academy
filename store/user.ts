@@ -84,7 +84,6 @@ export const useUserStore = defineStore('user', () => {
       .get(`${BASEURL}/users/all`)
       .then((res) => {
         userList.value = res.data
-        console.log(toRaw(userList.value))
       })
       .catch((err) => {
         console.log(err)

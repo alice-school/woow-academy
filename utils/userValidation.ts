@@ -57,12 +57,12 @@ const validateUser = (user: UserInfo): { isInvalid: boolean; errors: any } => {
     errors.phone = 'Invalid Phone Number'
   }
 
-  //   Date of Birth Validation
-  if (validator.isEmpty(userInformation.dob) && validator.isEmpty(userInformation.dob.trim())) {
-    errors.dob = 'Date of Birth is required'
-  } else if (!validator.isDate(userInformation.dob)) {
-    errors.dob = 'Invalid Date of Birth'
-  }
+  // //   Date of Birth Validation
+  // if (validator.isEmpty(userInformation.dob) && validator.isEmpty(userInformation.dob.trim())) {
+  //   errors.dob = 'Date of Birth is required'
+  // } else if (!validator.isDate(userInformation.dob)) {
+  //   errors.dob = 'Invalid Date of Birth'
+  // }
 
   //   Password Validation
   if (validator.isEmpty(userInformation.userPassword) && validator.isEmpty(userInformation.userPassword.trim())) {
