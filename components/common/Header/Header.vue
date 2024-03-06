@@ -1,3 +1,73 @@
+<script lang="ts" setup>
+import { onMounted } from 'vue'
+import { useUserStore } from '~/store/user'
+import { useToast } from 'vue-toast-notification'
+import 'vue-toast-notification/dist/theme-sugar.css'
+import axios from 'axios'
+
+const dropdownOpen = reactive({
+  profileCard: false,
+  pointCard: false,
+})
+
+const BASEURL = 'http://127.0.0.1:8000/'
+
+const router: any = useRouter()
+const $toast = useToast()
+const userStore = useUserStore()
+
+const userid: Ref<any> | null = ref('')
+const userEmail: Ref<any> | null = ref('')
+let student = reactive({})
+let address = reactive({})
+let cvProfileDetails = reactive({})
+
+onBeforeMount(() => {
+  if (localStorage.getItem('userid') && localStorage.getItem('userEmail')) {
+    userid.value = localStorage.getItem('userid')
+    userEmail.value = localStorage.getItem('userEmail')
+  }
+})
+
+onMounted(() => {
+  if (!(userid.value && userEmail.value)) {
+    $toast.error('Please login to continue', {
+      position: 'top-right',
+      duration: 2000,
+    })
+    router.push('/')
+  }
+})
+
+// const resume = computed(() => userStore.cvProfileDetails)
+//
+// watch(resume, () => {
+//   student = toRaw(resume.value.data.student)
+//   address = toRaw(resume.value.data.address)
+//   cvProfileDetails = toRaw(resume.value.data.cvProfile)
+//   // console.log(student, 'student')
+//   // console.log(address, 'address')
+//   // console.log(cvProfileDetails, 'cvProfileDetails')
+// })
+
+// if (process.client) {
+//   id = localStorage.getItem('userid')
+// } else {
+//   id = 'undefined'
+// }
+
+await axios
+  .get(`${BASEURL}users/cv/${userid.value}`)
+  .then((res: any) => {
+    student = res.data.data.student
+    address = res.data.data.address
+    cvProfileDetails = res.data.data.cvProfile
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+</script>
+
 <template>
   <header>
     <nav class="border-gray-200 px-4 lg:px-6 py-2.5 z-10">
@@ -17,10 +87,10 @@
                     id="point-details"
                     aria-expanded="false"
                     aria-haspopup="false"
-                    @click="(dropdownOpen.pointCard = !dropdownOpen.pointCard), (dropdownOpen.profileCard = false)"
+                    @click=";(dropdownOpen.pointCard = !dropdownOpen.pointCard), (dropdownOpen.profileCard = false)"
                   >
-                    <img alt="point image" class="mr-3 h-6 sm:h-7" src="../../../assets/images/points-icon.png" />
-                    <h5 class="text-white">56473</h5>
+                    <img alt="point image" class="h-6 sm:h-7" src="../../../assets/images/points-icon.png" />
+                    <h5 class="text-white">{{ cvProfileDetails.points }}</h5>
                   </button>
                 </div>
 
@@ -56,15 +126,11 @@
                   aria-haspopup="false"
                   class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                   type="button"
-                  @click="(dropdownOpen.profileCard = !dropdownOpen.profileCard), (dropdownOpen.pointCard = false)"
+                  @click=";(dropdownOpen.profileCard = !dropdownOpen.profileCard), (dropdownOpen.pointCard = false)"
                 >
                   <span class="absolute -inset-1.5"></span>
                   <span class="sr-only">Open user menu</span>
-                  <img
-                    alt=""
-                    class="h-8 w-8 rounded-full"
-                    src="https://avatars.githubusercontent.com/u/50085447?s=96&v=4"
-                  />
+                  <img :src="cvProfileDetails.profile_img" alt="" class="h-8 w-8 rounded-full" />
                 </button>
               </div>
 
@@ -95,11 +161,13 @@
                   to="/profile"
                 >
                   <span>Your Profile</span><br />
-                  <span class="block pb-2 text-sm text-gray-700 font-bold">Madhusha Prasad</span>
+                  <span class="block pb-2 text-sm text-gray-700 font-bold cursor-pointer"
+                    >{{ student.firstName }} {{ student.lastName }}</span
+                  >
                 </NuxtLink>
                 <a
                   id="user-menu-item-0"
-                  class="block px-4 pb-2 text-sm text-gray-700"
+                  class="block px-4 pb-2 text-sm text-gray-700 cursor-pointer"
                   href="#"
                   role="menuitem"
                   tabindex="-1"
@@ -107,20 +175,21 @@
                 >
                 <a
                   id="user-menu-item-1"
-                  class="block px-4 py-2 text-sm text-gray-700"
+                  class="block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                   href="#"
                   role="menuitem"
                   tabindex="-1"
                   >Settings</a
                 >
-                <NuxtLink
+                <p
                   id="user-menu-item-2"
-                  class="block px-4 py-2 text-sm text-gray-700"
+                  class="block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                   role="menuitem"
                   tabindex="-1"
-                  to="/"
-                  >Sign out
-                </NuxtLink>
+                  @click="userStore.logout"
+                >
+                  Sign out
+                </p>
               </div>
             </div>
           </div>
@@ -176,22 +245,22 @@
               <NuxtLink
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 to="/contact"
-                >Contact</NuxtLink
-              >
+                >Contact
+              </NuxtLink>
             </li>
             <li>
               <NuxtLink
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 to="/terms"
-                >Terms of Use</NuxtLink
-              >
+                >Terms of Use
+              </NuxtLink>
             </li>
             <li>
               <NuxtLink
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 to="/privacy"
-                >Privacy Policy</NuxtLink
-              >
+                >Privacy Policy
+              </NuxtLink>
             </li>
           </ul>
         </div>
@@ -199,19 +268,18 @@
     </nav>
   </header>
 </template>
-
-<script lang="ts" setup>
-const dropdownOpen = reactive({
-  profileCard: false,
-  pointCard: false,
-})
-</script>
-
 <style scoped>
 header {
   background-image: url(../../../assets/images/HeaderBackgroung.svg);
   background-repeat: no-repeat;
   background-position: 80% 90%;
   background-size: cover;
+}
+
+#point-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

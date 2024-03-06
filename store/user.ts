@@ -7,7 +7,7 @@ import 'vue-toast-notification/dist/theme-sugar.css'
 const BASEURL = 'http://127.0.0.1:8000/'
 
 export const useUserStore = defineStore('user', () => {
-  const $router = useRouter()
+  const $router: any = useRouter()
   const $toast = useToast()
 
   interface UserInfo {
@@ -36,6 +36,10 @@ export const useUserStore = defineStore('user', () => {
     dob: '',
     userPassword: '',
     confPassword: '',
+  })
+
+  const newUserID = computed(() => {
+    return `US${toRaw(userList.value).length + 1}`
   })
 
   async function createUser(newUser: UserInfo | null): Promise<void> {
@@ -87,13 +91,54 @@ export const useUserStore = defineStore('user', () => {
       })
   }
 
-  const newUserID = computed(() => {
-    return `US${toRaw(userList.value).length + 1}`
-  })
+  async function checkUser(email: string, userPassword: string): Promise<void> {
+    await axios
+      .post(`${BASEURL}users/check`, { email, userPassword })
+      .then((res) => {
+        try {
+          if (res.status === 200) {
+            console.log(res)
+            localStorage.setItem('userid', res.data.data.userID)
+            localStorage.setItem('userEmail', res.data.data.email)
+            $toast.success(res.data.message, {
+              position: 'top-right',
+              duration: 700,
+            })
+
+            $router.push('courseList')
+          } else {
+            $toast.error(res.data.message, {
+              position: 'top-right',
+              duration: 700,
+            })
+          }
+        } catch (error) {
+          $toast.error(res.data.message, {
+            position: 'top-right',
+            duration: 700,
+          })
+        }
+      })
+      .catch((err) => {
+        $toast.error(err, {
+          position: 'top-right',
+          duration: 700,
+        })
+      })
+  }
+
+  function logout(): void {
+    localStorage.removeItem('userid')
+    localStorage.removeItem('userEmail')
+    $router.push('/')
+    console.log('Logged out')
+  }
 
   return {
     createUser,
     getAllUsers,
+    checkUser,
+    logout,
     userDetails,
     userList,
     userID,

@@ -2,26 +2,50 @@
 import { useRouter } from 'vue-router'
 import eye from '../assets/icons/eye.png'
 import eyeSlash from '../assets/icons/eye-slash.png'
-const router = useRouter()
+import { useUserStore } from '~/store/user'
+import { useToast } from 'vue-toast-notification'
+import 'vue-toast-notification/dist/theme-sugar.css'
+
 const showPassword = ref(false)
 
 definePageMeta({
   layout: 'default',
 })
 
+const router: any = useRouter()
+const $toast = useToast()
+const userStore = useUserStore()
+const userid: Ref<any> | null = ref('')
+const userEmail: Ref<any> | null = ref('')
+
 const userLoginForm = reactive({
   email: '',
-  password: '',
+  userPassword: '',
 })
-const onSubmitLogin = () => {
-  if (userLoginForm.email || userLoginForm.password) {
-    console.log(userLoginForm)
-    router.push('/profile')
+
+const onSubmitLogin = async (): Promise<void> => {
+  if (userLoginForm.email !== '' && userLoginForm.userPassword !== '') {
+    await userStore.checkUser(userLoginForm.email, userLoginForm.userPassword)
   } else {
-    console.log(userLoginForm)
-    alert('Please input your user credentials')
+    $toast.error('Please input correct email and password', {
+      position: 'top-right',
+      duration: 2000,
+    })
   }
 }
+
+onBeforeMount(() => {
+  if (localStorage.getItem('userid') && localStorage.getItem('userEmail')) {
+    userid.value = localStorage.getItem('userid')
+    userEmail.value = localStorage.getItem('userEmail')
+  }
+})
+
+onMounted(() => {
+  if (userid.value && userEmail.value) {
+    router.push('/courseList')
+  }
+})
 </script>
 
 <template>
@@ -53,7 +77,7 @@ const onSubmitLogin = () => {
       </button>
     </div>
     <img alt="" class="subtract-icon" loading="eager" src="~/assets/images/subtract.svg" />
-    <form class="google-frame" @submit.prevent="onSubmitLogin" novalidate>
+    <form class="google-frame" novalidate @submit.prevent="onSubmitLogin">
       <div class="create-account-prompt">
         <h1 class="login1">Login</h1>
         <div class="how-to-i">How to i get started lorem ipsum dolor at?</div>
@@ -63,27 +87,27 @@ const onSubmitLogin = () => {
           <div class="rectangle-div" />
           <img alt="" class="google-login-icon" src="~/assets/images/google-login.svg" />
           <input
+            v-model="userLoginForm.email"
             class="username focus:ring-0 focus:border-none border-none"
             placeholder="email"
-            type="email"
             required
-            v-model="userLoginForm.email"
+            type="email"
           />
         </div>
         <div class="group-div">
           <div class="frame-child1" />
           <img alt="" class="frame-content-icon" src="~/assets/images/frame-1.svg" />
           <input
+            v-model="userLoginForm.userPassword"
+            :type="showPassword ? 'text' : 'password'"
             class="password focus:ring-0 focus:border-none border-none"
             placeholder="Password"
-            :type="showPassword ? 'text' : 'password'"
             required
-            v-model="userLoginForm.password"
           />
           <img
+            :src="showPassword ? eye : eyeSlash"
             alt="passwordView"
             class="frame-content-icon cursor-pointer"
-            :src="showPassword ? eye : eyeSlash"
             @click="showPassword = !showPassword"
           />
         </div>
@@ -120,7 +144,7 @@ const onSubmitLogin = () => {
       </div>
       <div class="new-to-woow-container">
         <span class="new-to-woow">new to WooW Space? </span>
-        <NuxtLink to="/signup" class="create-an-account">Create an account</NuxtLink>
+        <NuxtLink class="create-an-account" to="/signup">Create an account</NuxtLink>
       </div>
     </form>
     <h1 class="woow-space">
@@ -135,7 +159,7 @@ const onSubmitLogin = () => {
   width: 42.69rem;
   position: relative;
   background: linear-gradient(246.75deg, rgba(30, 64, 175, 0.71) 50.99%, #172554);
-  height: 48rem;
+  height: 58rem;
   display: none;
   max-width: 100%;
   z-index: 0;
