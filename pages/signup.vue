@@ -57,7 +57,6 @@ const confirmedPassword = computed(() => {
 })
 
 const errorMessages: any = computed(() => {
-  console.log('errorMessages', validationErrors)
   return {
     firstName: validationErrors.firstName,
     lastName: validationErrors.lastName,
@@ -89,8 +88,6 @@ const onSubmit = async (): Promise<void> => {
     validationErrors.phone = errors.phone
     validationErrors.userPassword = errors.userPassword
     validationErrors.confPassword = errors.confPassword
-
-    console.log('errorMessages', validationErrors)
 
     $toast.warning('Please fill in all required fields', {
       position: 'top-right',
