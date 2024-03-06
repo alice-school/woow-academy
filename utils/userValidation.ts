@@ -78,8 +78,6 @@ const validateUser = (user: UserInfo): { isInvalid: boolean; errors: any } => {
     errors.confPassword = 'Password does not match'
   }
 
-  console.log(errors)
-
   return {
     isInvalid: Object.keys(errors).length > 0,
     errors,

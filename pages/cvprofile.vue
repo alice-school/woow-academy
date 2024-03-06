@@ -1,12 +1,16 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router'
-const router = useRouter()
 import { ref } from 'vue'
+import { useCvProfileStore } from '~/store/cvProfile'
+import { useLocalStorage } from '@vueuse/core'
+import validateCvProfile from './../utils/cvProfileValidation'
+import { useToast } from 'vue-toast-notification'
 
 definePageMeta({
   layout: 'default',
 })
 
+const $toast = useToast()
+const cvProfileStore = useCvProfileStore()
 const profilePicture = ref('')
 const dateOfBirth = ref('')
 const bio = ref('')
@@ -14,49 +18,133 @@ const addressLine1 = ref('')
 const addressLine2 = ref('')
 const city = ref('')
 const postCode = ref('')
-
-const onSubmit = () => {
-  console.log({
-    dob: dateOfBirth,
-    profile_img: profilePicture,
-    bio: bio,
-    points: 0,
-    lineOne: addressLine1,
-    lineTwo: addressLine2,
-    city: city,
-    postCode: postCode,
-  })
-  // router.push({ path: '/cvdetails' })
-  // console.log(signupForm)
+const userid: Ref<any> | null = ref('')
+const userEmail: Ref<any> | null = ref('')
+interface CvProfileInfo {
+  addressID: string
+  userID: string
+  cvID: string
+  dob: string
+  profile_img: string
+  about: string
+  points: 0
+  lineOne: string
+  lineTwo: string
+  city: string
+  postCode: string
 }
+
+let validationErrors: CvProfileInfo | any = reactive({
+  addressID: '',
+  userID: '',
+  cvID: '',
+  dob: '',
+  profile_img: '',
+  about: '',
+  points: '',
+  lineOne: '',
+  lineTwo: '',
+  city: '',
+  postCode: '',
+})
+
+const imgURL = computed(() => {
+  return profilePicture.value
+})
+
+const errorMessages: any = computed(() => {
+  return {
+    addressID: validationErrors.addressID,
+    userID: validationErrors.userID,
+    cvID: validationErrors.cvID,
+    dob: validationErrors.dob,
+    profile_img: validationErrors.profile_img,
+    about: validationErrors.about,
+    points: validationErrors.points,
+    lineOne: validationErrors.lineOne,
+    lineTwo: validationErrors.lineTwo,
+    city: validationErrors.city,
+    postCode: validationErrors.postCode,
+  }
+})
+
+const convertProfileImage = (e: any): void => {
+  const file = e.target.files[0]
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onload = () => {
+    profilePicture.value = reader.result as string
+  }
+}
+
+const onSubmit = async (): Promise<void> => {
+  const newCVProfile: CvProfileInfo = {
+    addressID: cvProfileStore.newAddressID,
+    userID: userid.value,
+    cvID: cvProfileStore.newCvProfileID,
+    dob: dateOfBirth.value,
+    profile_img: imgURL.value,
+    about: bio.value,
+    points: 0,
+    lineOne: addressLine1.value,
+    lineTwo: addressLine2.value,
+    city: city.value,
+    postCode: postCode.value,
+  }
+
+  const { isInvalid, errors } = validateCvProfile(newCVProfile)
+  if (isInvalid) {
+    validationErrors = errors
+
+    $toast.warning('Please fill in all required fields', {
+      position: 'top-right',
+      duration: 700,
+    })
+  } else {
+    await cvProfileStore.createNewCVProfile(newCVProfile)
+    validationErrors = {}
+  }
+}
+
+onBeforeMount(async () => {
+  await cvProfileStore.getAllCVProfiles()
+  await cvProfileStore.getAllAddresses()
+})
+
+onMounted(() => {
+  if (localStorage.getItem('userid') && localStorage.getItem('userEmail')) {
+    userid.value = useLocalStorage('userid', localStorage.getItem('userid'))
+    userEmail.value = useLocalStorage('userEmail', localStorage.getItem('userEmail'))
+  }
+})
 </script>
 
 <template>
   <div class="sign-up">
     <div class="sign-up-main-div">
       <div class="right-content">
-        <form @submit.prevent="onSubmit" novalidate>
+        <form @submit.prevent="onSubmit">
           <div class="profile-image">
             <div class="profile-image-div" />
             <div class="flex items-center justify-center profile-drop">
               <label
-                for="dropzone-file"
                 class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                for="dropzone-file"
               >
                 <div class="flex flex-col items-center justify-center pt-5 pb-6">
                   <svg
-                    class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                     aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                     fill="none"
                     viewBox="0 0 20 16"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
+                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                       stroke="currentColor"
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                     />
                   </svg>
                   <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
@@ -64,7 +152,7 @@ const onSubmit = () => {
                   </p>
                   <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                 </div>
-                <input id="dropzone-file" type="file" class="hidden" />
+                <input id="dropzone-file" class="hidden" type="file" @change="convertProfileImage" />
               </label>
             </div>
           </div>
@@ -72,13 +160,13 @@ const onSubmit = () => {
             <div class="confirm-password-child" />
             <input
               v-model="dateOfBirth"
-              type="text"
-              onfocus="(this.type='date')"
               class="username focus:ring-0 focus:border-none border-none"
+              onfocus="(this.type='date')"
               placeholder="Date of birth"
               required
+              type="text"
             />
-            <Icon class="frame-icon" name="uil:clock" color="black" />
+            <Icon class="frame-icon" color="black" name="uil:clock" />
           </div>
           <!--          <div class="last-name">-->
           <!--            <div class="confirm-password-child" />-->
@@ -87,48 +175,57 @@ const onSubmit = () => {
           <!--          </div>-->
           <div class="bio-div">
             <div class="bio" />
-            <textarea class="bio-text-area focus:ring-0 focus:border-none border-none" placeholder="Bio" required />
-            <Icon class="frame-icon" name="mdi:earth" color="black" />
+            <textarea
+              v-model="bio"
+              class="bio-text-area focus:ring-0 focus:border-none border-none"
+              placeholder="Bio"
+              required
+            />
+            <Icon class="frame-icon" color="black" name="mdi:earth" />
           </div>
           <div class="street-line01">
             <div class="confirm-password-child" />
             <input
-              type="text"
+              v-model="addressLine1"
               class="username focus:ring-0 focus:border-none border-none"
               placeholder="Street Line 01"
               required
+              type="text"
             />
-            <Icon class="frame-icon" name="mdi:location" color="black" />
+            <Icon class="frame-icon" color="black" name="mdi:location" />
           </div>
           <div class="street-line02">
             <div class="confirm-password-child" />
             <input
-              type="text"
+              v-model="addressLine2"
               class="username focus:ring-0 focus:border-none border-none"
               placeholder="Street Line 02"
               required
+              type="text"
             />
-            <Icon class="frame-icon" name="mdi:location" color="black" />
+            <Icon class="frame-icon" color="black" name="mdi:location" />
           </div>
           <div class="city">
             <div class="confirm-password-child" />
             <input
-              type="text"
+              v-model="city"
               class="username focus:ring-0 focus:border-none border-none"
               placeholder="City"
               required
+              type="text"
             />
-            <Icon class="frame-icon" name="mdi:location" color="black" />
+            <Icon class="frame-icon" color="black" name="mdi:location" />
           </div>
           <div class="post-code">
             <div class="confirm-password-child" />
             <input
-              type="text"
+              v-model="postCode"
               class="username focus:ring-0 focus:border-none border-none"
               placeholder="Post code2"
               required
+              type="text"
             />
-            <Icon class="frame-icon" name="mdi:location" color="black" />
+            <Icon class="frame-icon" color="black" name="mdi:location" />
           </div>
           <!--          <div class="email">-->
           <!--            <div class="confirm-password-child" />-->
@@ -140,8 +237,10 @@ const onSubmit = () => {
           <!--            <input type="text" class="username" placeholder="Phone number" required />-->
           <!--            <img class="frame-icon" alt="" src="~/assets/images/frame-4.svg" />-->
           <!--          </div>-->
-          <NuxtLink to="/leaderboard"> <button class="btn-skip">Skip</button> </NuxtLink>
-          <NuxtLink to="/cvdetails"><button class="btn-signup">Next</button></NuxtLink>
+          <NuxtLink to="/leaderboard">
+            <button class="btn-skip">Skip</button>
+          </NuxtLink>
+          <button class="btn-signup">Next</button>
         </form>
         <div class="create-account-prompt">
           <h1 class="signup-text-1">SignUp</h1>
@@ -154,11 +253,11 @@ const onSubmit = () => {
       </div>
       <div class="left-content">
         <div class="left-content-child" />
-        <img class="left-content-item" alt="" src="~/assets/images/rectangle-4@2x.png" />
+        <img alt="" class="left-content-item" src="~/assets/images/rectangle-4@2x.png" />
         <div class="left-content-inner" />
-        <img class="man-and-woman-at-work" alt="" src="~/assets/images/younghappyleft%20side.png" />
+        <img alt="" class="man-and-woman-at-work" src="~/assets/images/younghappyleft%20side.png" />
         <div class="ellipse-parent">
-          <img class="thunderbolt-1-icon" alt="" src="~/assets/images/thunderbolt-1@2x.png" />
+          <img alt="" class="thunderbolt-1-icon" src="~/assets/images/thunderbolt-1@2x.png" />
         </div>
         <b class="very-good-works-container">
           <p class="very-good">Crafting</p>
@@ -186,6 +285,7 @@ const onSubmit = () => {
   padding-left: var(--padding-xl);
   padding-right: var(--padding-xl);
 }
+
 .how-to-i {
   position: relative;
   font-size: var(--font-size-base);
@@ -193,6 +293,7 @@ const onSubmit = () => {
   color: var(--color-dimgray);
   text-align: left;
 }
+
 .create-account-prompt {
   position: absolute;
   top: 12%;
@@ -210,6 +311,7 @@ const onSubmit = () => {
   text-align: center;
   width: 23.5rem;
 }
+
 .left-content-child {
   position: absolute;
   top: 0px;
@@ -218,6 +320,7 @@ const onSubmit = () => {
   height: 1198px;
   left: 0;
 }
+
 .left-content-item {
   position: absolute;
   top: 0;
@@ -227,6 +330,7 @@ const onSubmit = () => {
   height: 100vh;
   object-fit: cover;
 }
+
 .left-content-inner {
   position: absolute;
   top: calc(50% - 278px);
@@ -239,6 +343,7 @@ const onSubmit = () => {
   width: 445px;
   height: 559px;
 }
+
 .man-and-woman-at-work {
   position: absolute;
   top: 320px;
@@ -250,6 +355,7 @@ const onSubmit = () => {
   height: 358px;
   object-fit: cover;
 }
+
 .thunderbolt-1-icon {
   position: absolute;
   top: 19.2px;
@@ -258,6 +364,7 @@ const onSubmit = () => {
   height: 44.8px;
   object-fit: cover;
 }
+
 .ellipse-parent {
   position: absolute;
   top: 300px;
@@ -270,9 +377,11 @@ const onSubmit = () => {
   border-radius: 50%;
   background-color: #fff;
 }
+
 .very-good {
   margin: 0;
 }
+
 .very-good-works-container {
   position: absolute;
   top: 120px;
@@ -282,6 +391,7 @@ const onSubmit = () => {
   width: 198px;
   height: 245px;
 }
+
 .left-content {
   position: fixed;
   top: 0px;
@@ -294,19 +404,23 @@ const onSubmit = () => {
   color: #fff;
   font-family: Poppins;
 }
+
 .with-others {
   color: #525252;
 }
+
 .signup-with-others-container {
   position: absolute;
   top: -10px;
   left: 120px;
 }
+
 .subtract-icon {
   position: relative;
   width: 364px;
   height: 1px;
 }
+
 .signup-with-others {
   position: absolute;
   top: 856px;
@@ -315,14 +429,17 @@ const onSubmit = () => {
   height: 24px;
   font-size: 16px;
 }
+
 .login {
   color: #5d8bf4;
 }
+
 .have-an-account-container {
   position: absolute;
   top: 0px;
   left: 0px;
 }
+
 .login-link {
   position: absolute;
   top: 1044px;
@@ -330,6 +447,7 @@ const onSubmit = () => {
   width: 146px;
   height: 18px;
 }
+
 .group-child {
   position: absolute;
   top: 0px;
@@ -340,11 +458,13 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .signup-with-google-container {
   position: absolute;
   top: 6px;
   left: 47px;
 }
+
 .google-1-icon {
   position: absolute;
   top: 0px;
@@ -353,6 +473,7 @@ const onSubmit = () => {
   height: 30px;
   object-fit: cover;
 }
+
 .signup-with-google-parent {
   position: absolute;
   top: 11px;
@@ -360,6 +481,7 @@ const onSubmit = () => {
   width: 163px;
   height: 30px;
 }
+
 .rectangle-parent {
   position: absolute;
   top: 0px;
@@ -367,12 +489,14 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .rectangle-parent:hover {
   background-color: var(--color-lavender-300);
   border: 1px solid var(--color-lavender-200);
   box-sizing: border-box;
   border-radius: 16px;
 }
+
 .signup-with-facebook-parent {
   position: absolute;
   top: 11px;
@@ -380,6 +504,7 @@ const onSubmit = () => {
   width: 181px;
   height: 30px;
 }
+
 .rectangle-group {
   position: absolute;
   top: 68px;
@@ -387,12 +512,14 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .rectangle-group:hover {
   background-color: var(--color-lavender-300);
   border: 1px solid var(--color-lavender-200);
   box-sizing: border-box;
   border-radius: 16px;
 }
+
 .google-signup {
   position: absolute;
   top: 905px;
@@ -400,6 +527,7 @@ const onSubmit = () => {
   width: 364px;
   height: 120px;
 }
+
 .btn-skip {
   position: absolute;
   top: 900px;
@@ -413,6 +541,7 @@ const onSubmit = () => {
   text-align: center;
   color: #fff;
 }
+
 .btn-signup {
   position: absolute;
   top: 900px;
@@ -426,6 +555,7 @@ const onSubmit = () => {
   text-align: center;
   color: #fff;
 }
+
 .confirm-password-child {
   position: absolute;
   top: 0px;
@@ -435,6 +565,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .bio {
   position: absolute;
   top: 0px;
@@ -445,6 +576,7 @@ const onSubmit = () => {
   height: 152px;
   padding-top: 18px;
 }
+
 .frame-icon {
   position: absolute;
   top: 14px;
@@ -453,6 +585,7 @@ const onSubmit = () => {
   height: 24px;
   overflow: hidden;
 }
+
 .phone-number {
   position: absolute;
   top: 536px;
@@ -460,6 +593,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .email {
   position: absolute;
   top: 465px;
@@ -467,6 +601,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .username {
   position: absolute;
   left: 48px;
@@ -482,6 +617,7 @@ const onSubmit = () => {
   width: 308px;
   height: 52px;
 }
+
 .bio-text-area {
   position: absolute;
   border: none;
@@ -493,7 +629,7 @@ const onSubmit = () => {
   text-align: left;
   display: inline-block;
   z-index: 1;
-  width: 100%;
+  width: 86%;
   height: 130px;
   left: 47px;
 }
@@ -512,6 +648,7 @@ const onSubmit = () => {
   width: 100%;
   height: 130px;
 }
+
 .street-line01 {
   position: absolute;
   top: 592px;
@@ -519,6 +656,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .street-line02 {
   position: absolute;
   top: 662px;
@@ -526,6 +664,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .city {
   position: absolute;
   top: 732px;
@@ -533,6 +672,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .post-code {
   position: absolute;
   top: 800px;
@@ -540,6 +680,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .bio-div {
   position: absolute;
   top: 421px;
@@ -574,6 +715,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .date-of-birth {
   position: absolute;
   top: 350px;
@@ -581,9 +723,11 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .woow {
   margin: 0;
 }
+
 .woow-space {
   position: absolute;
   top: -20px;
@@ -591,6 +735,7 @@ const onSubmit = () => {
   font-size: 25px;
   color: #000;
 }
+
 .right-content {
   position: absolute;
   top: 49px;
@@ -598,6 +743,7 @@ const onSubmit = () => {
   width: 454px;
   height: 1062px;
 }
+
 .sign-up-main-div {
   position: absolute;
   top: -3px;
@@ -605,6 +751,7 @@ const onSubmit = () => {
   width: 1306px;
   height: 1198px;
 }
+
 .sign-up {
   width: 1366px;
   border-radius: 24px;

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import eye from '../assets/icons/eye.png'
 import eyeSlash from '../assets/icons/eye-slash.png'
-import { reactive, ref, onUpdated, onMounted, onBeforeMount } from 'vue'
+import { reactive, ref, onMounted, onBeforeMount } from 'vue'
 import { useUserStore } from '~/store/user'
 import { useToast } from 'vue-toast-notification'
 import validateUser from './../utils/userValidation'

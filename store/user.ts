@@ -6,21 +6,21 @@ import { computed, reactive, ref, type Ref, toRaw } from 'vue'
 import 'vue-toast-notification/dist/theme-sugar.css'
 const BASEURL = 'http://127.0.0.1:8000/'
 
+interface UserInfo {
+  userID: string
+  firstName: string
+  lastName: string
+  userName: string
+  email: string
+  phone: string
+  dob: string
+  userPassword: string
+  confPassword: string
+}
+
 export const useUserStore = defineStore('user', () => {
   const $router: any = useRouter()
   const $toast = useToast()
-
-  interface UserInfo {
-    userID: string
-    firstName: string
-    lastName: string
-    userName: string
-    email: string
-    phone: string
-    dob: string
-    userPassword: string
-    confPassword: string
-  }
 
   const userList: Ref<UserInfo[]> = ref([])
 
