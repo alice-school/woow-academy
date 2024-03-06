@@ -1,24 +1,111 @@
 <script lang="ts" setup>
 import eye from '../assets/icons/eye.png'
 import eyeSlash from '../assets/icons/eye-slash.png'
-const showPassword = ref(false)
-const showConfirmPassword = ref(false)
+import { reactive, ref, onUpdated, onMounted, onBeforeMount } from 'vue'
+import { useUserStore } from '~/store/user'
+import { useToast } from 'vue-toast-notification'
+import validateUser from './../utils/userValidation'
+
 definePageMeta({
   layout: 'default',
 })
 
-const signupForm = reactive({
+interface UserInfo {
+  userID: string
+  firstName: string
+  lastName: string
+  userName: string
+  email: string
+  phone: string
+  dob: string
+  userPassword: string
+  confPassword: string
+}
+
+const showPassword = ref(false)
+const showConfirmPassword = ref(false)
+const userStore = useUserStore()
+const $toast = useToast()
+let validationErrors: UserInfo | any = reactive({
   firstName: '',
   lastName: '',
   userName: '',
   email: '',
-  phoneNumber: '',
-  password: '',
+  phone: '',
+  userPassword: '',
+  confPassword: '',
 })
 
-const onSubmit = () => {
-  console.log(signupForm)
+const signupForm = reactive({
+  userID: '',
+  firstName: '',
+  lastName: '',
+  userName: '',
+  email: '',
+  phone: '',
+  dob: '',
+  userPassword: '',
+  confPassword: '',
+})
+
+const newUserAssignedID = computed(() => {
+  return userStore.newUserID
+})
+
+const confirmedPassword = computed(() => {
+  return signupForm.userPassword === signupForm.confPassword
+})
+
+const errorMessages: any = computed(() => {
+  return {
+    firstName: validationErrors.firstName,
+    lastName: validationErrors.lastName,
+    userName: validationErrors.userName,
+    email: validationErrors.email,
+    phone: validationErrors.phone,
+    userPassword: validationErrors.userPassword,
+    confPassword: validationErrors.confPassword,
+  }
+})
+
+const onSubmit = async (): Promise<void> => {
+  signupForm.userID = newUserAssignedID.value
+  if (!confirmedPassword.value) {
+    $toast.warning('Confirm password does not match', {
+      position: 'top-right',
+      duration: 700,
+    })
+    return
+  }
+
+  const { isInvalid, errors } = validateUser(signupForm)
+
+  if (isInvalid) {
+    validationErrors.firstName = errors.firstName
+    validationErrors.lastName = errors.lastName
+    validationErrors.userName = errors.userName
+    validationErrors.email = errors.email
+    validationErrors.phone = errors.phone
+    validationErrors.userPassword = errors.userPassword
+    validationErrors.confPassword = errors.confPassword
+
+    $toast.warning('Please fill in all required fields', {
+      position: 'top-right',
+      duration: 700,
+    })
+  } else {
+    await userStore.createUser(signupForm)
+    validationErrors = {}
+  }
 }
+
+onBeforeMount(async () => {
+  await userStore.getAllUsers()
+})
+
+onMounted(() => {
+  signupForm.userID = newUserAssignedID.value
+})
 </script>
 <template>
   <div class="sign-up">
@@ -29,12 +116,12 @@ const onSubmit = () => {
             <b>Signup</b>
             <span class="with-others"> with Others</span>
           </div>
-          <img class="subtract-icon" alt="" src="~/assets/images/subtract.svg" />
+          <img alt="" class="subtract-icon" src="~/assets/images/subtract.svg" />
         </div>
         <div class="login-link">
           <div class="have-an-account-container">
             <span>Have an account? </span>
-            <NuxtLink to="/" class="login">Login</NuxtLink>
+            <NuxtLink class="login" to="/">Login</NuxtLink>
           </div>
         </div>
         <div class="google-signup">
@@ -42,10 +129,10 @@ const onSubmit = () => {
             <span class="group-child" />
             <span class="signup-with-google-parent">
               <span class="signup-with-google-container">
-                <span>Signup with </span>
+                <span>Signup with</span>
                 <b>google</b>
               </span>
-              <img class="google-1-icon" alt="" src="~/assets/images/google-1@2x.png" />
+              <img alt="" class="google-1-icon" src="~/assets/images/google-1@2x.png" />
             </span>
           </button>
           <button class="rectangle-group">
@@ -55,67 +142,163 @@ const onSubmit = () => {
                 <span>Signup with </span>
                 <b>Facebook</b>
               </span>
-              <img class="google-1-icon" alt="" src="~/assets/images/facebook-1@2x.png" />
+              <img alt="" class="google-1-icon" src="~/assets/images/facebook-1@2x.png" />
             </span>
           </button>
         </div>
-        <form @submit.prevent="onSubmit">
+        <form novalidate @submit.prevent="onSubmit">
           <div class="first-name">
             <div class="confirm-password-child" />
-            <input type="text" class="username" v-model="signupForm.firstName" placeholder="First Name" required />
-            <img class="frame-icon" alt="" src="~/assets/images/frame.svg" />
+            <input
+              v-model="signupForm.firstName"
+              class="username focus:ring-0 focus:border-none border-none"
+              placeholder="First Name"
+              required
+              type="text"
+            />
+            <img alt="" class="frame-icon" src="~/assets/images/frame.svg" />
+            <span
+              :class="
+                errorMessages.firstName !== undefined ||
+                errorMessages.firstName !== '' ||
+                errorMessages.firstName !== null
+                  ? 'absolute !block mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+                  : 'absolute hidden mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+              "
+            >
+              {{ errorMessages.firstName }}
+            </span>
           </div>
           <div class="last-name">
             <div class="confirm-password-child" />
-            <input type="text" class="username" v-model="signupForm.lastName" placeholder="Last Name" required />
-            <img class="frame-icon" alt="" src="~/assets/images/frame.svg" />
+            <input
+              v-model="signupForm.lastName"
+              class="username focus:ring-0 focus:border-none border-none"
+              placeholder="Last Name"
+              required
+              type="text"
+            />
+            <img alt="" class="frame-icon" src="~/assets/images/frame.svg" />
+            <span
+              :class="
+                errorMessages.lastName
+                  ? 'absolute show mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+                  : 'absolute hidden mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+              "
+            >
+              {{ errorMessages.lastName }}
+            </span>
           </div>
           <div class="user-name">
             <div class="confirm-password-child" />
-            <input type="text" class="username" v-model="signupForm.userName" placeholder="Username" required />
-            <img class="frame-icon" alt="" src="~/assets/images/frame.svg" />
+            <input
+              v-model="signupForm.userName"
+              class="username focus:ring-0 focus:border-none border-none"
+              placeholder="Username"
+              required
+              type="text"
+            />
+            <img alt="" class="frame-icon" src="~/assets/images/frame.svg" />
+            <span
+              :class="
+                errorMessages.userName
+                  ? 'absolute show mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+                  : 'absolute hidden mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+              "
+            >
+              {{ errorMessages.userName }}
+            </span>
           </div>
           <div class="email">
             <div class="confirm-password-child" />
-            <input type="email" class="username" v-model="signupForm.email" placeholder="Email" required />
-            <img class="frame-icon" alt="" src="~/assets/images/frame-3.svg" />
+            <input
+              v-model="signupForm.email"
+              class="username focus:ring-0 focus:border-none border-none"
+              placeholder="Email"
+              required
+              type="email"
+            />
+            <img alt="" class="frame-icon" src="~/assets/images/frame-3.svg" />
+            <span
+              :class="
+                errorMessages.email
+                  ? 'absolute show mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+                  : 'absolute hidden mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+              "
+            >
+              {{ errorMessages.email }}
+            </span>
           </div>
           <div class="phone-number">
             <div class="confirm-password-child" />
-            <input type="text" class="username" v-model="signupForm.phoneNumber" placeholder="Phone number" required />
-            <img class="frame-icon" alt="" src="~/assets/images/frame-4.svg" />
+            <input
+              v-model="signupForm.phone"
+              class="username focus:ring-0 focus:border-none border-none"
+              placeholder="Phone number"
+              required
+              type="text"
+            />
+            <img alt="" class="frame-icon" src="~/assets/images/frame-4.svg" />
+            <span
+              :class="
+                errorMessages.phone
+                  ? 'absolute show mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+                  : 'absolute hidden mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+              "
+            >
+              {{ errorMessages.phone }}
+            </span>
           </div>
           <div class="password">
             <div class="confirm-password-child" />
             <input
+              v-model="signupForm.userPassword"
               :type="showPassword ? 'text' : 'password'"
-              class="password-field"
-              v-model="signupForm.password"
+              class="password-field focus:ring-0 focus:border-none border-none"
               placeholder="Password"
               required
             />
-            <img class="frame-icon" alt="" src="~/assets/images/frame-1.svg" />
+            <img alt="" class="frame-icon" src="~/assets/images/frame-1.svg" />
             <img
-              class="frame-icon-eye cursor-pointer"
-              alt=""
               :src="showPassword ? eye : eyeSlash"
+              alt=""
+              class="frame-icon-eye cursor-pointer"
               @click="showPassword = !showPassword"
             />
+            <span
+              :class="
+                errorMessages.userPassword
+                  ? 'absolute show mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+                  : 'absolute hidden mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+              "
+            >
+              {{ errorMessages.userPassword }}
+            </span>
           </div>
           <div class="confirm-password">
             <div class="confirm-password-child" />
             <input
+              v-model="signupForm.confPassword"
               :type="showConfirmPassword ? 'text' : 'password'"
-              class="password-field"
+              class="password-field focus:ring-0 focus:border-none border-none"
               placeholder="Confirm Password"
             />
-            <img class="frame-icon" alt="" src="~/assets/images/frame-1.svg" />
+            <img alt="" class="frame-icon" src="~/assets/images/frame-1.svg" />
             <img
-              class="frame-icon-eye cursor-pointer"
-              alt=""
               :src="showConfirmPassword ? eye : eyeSlash"
+              alt=""
+              class="frame-icon-eye cursor-pointer"
               @click="showConfirmPassword = !showConfirmPassword"
             />
+            <span
+              :class="
+                errorMessages.confPassword
+                  ? 'absolute show mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+                  : 'absolute hidden mt-12 ml-2 text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block'
+              "
+            >
+              {{ errorMessages.confPassword }}
+            </span>
           </div>
           <button class="btn-signup">Signup</button>
         </form>
@@ -130,11 +313,11 @@ const onSubmit = () => {
       </div>
       <div class="left-content">
         <div class="left-content-child" />
-        <img class="left-content-item" alt="" src="~/assets/images/rectangle-4@2x.png" />
+        <img alt="" class="left-content-item" src="~/assets/images/rectangle-4@2x.png" />
         <div class="left-content-inner" />
-        <img class="man-and-woman-at-work" alt="" src="~/assets/images/man-and-woman-at-work@2x.png" />
+        <img alt="" class="man-and-woman-at-work" src="~/assets/images/man-and-woman-at-work@2x.png" />
         <div class="ellipse-parent">
-          <img class="thunderbolt-1-icon" alt="" src="~/assets/images/thunderbolt-1@2x.png" />
+          <img alt="" class="thunderbolt-1-icon" src="~/assets/images/thunderbolt-1@2x.png" />
         </div>
         <b class="very-good-works-container">
           <p class="very-good">Very good</p>
@@ -196,6 +379,7 @@ const onSubmit = () => {
   height: 1198px;
   left: 0;
 }
+
 .left-content-item {
   position: absolute;
   top: 0;
@@ -205,6 +389,7 @@ const onSubmit = () => {
   height: 100vh;
   object-fit: cover;
 }
+
 .left-content-inner {
   position: absolute;
   top: calc(50% - 278px);
@@ -217,6 +402,7 @@ const onSubmit = () => {
   width: 445px;
   height: 559px;
 }
+
 .man-and-woman-at-work {
   position: absolute;
   top: 170px;
@@ -228,6 +414,7 @@ const onSubmit = () => {
   height: 358px;
   object-fit: cover;
 }
+
 .thunderbolt-1-icon {
   position: absolute;
   top: 19.2px;
@@ -236,6 +423,7 @@ const onSubmit = () => {
   height: 44.8px;
   object-fit: cover;
 }
+
 .ellipse-parent {
   position: absolute;
   top: 300px;
@@ -248,9 +436,11 @@ const onSubmit = () => {
   border-radius: 50%;
   background-color: #fff;
 }
+
 .very-good {
   margin: 0;
 }
+
 .very-good-works-container {
   position: absolute;
   top: 120px;
@@ -260,6 +450,7 @@ const onSubmit = () => {
   width: 198px;
   height: 245px;
 }
+
 .left-content {
   position: fixed;
   top: 0px;
@@ -276,16 +467,19 @@ const onSubmit = () => {
 .with-others {
   color: #525252;
 }
+
 .signup-with-others-container {
   position: absolute;
   top: -10px;
   left: 120px;
 }
+
 .subtract-icon {
   position: relative;
   width: 364px;
   height: 1px;
 }
+
 .signup-with-others {
   position: absolute;
   top: 856px;
@@ -294,14 +488,17 @@ const onSubmit = () => {
   height: 24px;
   font-size: 16px;
 }
+
 .login {
   color: #5d8bf4;
 }
+
 .have-an-account-container {
   position: absolute;
   top: 0px;
   left: 0px;
 }
+
 .login-link {
   position: absolute;
   top: 1044px;
@@ -309,6 +506,7 @@ const onSubmit = () => {
   width: 146px;
   height: 18px;
 }
+
 .group-child {
   position: absolute;
   top: 0px;
@@ -319,11 +517,13 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .signup-with-google-container {
   position: absolute;
   top: 6px;
   left: 47px;
 }
+
 .google-1-icon {
   position: absolute;
   top: 0px;
@@ -332,6 +532,7 @@ const onSubmit = () => {
   height: 30px;
   object-fit: cover;
 }
+
 .signup-with-google-parent {
   position: absolute;
   top: 11px;
@@ -339,6 +540,7 @@ const onSubmit = () => {
   width: 163px;
   height: 30px;
 }
+
 .rectangle-parent {
   position: absolute;
   top: 0px;
@@ -346,12 +548,14 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .rectangle-parent:hover {
   background-color: var(--color-lavender-300);
   border: 1px solid var(--color-lavender-200);
   box-sizing: border-box;
   border-radius: 16px;
 }
+
 .signup-with-facebook-parent {
   position: absolute;
   top: 11px;
@@ -359,6 +563,7 @@ const onSubmit = () => {
   width: 181px;
   height: 30px;
 }
+
 .rectangle-group {
   position: absolute;
   top: 68px;
@@ -366,12 +571,14 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .rectangle-group:hover {
   background-color: var(--color-lavender-300);
   border: 1px solid var(--color-lavender-200);
   box-sizing: border-box;
   border-radius: 16px;
 }
+
 .google-signup {
   position: absolute;
   top: 905px;
@@ -379,11 +586,7 @@ const onSubmit = () => {
   width: 364px;
   height: 120px;
 }
-.signup {
-  position: absolute;
-  top: 17px;
-  left: 40px;
-}
+
 .btn-signup {
   position: absolute;
   top: 760px;
@@ -397,6 +600,7 @@ const onSubmit = () => {
   text-align: center;
   color: #fff;
 }
+
 .confirm-password-child {
   position: absolute;
   top: 0px;
@@ -406,6 +610,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .frame-icon {
   position: absolute;
   top: 14px;
@@ -414,6 +619,7 @@ const onSubmit = () => {
   height: 24px;
   overflow: hidden;
 }
+
 .frame-icon-eye {
   position: absolute;
   top: 14px;
@@ -422,6 +628,7 @@ const onSubmit = () => {
   height: 24px;
   overflow: hidden;
 }
+
 .confirm-password {
   position: absolute;
   top: 676px;
@@ -429,6 +636,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .password {
   position: absolute;
   top: 606px;
@@ -436,6 +644,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .phone-number {
   position: absolute;
   top: 536px;
@@ -443,6 +652,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .email {
   position: absolute;
   top: 465px;
@@ -450,6 +660,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .username {
   position: absolute;
   left: 48px;
@@ -481,6 +692,7 @@ const onSubmit = () => {
   width: 265px;
   height: 52px;
 }
+
 .user-name {
   position: absolute;
   top: 392px;
@@ -488,6 +700,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .last-name {
   position: absolute;
   top: 321px;
@@ -495,6 +708,7 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .first-name {
   position: absolute;
   top: 250px;
@@ -502,9 +716,11 @@ const onSubmit = () => {
   width: 364px;
   height: 52px;
 }
+
 .woow {
   margin: 0;
 }
+
 .woow-space {
   position: absolute;
   top: 0px;
@@ -512,6 +728,7 @@ const onSubmit = () => {
   font-size: 25px;
   color: #000;
 }
+
 .right-content {
   position: absolute;
   top: 49px;
@@ -519,6 +736,7 @@ const onSubmit = () => {
   width: 454px;
   height: 1062px;
 }
+
 .sign-up-main-div {
   position: absolute;
   top: -3px;
@@ -526,6 +744,7 @@ const onSubmit = () => {
   width: 1306px;
   height: 1198px;
 }
+
 .sign-up {
   width: 1366px;
   border-radius: 24px;

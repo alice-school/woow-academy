@@ -10,6 +10,7 @@ export default {
     './pages/**/*/*.{vue,js,ts,jsx,tsx}',
     './layouts/**/*/*.{vue,js,ts,jsx,tsx}',
     './node_modules/@storefront-ui/vue/**/*.{js,mjs}',
+    './node_modules/flowbite/**/*.{js,ts}',
   ],
   theme: {
     extend: {
@@ -62,5 +63,5 @@ export default {
       },
     },
   },
-  plugins: [animate],
+  plugins: [animate, require('flowbite/plugin')],
 }
