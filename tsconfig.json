@@ -6,5 +6,6 @@
   },
   "jsoncompilerOptions": {
     "strictNullChecks": true
-  }
+  },
+  "types": ["@types/node", "@nuxt/types", "mande/nuxt"]
 }

@@ -17,12 +17,24 @@ dependencies:
   '@vueuse/nuxt':
     specifier: ^10.7.2
     version: 10.7.2(nuxt@3.9.0)(vue@3.4.3)
+  axios:
+    specifier: ^1.6.7
+    version: 1.6.7
   flowbite:
     specifier: ^2.3.0
     version: 2.3.0
+  mande:
+    specifier: ^2.0.8
+    version: 2.0.8
   pinia:
     specifier: ^2.1.6
     version: 2.1.7(typescript@5.3.3)(vue@3.4.3)
+  validator:
+    specifier: ^13.11.0
+    version: 13.11.0
+  vue-toast-notification:
+    specifier: ^3
+    version: 3.1.2(vue@3.4.3)
 
 devDependencies:
   '@babel/eslint-parser':
@@ -49,6 +61,9 @@ devDependencies:
   '@storefront-ui/vue':
     specifier: ^2.6.0
     version: 2.6.0(autoprefixer@10.4.16)(postcss@8.4.32)(tailwindcss@3.4.0)(vue@3.4.3)
+  '@types/validator':
+    specifier: ^13.11.9
+    version: 13.11.9
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.7.5
     version: 6.16.0(@typescript-eslint/parser@6.16.0)(eslint@8.56.0)(typescript@5.3.3)
@@ -2281,6 +2296,11 @@ packages:
       { integrity: sha512-dn1l8LaMea/IjDoHNd9J52uBbInB796CDffS6VdIxvqYCPSG0V0DzHp76GpaWnlhg88uYyPbXCDIowa86ybd5A== }
     dev: true
 
+  /@types/validator@13.11.9:
+    resolution:
+      { integrity: sha512-FCTsikRozryfayPuiI46QzH3fnrOoctTjvOYZkho9BTFLCOZ2rgZJHMOVgCOfttjPJcgOx52EpkY0CMfy87MIw== }
+    dev: true
+
   /@types/web-bluetooth@0.0.16:
     resolution:
       { integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ== }
@@ -3064,6 +3084,11 @@ packages:
     resolution:
       { integrity: sha512-baNZyqaaLhyLVKm/DlvdW051MSgO6b8eVfIezl9E5PqWxFgzLm/wQntEW4zOytVburDEr0JlALEpdOFwvErLsg== }
 
+  /asynckit@0.4.0:
+    resolution:
+      { integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q== }
+    dev: false
+
   /at-least-node@1.0.0:
     resolution:
       { integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg== }
@@ -3091,6 +3116,17 @@ packages:
       { integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw== }
     engines: { node: '>= 0.4' }
     dev: true
+
+  /axios@1.6.7:
+    resolution:
+      { integrity: sha512-/hDJGff6/c7u0hDkvkGxR/oy6CbCs8ziCsC7SqmhjfozqiJGc8Z11wrv9z9lYfY4K8l+H9TpjcMDX0xOZmx+RA== }
+    dependencies:
+      follow-redirects: 1.15.5
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /b4a@1.6.4:
     resolution:
@@ -3516,6 +3552,14 @@ packages:
     resolution:
       { integrity: sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w== }
     dev: true
+
+  /combined-stream@1.0.8:
+    resolution:
+      { integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg== }
+    engines: { node: '>= 0.8' }
+    dependencies:
+      delayed-stream: 1.0.0
+    dev: false
 
   /commander@11.0.0:
     resolution:
@@ -3978,6 +4022,12 @@ packages:
   /defu@6.1.4:
     resolution:
       { integrity: sha512-mEQCMmwJu317oSz8CwdIOdwf3xMif1ttiM8LTufzc3g6kR+9Pe236twL8j3IYT1F7GfRgGcW6MWxzZjLIkuHIg== }
+    dev: false
+
+  /delayed-stream@1.0.0:
+    resolution:
+      { integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ== }
+    engines: { node: '>=0.4.0' }
     dev: false
 
   /delegates@1.0.0:
@@ -4852,6 +4902,17 @@ packages:
       mini-svg-data-uri: 1.4.4
     dev: false
 
+  /follow-redirects@1.15.5:
+    resolution:
+      { integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw== }
+    engines: { node: '>=4.0' }
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
   /for-each@0.3.3:
     resolution:
       { integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw== }
@@ -4866,6 +4927,16 @@ packages:
     dependencies:
       cross-spawn: 7.0.3
       signal-exit: 4.1.0
+
+  /form-data@4.0.0:
+    resolution:
+      { integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww== }
+    engines: { node: '>= 6' }
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.35
+    dev: false
 
   /fraction.js@4.3.7:
     resolution:
@@ -6366,6 +6437,11 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /mande@2.0.8:
+    resolution:
+      { integrity: sha512-nqiiaQbswPuHTvkwh8XExhY650qBwSJefyB1+P9Llj8v603aScSrUBmc124fSnVCP+MFZWNBhHKJjsxr7f1tLg== }
+    dev: false
+
   /map-obj@1.0.1:
     resolution:
       { integrity: sha512-7N/q3lyZ+LVCp7PzuxrJr4KMbBE2hW7BT7YNia330OFxIf4d3r5zVpicP2650l7CPN6RM9zOJRl3NGpqSiw3Eg== }
@@ -6439,7 +6515,6 @@ packages:
     resolution:
       { integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg== }
     engines: { node: '>= 0.6' }
-    dev: true
 
   /mime-types@2.1.35:
     resolution:
@@ -6447,7 +6522,6 @@ packages:
     engines: { node: '>= 0.6' }
     dependencies:
       mime-db: 1.52.0
-    dev: true
 
   /mime@1.6.0:
     resolution:
@@ -8024,6 +8098,11 @@ packages:
   /protocols@2.0.1:
     resolution:
       { integrity: sha512-/XJ368cyBJ7fzLMwLKv1e4vLxOju2MNAIokcr7meSaNcVbWz/CPcW22cP04mwxOErdA5mwjA8Q6w/cdAQxVn7Q== }
+
+  /proxy-from-env@1.1.0:
+    resolution:
+      { integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg== }
+    dev: false
 
   /pump@3.0.0:
     resolution:
@@ -9648,6 +9727,12 @@ packages:
     dependencies:
       builtins: 5.0.1
 
+  /validator@13.11.0:
+    resolution:
+      { integrity: sha512-Ii+sehpSfZy+At5nPdnyMhx78fEoPDkR2XW/zimHEL3MyGJQOCQ7WeP20jPYRz7ZCpcKLB21NxuXHF3bxjStBQ== }
+    engines: { node: '>= 0.10' }
+    dev: false
+
   /vary@1.1.2:
     resolution:
       { integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg== }
@@ -9916,6 +10001,16 @@ packages:
     dependencies:
       '@vue/devtools-api': 6.5.1
       vue: 3.4.3(typescript@5.3.3)
+
+  /vue-toast-notification@3.1.2(vue@3.4.3):
+    resolution:
+      { integrity: sha512-oNRL/W9aaHoeScp+iTIW7k09vM16/+8aptp2maa+7qTB43JuxmAgKdXKFYtf+uvSNOYYq2BIWgLCeJ61pwom/A== }
+    engines: { node: '>=12.15.0' }
+    peerDependencies:
+      vue: ^3.0
+    dependencies:
+      vue: 3.4.3(typescript@5.3.3)
+    dev: false
 
   /vue@3.4.3(typescript@5.3.3):
     resolution:
