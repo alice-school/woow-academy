@@ -95,6 +95,8 @@ export const useUserStore = defineStore('user', () => {
     gender: '',
   })
 
+  const socialMedia: Ref<object[]> = ref([])
+
   const newUserID = computed(() => {
     return `US${toRaw(userList.value).length + 1}`
   })
@@ -219,6 +221,25 @@ export const useUserStore = defineStore('user', () => {
       })
   }
 
+  const getSocialMediaByUserID = async (): Promise<void> => {
+    const existingUser = localStorage.getItem('userid')
+    await axios
+      .get(`${BASEURL}users/socialMedia/${existingUser}`)
+      .then((res) => {
+        if (res.data.status === 200) {
+          socialMedia.value = res.data.data
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          $toast.error('No social media found. Please add your social media details', {
+            position: 'top-right',
+            duration: 700,
+          })
+        }
+      })
+  }
+
   const logout = (): void => {
     localStorage.removeItem('userid')
     localStorage.removeItem('userEmail')
@@ -234,6 +255,7 @@ export const useUserStore = defineStore('user', () => {
     getStudentByID,
     getAddressByUserID,
     getCVProfileByUserID,
+    getSocialMediaByUserID,
     userDetails,
     userList,
     userID,
@@ -241,5 +263,6 @@ export const useUserStore = defineStore('user', () => {
     student,
     address,
     cvProfileDetails,
+    socialMedia,
   }
 })
