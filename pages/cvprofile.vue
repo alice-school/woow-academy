@@ -18,6 +18,7 @@ const addressLine1 = ref('')
 const addressLine2 = ref('')
 const city = ref('')
 const postCode = ref('')
+const gender = ref('')
 const userid: Ref<any> | null = ref('')
 const userEmail: Ref<any> | null = ref('')
 interface CvProfileInfo {
@@ -25,6 +26,7 @@ interface CvProfileInfo {
   userID: string
   cvID: string
   dob: string
+  gender: string
   profile_img: string
   about: string
   points: 0
@@ -39,6 +41,7 @@ let validationErrors: CvProfileInfo | any = reactive({
   userID: '',
   cvID: '',
   dob: '',
+  gender: '',
   profile_img: '',
   about: '',
   points: '',
@@ -70,10 +73,31 @@ const errorMessages: any = computed(() => {
 
 const convertProfileImage = (e: any): void => {
   const file = e.target.files[0]
-  const reader = new FileReader()
-  reader.readAsDataURL(file)
-  reader.onload = () => {
-    profilePicture.value = reader.result as string
+  try {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      profilePicture.value = reader.result as string
+
+      // console.log('Profile Picture', profilePicture.value)
+      if (profilePicture.value === '') {
+        $toast.warning('Please upload a profile picture', {
+          position: 'top-right',
+          duration: 700,
+        })
+      } else {
+        document.getElementById('dropDownDiv')?.classList.add('hidden')
+        document.getElementById('img-preview')?.classList.remove('hidden')
+        document.getElementById('img-preview')?.setAttribute('src', profilePicture.value)
+        document.getElementById('img-preview')?.classList.add('block')
+      }
+    }
+  } catch (e) {
+    document.getElementById('dropDownDiv')?.classList.remove('hidden')
+    document.getElementById('dropDownDiv')?.classList.add('block')
+    document.getElementById('img-preview')?.classList.add('hidden')
+    document.getElementById('img-preview')?.classList.remove('block')
+    document.getElementById('img-preview')?.setAttribute('src', profilePicture.value)
   }
 }
 
@@ -83,6 +107,7 @@ const onSubmit = async (): Promise<void> => {
     userID: userid.value,
     cvID: cvProfileStore.newCvProfileID,
     dob: dateOfBirth.value,
+    gender: gender.value,
     profile_img: imgURL.value,
     about: bio.value,
     points: 0,
@@ -106,6 +131,11 @@ const onSubmit = async (): Promise<void> => {
   }
 }
 
+const changeGender = (event: any): void => {
+  gender.value = event.target.value
+  console.log(gender.value)
+}
+
 onBeforeMount(async () => {
   await cvProfileStore.getAllCVProfiles()
   await cvProfileStore.getAllAddresses()
@@ -124,6 +154,35 @@ onMounted(() => {
     <div class="sign-up-main-div">
       <div class="right-content">
         <form @submit.prevent="onSubmit">
+          <label for="GenderDiv">Gender</label>
+          <div id="GenderDiv" class="flex flex-row justify-between w-3/4 pt-2">
+            <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700 pr-10">
+              <input
+                id="gender-female"
+                type="radio"
+                value="female"
+                name="bordered-radio"
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                @change="changeGender"
+              />
+              <label for="gender-female" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >Female</label
+              >
+            </div>
+            <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700 pr-10">
+              <input
+                id="gender-male"
+                type="radio"
+                value="male"
+                name="bordered-radio"
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                @change="changeGender"
+              />
+              <label for="gender-male" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >Male</label
+              >
+            </div>
+          </div>
           <div class="profile-image">
             <div class="profile-image-div" />
             <div class="flex items-center justify-center profile-drop">
@@ -131,8 +190,15 @@ onMounted(() => {
                 class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                 for="dropzone-file"
               >
-                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                <img
+                  id="img-preview"
+                  class="w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hidden"
+                  :src="imgURL"
+                  alt="profile-image"
+                />
+                <div id="dropDownDiv" class="flex flex-col items-center justify-center pt-5 pb-6">
                   <svg
+                    id="profile-image-svg"
                     aria-hidden="true"
                     class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                     fill="none"
@@ -692,7 +758,7 @@ onMounted(() => {
 
 .profile-image {
   position: absolute;
-  top: 76px;
+  top: 82px;
   left: 0px;
   width: 364px;
   height: 152px;
