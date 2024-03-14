@@ -5,6 +5,7 @@ interface CvProfileInfo {
   userID: string
   cvID: string
   dob: string
+  gender: string
   profile_img: string
   about: string
   points: 0
