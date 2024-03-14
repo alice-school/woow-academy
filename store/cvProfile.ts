@@ -20,11 +20,25 @@ interface CvProfileInfo {
   postCode: string
 }
 
+interface CV {
+  student: object
+  address: object
+  cvProfile: object
+  objective: object
+  education: object[]
+  skill: object[]
+  socialMedia: object[]
+  workExperience: object[]
+  volunteerExperience: object[]
+  project: object[]
+}
+
 export const useCvProfileStore = defineStore('cvProfile', () => {
   const $router: any = useRouter()
   const $toast = useToast()
 
   const cvProfileList: Ref<CvProfileInfo[]> = ref([])
+  const cvProfileDetailsList: Ref<CV[]> = ref([])
   const addressList: Ref<[]> = ref([])
   const userid: Ref<any> | null = ref('')
   const userEmail: Ref<any> | null = ref('')
@@ -65,8 +79,8 @@ export const useCvProfileStore = defineStore('cvProfile', () => {
   }
 
   async function createNewCVProfile(newProfile: CvProfileInfo): Promise<void> {
-    const existingUser = localStorage.getItem('userid')
-    newProfile.userID = existingUser ?? ''
+    const existingUser = localStorage.getItem('userid') ?? ''
+    newProfile.userID = existingUser
     newProfile.addressID = newAddressID.value
     newProfile.cvID = newCvProfileID.value
     await axios
@@ -93,13 +107,23 @@ export const useCvProfileStore = defineStore('cvProfile', () => {
       })
   }
 
+  async function getCVProfilesDetails(): Promise<void> {
+    const existingUser = localStorage.getItem('userid')
+    await axios.get(`${BASEURL}users/cv/${existingUser}`).then((res) => {
+      console.log(res.data.data)
+      cvProfileDetailsList.value = res.data.data
+    })
+  }
+
   return {
     cvProfileList,
     cvProfileDetails,
     newAddressID,
     newCvProfileID,
+    cvProfileDetailsList,
     getAllCVProfiles,
     getAllAddresses,
     createNewCVProfile,
+    getCVProfilesDetails,
   }
 })
