@@ -2,15 +2,42 @@
 import { onMounted } from 'vue'
 import { useUserStore } from '~/store/user'
 import { useToast } from 'vue-toast-notification'
+import { initFlowbite, Modal } from 'flowbite'
 import 'vue-toast-notification/dist/theme-sugar.css'
-import axios from 'axios'
+
+interface StudentInfo {
+  userID: string
+  firstName: string
+  lastName: string
+  userName: string
+  email: string
+  phone: string
+  dob: string
+  userPassword: string
+}
+
+interface AddressInfo {
+  addressID: string
+  userID: string
+  lineOne: string
+  lineTwo: string
+  city: string
+  postCode: string
+}
+
+interface CvProfileInfo {
+  cvID: string
+  userID: string
+  profile_img: string
+  about: string
+  points: string
+  gender: string
+}
 
 const dropdownOpen = reactive({
   profileCard: false,
   pointCard: false,
 })
-
-const BASEURL = 'http://127.0.0.1:8000/'
 
 const router: any = useRouter()
 const $toast = useToast()
@@ -18,18 +45,48 @@ const userStore = useUserStore()
 
 const userid: Ref<any> | null = ref('')
 const userEmail: Ref<any> | null = ref('')
-let student = reactive({})
-let address = reactive({})
-let cvProfileDetails = reactive({})
 
-onBeforeMount(() => {
+const student: Ref<StudentInfo> = ref({
+  userID: '',
+  firstName: '',
+  lastName: '',
+  userName: '',
+  email: '',
+  phone: '',
+  dob: '',
+  userPassword: '',
+})
+
+const address: Ref<AddressInfo> = ref({
+  addressID: '',
+  userID: '',
+  lineOne: '',
+  lineTwo: '',
+  city: '',
+  postCode: '',
+})
+const cvProfileDetails: Ref<CvProfileInfo> = ref({
+  cvID: '',
+  userID: '',
+  profile_img: 'https://thumb.ac-illust.com/3b/3bd59727c4473fc4ee9c0f13123bec8a_t.jpeg',
+  about: '',
+  points: '0',
+  gender: '',
+})
+
+onBeforeMount(async () => {
   if (localStorage.getItem('userid') && localStorage.getItem('userEmail')) {
     userid.value = localStorage.getItem('userid')
     userEmail.value = localStorage.getItem('userEmail')
   }
+
+  await userStore.getStudentByID()
+  await userStore.getAddressByUserID()
+  await userStore.getCVProfileByUserID()
 })
 
 onMounted(() => {
+  initFlowbite()
   if (!(userid.value && userEmail.value)) {
     $toast.error('Please login to continue', {
       position: 'top-right',
@@ -39,33 +96,14 @@ onMounted(() => {
   }
 })
 
-// const resume = computed(() => userStore.cvProfileDetails)
-//
-// watch(resume, () => {
-//   student = toRaw(resume.value.data.student)
-//   address = toRaw(resume.value.data.address)
-//   cvProfileDetails = toRaw(resume.value.data.cvProfile)
-//   // console.log(student, 'student')
-//   // console.log(address, 'address')
-//   // console.log(cvProfileDetails, 'cvProfileDetails')
-// })
-
-// if (process.client) {
-//   id = localStorage.getItem('userid')
-// } else {
-//   id = 'undefined'
-// }
-
-await axios
-  .get(`${BASEURL}users/cv/${userid.value}`)
-  .then((res: any) => {
-    student = res.data.data.student
-    address = res.data.data.address
-    cvProfileDetails = res.data.data.cvProfile
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+watch(userid, async () => {
+  await userStore.getStudentByID()
+  await userStore.getAddressByUserID()
+  await userStore.getCVProfileByUserID()
+  student.value = userStore.student
+  address.value = userStore.address
+  cvProfileDetails.value = userStore.cvProfileDetails
+})
 </script>
 
 <template>
@@ -81,38 +119,10 @@ await axios
         <div class="flex items-center justify-between lg:order-2 pb-5">
           <div class="flex justify-center items-center w-fit pl-8 pr-8">
             <div>
-              <div class="relative ml-3">
-                <div>
-                  <button
-                    id="point-details"
-                    aria-expanded="false"
-                    aria-haspopup="false"
-                    @click=";(dropdownOpen.pointCard = !dropdownOpen.pointCard), (dropdownOpen.profileCard = false)"
-                  >
-                    <img alt="point image" class="h-6 sm:h-7" src="../../../assets/images/points-icon.png" />
-                    <h5 class="text-white">{{ cvProfileDetails.points }}</h5>
-                  </button>
-                </div>
-
-                <!--
-                  Dropdown menu, show/hide based on menu state.
-
-                  Entering: "transition ease-out duration-100"
-                    From: "transform opacity-0 scale-95"
-                    To: "transform opacity-100 scale-100"
-                  Leaving: "transition ease-in duration-75"
-                    From: "transform opacity-100 scale-100"
-                    To: "transform opacity-0 scale-95"
-                -->
-                <div
-                  :class="dropdownOpen.pointCard ? 'block' : 'hidden'"
-                  aria-labelledby="point-details"
-                  aria-orientation="vertical"
-                  class="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                  role="menu"
-                  tabindex="-1"
-                >
-                  <!--                 point details dev-->
+              <div class="relative ml-3 mr-2">
+                <div class="w-10 flex flex-row justify-between items-center">
+                  <img alt="point image" class="h-6 sm:h-7" src="../../../assets/images/points-icon.png" />
+                  <h5 class="text-white ml-2">{{ cvProfileDetails.points }}</h5>
                 </div>
               </div>
             </div>
@@ -161,9 +171,9 @@ await axios
                   to="/profile"
                 >
                   <span>Your Profile</span><br />
-                  <span class="block pb-2 text-sm text-gray-700 font-bold cursor-pointer"
-                    >{{ student.firstName }} {{ student.lastName }}</span
-                  >
+                  <span class="block pb-2 text-sm text-gray-700 font-bold cursor-pointer">{{
+                    student.firstName + ' ' + student.lastName
+                  }}</span>
                 </NuxtLink>
                 <a
                   id="user-menu-item-0"
@@ -225,13 +235,6 @@ await axios
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 to="/courseList"
                 >Home
-              </NuxtLink>
-            </li>
-            <li>
-              <NuxtLink
-                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
-                to="/courseList"
-                >Course
               </NuxtLink>
             </li>
             <li>

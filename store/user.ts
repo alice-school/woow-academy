@@ -18,6 +18,35 @@ interface UserInfo {
   confPassword: string
 }
 
+interface StudentInfo {
+  userID: string
+  firstName: string
+  lastName: string
+  userName: string
+  email: string
+  phone: string
+  dob: string
+  userPassword: string
+}
+
+interface AddressInfo {
+  addressID: string
+  userID: string
+  lineOne: string
+  lineTwo: string
+  city: string
+  postCode: string
+}
+
+interface CvProfileInfo {
+  cvID: string
+  userID: string
+  profile_img: string
+  about: string
+  points: string
+  gender: string
+}
+
 export const useUserStore = defineStore('user', () => {
   const $router: any = useRouter()
   const $toast = useToast()
@@ -36,6 +65,34 @@ export const useUserStore = defineStore('user', () => {
     dob: '',
     userPassword: '',
     confPassword: '',
+  })
+
+  const student: Ref<StudentInfo> = ref({
+    userID: '',
+    firstName: '',
+    lastName: '',
+    userName: '',
+    email: '',
+    phone: '',
+    dob: '',
+    userPassword: '',
+  })
+
+  const address: Ref<AddressInfo> = ref({
+    addressID: '',
+    userID: '',
+    lineOne: '',
+    lineTwo: '',
+    city: '',
+    postCode: '',
+  })
+  const cvProfileDetails: Ref<CvProfileInfo> = ref({
+    cvID: '',
+    userID: '',
+    profile_img: '',
+    about: '',
+    points: '',
+    gender: '',
   })
 
   const newUserID = computed(() => {
@@ -126,7 +183,43 @@ export const useUserStore = defineStore('user', () => {
       })
   }
 
-  function logout(): void {
+  const getStudentByID = async (): Promise<void> => {
+    const existingUser = localStorage.getItem('userid')
+    await axios
+      .get(`${BASEURL}users/profile/${existingUser}`)
+      .then((res) => {
+        student.value = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const getAddressByUserID = async (): Promise<void> => {
+    const existingUser = localStorage.getItem('userid')
+    await axios
+      .get(`${BASEURL}users/address/${existingUser}`)
+      .then((res) => {
+        address.value = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const getCVProfileByUserID = async (): Promise<void> => {
+    const existingUser = localStorage.getItem('userid')
+    await axios
+      .get(`${BASEURL}users/cv/${existingUser}`)
+      .then((res) => {
+        cvProfileDetails.value = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const logout = (): void => {
     localStorage.removeItem('userid')
     localStorage.removeItem('userEmail')
     $router.push('/')
@@ -138,9 +231,15 @@ export const useUserStore = defineStore('user', () => {
     getAllUsers,
     checkUser,
     logout,
+    getStudentByID,
+    getAddressByUserID,
+    getCVProfileByUserID,
     userDetails,
     userList,
     userID,
     newUserID,
+    student,
+    address,
+    cvProfileDetails,
   }
 })
