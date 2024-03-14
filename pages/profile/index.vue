@@ -84,7 +84,7 @@ const cvProfileDetails: Ref<CvProfileInfo> = ref({
 
 const userCvProfileStore = useCvProfileStore()
 const userStore = useUserStore()
-const socialMediaDetails: Ref<object[]> = ref([])
+const socialMediaDetails: Ref<any[]> = ref([])
 const $toast = useToast()
 const router: any = useRouter()
 const cvDetails: Ref<CV[]> = ref([])
@@ -154,9 +154,9 @@ watch(userid, async () => {
             {{ student.firstName }} {{ student.lastName }}
           </h1>
           <span>{{ cvProfileDetails.about }}</span>
-          <span>{{ address.city }} · Lvl {{ cvProfileDetails.points / 100 }}</span>
+          <span>{{ address.city }} · Lvl {{ parseInt(cvProfileDetails.points) / 100 }}</span>
           <ul class="list-none">
-            <li v-for="socialmediaLink in socialMediaDetails" class="!inline-block pr-2">
+            <li v-for="(socialmediaLink, index) in socialMediaDetails" :key="index" class="!inline-block pr-2">
               <NuxtLink
                 :to="
                   socialmediaLink.socialMedia_name === 'GitHub'
