@@ -1,7 +1,13 @@
 <script lang="ts" setup>
+import { onBeforeMount } from 'vue'
+import { useAuthStore } from '~/store/auth'
+
 definePageMeta({
   layout: 'user',
 })
+const userAuthStore = useAuthStore()
+
+onBeforeMount(() => {})
 </script>
 
 <template>
