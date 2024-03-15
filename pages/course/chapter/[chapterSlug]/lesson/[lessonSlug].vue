@@ -8,9 +8,9 @@
       </div>
       <div class="w-1/2 flex justify-end items-end">
         <div class="flex justify-center items-center">
-          <h5 class="text-black pr-10">3 min</h5>
+          <h5 class="text-black pr-10">{{ lesson.timeDuration }}</h5>
           <img alt="point image" class="mr-3 h-6 sm:h-5" src="~/assets/images/points-icon.png" />
-          <h5 class="text-black">10</h5>
+          <h5 class="text-black">{{ lesson.points }}</h5>
         </div>
       </div>
     </div>
@@ -40,11 +40,28 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useLocalStorage } from '@vueuse/core'
-
+import axios from 'axios'
+const BASEURL = 'http://127.0.0.1:8000/'
 const course = useCourse()
 const route = useRoute()
+
+let cvProfileDetails = reactive({})
+
+const id = useLocalStorage('userid', '')
+
+await axios
+  .get(`${BASEURL}/users/cv/${id.value}`)
+  .then((res: any) => {
+    cvProfileDetails = res.data.data.cvProfile
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+
+console.log(cvProfileDetails.cvID)
+console.log(cvProfileDetails.points)
 
 const chapter = computed(() => {
   return course.chapters.find((chapter) => chapter.slug === route.params.chapterSlug)
@@ -56,6 +73,9 @@ const lesson = computed(() => {
 
 const title = computed(() => {
   return `${lesson.value.title} - ${course.title}`
+})
+const points = computed(() => {
+  return `${lesson.value.points} - ${course.points}`
 })
 
 useHead({
@@ -82,5 +102,9 @@ const toggleComplete = () => {
   }
 
   progress.value[chapter.value.number - 1][lesson.value.number - 1] = !isLessonComplete.value
+
+  cvProfileDetails.points + lesson.value.points
+
+  console.log('lesson.points', cvProfileDetails.points + lesson.value.points)
 }
 </script>

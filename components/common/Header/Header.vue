@@ -1,3 +1,111 @@
+<script lang="ts" setup>
+import { onMounted } from 'vue'
+import { useUserStore } from '~/store/user'
+import { useToast } from 'vue-toast-notification'
+import { initFlowbite, Modal } from 'flowbite'
+import 'vue-toast-notification/dist/theme-sugar.css'
+
+interface StudentInfo {
+  userID: string
+  firstName: string
+  lastName: string
+  userName: string
+  email: string
+  phone: string
+  dob: string
+  userPassword: string
+}
+
+interface AddressInfo {
+  addressID: string
+  userID: string
+  lineOne: string
+  lineTwo: string
+  city: string
+  postCode: string
+}
+
+interface CvProfileInfo {
+  cvID: string
+  userID: string
+  profile_img: string
+  about: string
+  points: string
+  gender: string
+}
+
+const dropdownOpen = reactive({
+  profileCard: false,
+  pointCard: false,
+})
+
+const router: any = useRouter()
+const $toast = useToast()
+const userStore = useUserStore()
+
+const userid: Ref<any> | null = ref('')
+const userEmail: Ref<any> | null = ref('')
+
+const student: Ref<StudentInfo> = ref({
+  userID: '',
+  firstName: '',
+  lastName: '',
+  userName: '',
+  email: '',
+  phone: '',
+  dob: '',
+  userPassword: '',
+})
+
+const address: Ref<AddressInfo> = ref({
+  addressID: '',
+  userID: '',
+  lineOne: '',
+  lineTwo: '',
+  city: '',
+  postCode: '',
+})
+const cvProfileDetails: Ref<CvProfileInfo> = ref({
+  cvID: '',
+  userID: '',
+  profile_img: 'https://thumb.ac-illust.com/3b/3bd59727c4473fc4ee9c0f13123bec8a_t.jpeg',
+  about: '',
+  points: '0',
+  gender: '',
+})
+
+onBeforeMount(async () => {
+  if (localStorage.getItem('userid') && localStorage.getItem('userEmail')) {
+    userid.value = localStorage.getItem('userid')
+    userEmail.value = localStorage.getItem('userEmail')
+  }
+
+  await userStore.getStudentByID()
+  await userStore.getAddressByUserID()
+  await userStore.getCVProfileByUserID()
+})
+
+onMounted(() => {
+  initFlowbite()
+  if (!(userid.value && userEmail.value)) {
+    $toast.error('Please login to continue', {
+      position: 'top-right',
+      duration: 2000,
+    })
+    router.push('/')
+  }
+})
+
+watch(userid, async () => {
+  await userStore.getStudentByID()
+  await userStore.getAddressByUserID()
+  await userStore.getCVProfileByUserID()
+  student.value = userStore.student
+  address.value = userStore.address
+  cvProfileDetails.value = userStore.cvProfileDetails
+})
+</script>
+
 <template>
   <header>
     <nav class="border-gray-200 px-4 lg:px-6 py-2.5 z-10">
@@ -11,38 +119,10 @@
         <div class="flex items-center justify-between lg:order-2 pb-5">
           <div class="flex justify-center items-center w-fit pl-8 pr-8">
             <div>
-              <div class="relative ml-3">
-                <div>
-                  <button
-                    id="point-details"
-                    aria-expanded="false"
-                    aria-haspopup="false"
-                    @click="(dropdownOpen.pointCard = !dropdownOpen.pointCard), (dropdownOpen.profileCard = false)"
-                  >
-                    <img alt="point image" class="mr-3 h-6 sm:h-7" src="../../../assets/images/points-icon.png" />
-                    <h5 class="text-white">56473</h5>
-                  </button>
-                </div>
-
-                <!--
-                  Dropdown menu, show/hide based on menu state.
-
-                  Entering: "transition ease-out duration-100"
-                    From: "transform opacity-0 scale-95"
-                    To: "transform opacity-100 scale-100"
-                  Leaving: "transition ease-in duration-75"
-                    From: "transform opacity-100 scale-100"
-                    To: "transform opacity-0 scale-95"
-                -->
-                <div
-                  :class="dropdownOpen.pointCard ? 'block' : 'hidden'"
-                  aria-labelledby="point-details"
-                  aria-orientation="vertical"
-                  class="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                  role="menu"
-                  tabindex="-1"
-                >
-                  <!--                 point details dev-->
+              <div class="relative ml-3 mr-2">
+                <div class="w-10 flex flex-row justify-between items-center">
+                  <img alt="point image" class="h-6 sm:h-7" src="../../../assets/images/points-icon.png" />
+                  <h5 class="text-white ml-2">{{ cvProfileDetails.points }}</h5>
                 </div>
               </div>
             </div>
@@ -56,15 +136,11 @@
                   aria-haspopup="false"
                   class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                   type="button"
-                  @click="(dropdownOpen.profileCard = !dropdownOpen.profileCard), (dropdownOpen.pointCard = false)"
+                  @click=";(dropdownOpen.profileCard = !dropdownOpen.profileCard), (dropdownOpen.pointCard = false)"
                 >
                   <span class="absolute -inset-1.5"></span>
                   <span class="sr-only">Open user menu</span>
-                  <img
-                    alt=""
-                    class="h-8 w-8 rounded-full"
-                    src="https://avatars.githubusercontent.com/u/50085447?s=96&v=4"
-                  />
+                  <img :src="cvProfileDetails.profile_img" alt="" class="h-8 w-8 rounded-full" />
                 </button>
               </div>
 
@@ -95,11 +171,13 @@
                   to="/profile"
                 >
                   <span>Your Profile</span><br />
-                  <span class="block pb-2 text-sm text-gray-700 font-bold">Madhusha Prasad</span>
+                  <span class="block pb-2 text-sm text-gray-700 font-bold cursor-pointer">{{
+                    student.firstName + ' ' + student.lastName
+                  }}</span>
                 </NuxtLink>
                 <a
                   id="user-menu-item-0"
-                  class="block px-4 pb-2 text-sm text-gray-700"
+                  class="block px-4 pb-2 text-sm text-gray-700 cursor-pointer"
                   href="#"
                   role="menuitem"
                   tabindex="-1"
@@ -107,20 +185,21 @@
                 >
                 <a
                   id="user-menu-item-1"
-                  class="block px-4 py-2 text-sm text-gray-700"
+                  class="block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                   href="#"
                   role="menuitem"
                   tabindex="-1"
                   >Settings</a
                 >
-                <NuxtLink
+                <p
                   id="user-menu-item-2"
-                  class="block px-4 py-2 text-sm text-gray-700"
+                  class="block px-4 py-2 text-sm text-gray-700 cursor-pointer"
                   role="menuitem"
                   tabindex="-1"
-                  to="/"
-                  >Sign out
-                </NuxtLink>
+                  @click="userStore.logout"
+                >
+                  Sign out
+                </p>
               </div>
             </div>
           </div>
@@ -161,13 +240,6 @@
             <li>
               <NuxtLink
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
-                to="/courseList"
-                >Course
-              </NuxtLink>
-            </li>
-            <li>
-              <NuxtLink
-                class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 to="/leaderboard"
                 >Top Learners
               </NuxtLink>
@@ -176,22 +248,22 @@
               <NuxtLink
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 to="/contact"
-                >Contact</NuxtLink
-              >
+                >Contact
+              </NuxtLink>
             </li>
             <li>
               <NuxtLink
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 to="/terms"
-                >Terms of Use</NuxtLink
-              >
+                >Terms of Use
+              </NuxtLink>
             </li>
             <li>
               <NuxtLink
                 class="block py-2 pr-4 pl-3 text-white rounded lg:bg-transparent lg:p-0 dark:text-white hover:text-gray-300"
                 to="/privacy"
-                >Privacy Policy</NuxtLink
-              >
+                >Privacy Policy
+              </NuxtLink>
             </li>
           </ul>
         </div>
@@ -199,19 +271,18 @@
     </nav>
   </header>
 </template>
-
-<script lang="ts" setup>
-const dropdownOpen = reactive({
-  profileCard: false,
-  pointCard: false,
-})
-</script>
-
 <style scoped>
 header {
   background-image: url(../../../assets/images/HeaderBackgroung.svg);
   background-repeat: no-repeat;
   background-position: 80% 90%;
   background-size: cover;
+}
+
+#point-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -1,13 +1,30 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const course = useCourse()
+const route = useRoute()
+
+const title = computed(() => {
+  return course.title
+})
+const description = computed(() => {
+  return course.description
+})
+
+const courseImage = computed(() => {
+  return course.courseImage
+})
+
+useHead({
+  title,
+})
+</script>
 
 <template>
   <div>
-    <p class="mt-0 mb-1 font-bold uppercase text-2xl text-center">Course Title</p>
-    <h2 class="my-2 text-justify">
-      Lorem ipsum dolor sit amet consectetur. Leo dui hac phasellus leo adipiscing tellus cras sed. Eu nec enim posuere
-      duis nisi dui orci arcu tristique. Consectetur aenean malesuada consectetur ultrices aliquam cursus condimentum
-      ipsum. Nisi aliquet sit tristique tellus fermentum gravida netus tempus.
+    <p class="mt-0 mb-1 font-bold uppercase text-2xl text-center">{{ title }}</p>
+    <h2 class="my-10 text-justify">
+      {{ description }}
     </h2>
+    <img :src="courseImage" alt="courseImage" />
   </div>
 </template>
 

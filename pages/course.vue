@@ -51,7 +51,4 @@ definePageMeta({
 console.log(chapters)
 </script>
 
-<style scoped>
-.cardShadow {
-}
-</style>
+<style scoped></style>
