@@ -110,8 +110,7 @@ export const useCvProfileStore = defineStore('cvProfile', () => {
   async function getCVProfilesDetails(): Promise<void> {
     const existingUser = localStorage.getItem('userid')
     await axios.get(`${BASEURL}users/cv/${existingUser}`).then((res) => {
-      console.log(res.data.data)
-      cvProfileDetailsList.value = res.data.data
+      cvProfileDetailsList.value = res.data
     })
   }
 
