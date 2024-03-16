@@ -240,6 +240,28 @@ export const useUserStore = defineStore('user', () => {
       })
   }
 
+  const getLinkedIn = async (): Promise<void> => {
+    const url = 'https://api.scrapingdog.com/linkedin/'
+    const params = {
+      api_key: '65f53ea37a9f47303bf6d368',
+      type: 'profile',
+      linkId: 'pradipnichite',
+      private: true,
+    }
+
+    const existingUser = localStorage.getItem('userid')
+    if (existingUser !== null || existingUser !== undefined || existingUser !== '') {
+      await axios
+        .get(url, { params: params })
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
+
   const logout = (): void => {
     localStorage.removeItem('userid')
     localStorage.removeItem('userEmail')
@@ -256,6 +278,7 @@ export const useUserStore = defineStore('user', () => {
     getAddressByUserID,
     getCVProfileByUserID,
     getSocialMediaByUserID,
+    getLinkedIn,
     userDetails,
     userList,
     userID,

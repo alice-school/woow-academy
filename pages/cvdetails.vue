@@ -135,7 +135,7 @@ const removeWorkFields = (): void => {
   endDateOfJob.value = ''
 }
 
-const acceptTerms = () => {
+const acceptTerms = (): void => {
   const $acceptModalElement: HTMLElement | null = document.querySelector('#popup-accept-modal')
   const $btnCancel: HTMLElement | null = document.querySelector('#btnCencelPopup-accept-modal')
   const $btnClosePopupAcceptModal: HTMLElement | null = document.querySelector('#btnClosePopup-accept-modal')
