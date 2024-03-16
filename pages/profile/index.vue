@@ -123,7 +123,7 @@ watch(userid, async () => {
   await userStore.getAddressByUserID()
   await userStore.getCVProfileByUserID()
   await userStore.getSocialMediaByUserID()
-  await userStore.getLinkedIn()
+  // await userStore.getLinkedIn('suraif-muhammad/')
   student.value = userStore.student
   address.value = userStore.address
   cvProfileDetails.value = userStore.cvProfileDetails

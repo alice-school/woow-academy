@@ -240,26 +240,41 @@ export const useUserStore = defineStore('user', () => {
       })
   }
 
-  const getLinkedIn = async (): Promise<void> => {
-    const url = 'https://api.scrapingdog.com/linkedin/'
+  // const getLinkedIn = async (): Promise<void> => {
+  //   const url = 'https://api.scrapingdog.com/linkedin/'
+  //   const params = {
+  //     // api_key: '65f5666036d2ad374ab32048',
+  //     // api_key: '65f53ea37a9f47303bf6d368',
+  //     api_key: '65f53ea37a9f47303bf6d368',
+  //     type: 'profile',
+  //     linkId: 'madhusha-prasad-045a82187',
+  //     private: true,
+  //   }
+  //   // https://www.linkedin.com/in/vidusha-herath-b164a424b/
+  //   const existingUser = localStorage.getItem('userid')
+  //   if (existingUser !== null || existingUser !== undefined || existingUser !== '') {
+  //     await axios
+  //       .get(url, { params: params })
+  //       .then((res) => {
+  //         console.log(res.data)
+  //       })
+  //       .catch((err) => {
+  //         console.log(err)
+  //       })
+  //   }
+  // }
+
+  const getLinkedIn = async (linkedinID: string): Promise<void> => {
     const params = {
-      api_key: '65f53ea37a9f47303bf6d368',
-      type: 'profile',
-      linkId: 'pradipnichite',
-      private: true,
+      url: `https://www.linkedin.com/in/${linkedinID}`,
+      skills: 'include',
     }
 
-    const existingUser = localStorage.getItem('userid')
-    if (existingUser !== null || existingUser !== undefined || existingUser !== '') {
-      await axios
-        .get(url, { params: params })
-        .then((res) => {
-          console.log(res.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
+    console.log(params)
+
+    await axios.get(`${BASEURL}users/linkedin-data/`, { params: params }).then((res) => {
+      console.log(res.data)
+    })
   }
 
   const logout = (): void => {
