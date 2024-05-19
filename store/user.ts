@@ -97,6 +97,8 @@ export const useUserStore = defineStore('user', () => {
 
   const socialMedia: Ref<object[]> = ref([])
 
+  const linkedInData: Ref<object> = ref({})
+
   const newUserID = computed(() => {
     return `US${toRaw(userList.value).length + 1}`
   })
@@ -265,6 +267,7 @@ export const useUserStore = defineStore('user', () => {
   // }
 
   const getLinkedIn = async (linkedinID: string): Promise<void> => {
+    console.log('heee', linkedinID)
     const params = {
       url: `https://www.linkedin.com/in/${linkedinID}`,
       skills: 'include',
@@ -273,8 +276,15 @@ export const useUserStore = defineStore('user', () => {
     console.log(params)
 
     await axios.get(`${BASEURL}users/linkedin-data/`, { params: params }).then((res) => {
+      linkedInData.value = res.data
       console.log(res.data)
     })
+  }
+
+  const points: Ref<any> = ref(0)
+
+  const increesePoints = (completePints: any): void => {
+    points.value += completePints
   }
 
   const logout = (): void => {
@@ -294,6 +304,7 @@ export const useUserStore = defineStore('user', () => {
     getCVProfileByUserID,
     getSocialMediaByUserID,
     getLinkedIn,
+    points,
     userDetails,
     userList,
     userID,
@@ -302,5 +313,7 @@ export const useUserStore = defineStore('user', () => {
     address,
     cvProfileDetails,
     socialMedia,
+    linkedInData,
+    increesePoints,
   }
 })

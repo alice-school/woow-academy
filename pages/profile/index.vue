@@ -90,6 +90,7 @@ const router: any = useRouter()
 const cvDetails: Ref<CV[]> = ref([])
 const userid: Ref<any> | null = ref('')
 const userEmail: Ref<any> | null = ref('')
+const predictedIndustryData: Ref<string> = ref('')
 
 onBeforeMount(async () => {
   if (localStorage.getItem('userid') && localStorage.getItem('userEmail')) {
@@ -102,11 +103,12 @@ onBeforeMount(async () => {
   await userStore.getAddressByUserID()
   await userStore.getCVProfileByUserID()
   await userStore.getSocialMediaByUserID()
+  await userCvProfileStore.getCVPredictedIndustry()
 })
 
 onMounted(() => {
   userCvProfileStore.cvProfileDetailsList = cvDetails.value
-
+  predictedIndustryData.value = userCvProfileStore.predictedIndustry
   // console.log('cvProfileDetailsList', userCvProfileStore.cvProfileDetailsList)
 })
 
@@ -213,7 +215,7 @@ watch(userid, async () => {
             </button>
           </NuxtLink>
 
-          <NuxtLink to="cv">
+          <NuxtLink :to="'/cv/' + userCvProfileStore.predictedIndustry">
             <button class="px-4 py-4 rounded-[10px] bg-gradient-to-r from-blue-800 to-blue-950 ml-2" type="button">
               Generate CV
             </button>

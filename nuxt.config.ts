@@ -1,5 +1,5 @@
 export default {
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@nuxt/image', '@nuxtjs/google-fonts', 'nuxt-icon'],
   css: ['@/assets/css/tailwind.css'],
   pinia: {

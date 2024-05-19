@@ -1,620 +1,442 @@
 <template>
-  <body>
-    <div id="drag" class="cv instaFade wrap">
-      <div class="mainDetails">
-        <div id="headshot" class="">
-          <img
-            src="https://res.cloudinary.com/djr7eqcgp/image/upload/v1552306990/elon-musk-20837159-1-402.png"
-            title="Elon Musk"
-            alt="Elon Musk"
-          />
+  <div class="container">
+    <div class="header">
+      <div class="full-name flex flex-row justify-between items-center w-full">
+        <div>
+          <span class="first-name">{{ cv.student.firstName }}</span>
+          <span class="last-name">{{ cv.student.lastName }}</span>
         </div>
 
-        <div id="name">
-          <h1 class="quickFade delayTwo">Elon Musk</h1>
-          <h4 class="quickFade delayThree">Entrepreneur, Engineer</h4>
-          <h4 class="quickFade delayThree">Example CV</h4>
+        <div class="yui-u">
+          <div class="contact-info">
+            <h3
+              class="bg-[#8E7810] hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded text-center p-5 cursor-pointer"
+            >
+              Download PDF
+            </h3>
+          </div>
         </div>
-
-        <div id="contactDetails" class="quickFade delayFour">
-          <ul>
-            <!-- <li><a href="#yourlink" title="LinkedIn"><i class="fa fa-print" aria-hidden="true"></i></a></li>-->
-            <li>
-              <a href="#yourlink" title="LinkedIn"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
-            </li>
-            <li>
-              <a href="#yourlink" title="LinkedIn"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            </li>
-          </ul>
-        </div>
-        <div class="clear"></div>
+      </div>
+      <div class="contact-info">
+        <span class="email">Email: </span>
+        <span class="email-val">{{ cv.student.email }}</span>
+        <span class="separator"></span>
+        <span class="phone">Phone: </span>
+        <span class="phone-val">{{ cv.student.phone }}</span>
       </div>
 
-      <div id="mainArea" class="quickFade delayFive">
-        <section>
-          <article>
-            <div class="sectionTitle">
-              <h1>Personal Profile</h1>
-            </div>
+      <div class="about mb-5">
+        <ul class="list-none">
+          <li v-for="(socialmediaLink, index) in cv.socialMedia" :key="index" class="!inline-block pr-2">
+            <NuxtLink
+              :to="
+                socialmediaLink.socialMediaName === 'GitHub'
+                  ? socialmediaLink.socialMediaLink
+                  : socialmediaLink.socialMediaName === 'LinkedIn'
+                  ? socialmediaLink.socialMediaLink
+                  : socialmediaLink.socialMediaName === 'Stack Overflow'
+                  ? socialmediaLink.socialMediaLink
+                  : ''
+              "
+              class="cursor-pointer !inline-block text-black"
+              target="_blank"
+            >
+              <Icon
+                :name="
+                  socialmediaLink.socialMediaName === 'GitHub'
+                    ? 'uil:github'
+                    : socialmediaLink.socialMediaName === 'LinkedIn'
+                    ? 'bxl:linkedin-square'
+                    : socialmediaLink.socialMediaName === 'Stack Overflow'
+                    ? 'bxl:stack-overflow'
+                    : ''
+                "
+                class="frame-icon"
+                color="black"
+                size="20"
+              />
+            </NuxtLink>
+          </li>
+        </ul>
+      </div>
 
-            <div class="sectionContent">
-              <p>
-                Born and raised in Pretoria, South Africa, Musk moved to Canada when he was 17 to attend Queen's
-                University. He transferred to the University of Pennsylvania two years later, where he received an
-                economics degree from the Wharton School and a degree in physics from the College of Arts and Sciences.
-                He began a Ph.D. in applied physics and material sciences at Stanford University in 1995 but dropped out
-                after two days to pursue an entrepreneurial career.
-              </p>
-            </div>
-          </article>
-          <div class="clear"></div>
-        </section>
-
-        <section>
-          <div class="sectionTitle">
-            <h1>Work Experience</h1>
-          </div>
-
-          <div class="sectionContent">
-            <article>
-              <h2>Founder, CEO & Lead Designer</h2>
-              <h3>SpaceX - Space Exploration Technologies</h3>
-              <p class="subDetails">06/2002 - Present</p>
-              <p>
-                Succesfully launched Falcon Heavy, the most powerful operational rocket in the world by a factor of two,
-                with the ability to lift into the orbit nearly 64 metric tons(141,000 lb) -- a mass greater than a 737
-                jetliner loaded with passengers, crew, luggage and fuel.
-              </p>
-              <p>Plans to reduce space transportation costs to enable people to colonize Mars.</p>
-              <p>Developed the Falcon 9 spacecraft which replaced the space shuttle it retired in 2011.</p>
-            </article>
-
-            <article>
-              <h2>Founder</h2>
-              <h3>The Boring Company</h3>
-              <p class="subDetails">12/2016 - Present</p>
-              <p>Raised $10m by selling 20.000 flamethrowers in 4 days.</p>
-              <p>Raised $1m by selling 50.00 baseball caps.</p>
-              <p>
-                Hyperloop -- an ultra high-speed underground public transportation system in which passengers are
-                transported on autonomous electric pods traveling at 600+ miles per hour in a pressurized cabin.
-              </p>
-            </article>
-
-            <article>
-              <h2>CEO and Product Architect</h2>
-              <h3>Tesla inc.</h3>
-              <p class="subDetails">2004 - Present</p>
-              <p>Global sales passed 250,000 units in September 2017.</p>
-              <p>
-                Consumer Reports named Tesla as the top American car brand and ranked it 8th among global carmakers in
-                February 2017.
-              </p>
-              <p>Topped Consumer Reports Annual Owner Satisfaction Survey at 91% in 2016.</p>
-            </article>
-
-            <article>
-              <h2>Co-founder and Former Chairman</h2>
-              <h3>SolarCity (subsidiary of Tesla Inc.)</h3>
-              <p class="subDetails">06/2006 - Present</p>
-              <p>
-                Merged the company with Tesla Inc. and now offers energy storage devices through Tesla, including a
-                turnkey residential battery backup service that incorporates Tesla's Powerwall.
-              </p>
-              <p>
-                In 2015, installed 870MW of solar power, approximately 28% of non-utility solar installation in the U.S.
-                that year.
-              </p>
-            </article>
-
-            <article>
-              <h2>Founder & CEO</h2>
-              <h3>Neurolink</h3>
-              <p class="subDetails">07/2016 - Present</p>
-              <p>
-                A company aims to make devices to treat serious brain diseases in the short-term, with the eventual goal
-                of human enhancement.
-              </p>
-            </article>
-          </div>
-
-          <div class="clear"></div>
-        </section>
-
-        <section>
-          <div class="sectionTitle">
-            <h1>Key Skills</h1>
-          </div>
-
-          <div class="sectionContent">
-            <ul class="keySkills">
-              <li>Micromanagement</li>
-              <li>Marketing</li>
-              <li>Leadership</li>
-              <li>Creativity</li>
-              <li>Time Management</li>
-              <li>Persistence</li>
-              <li>Resiliency</li>
-              <li>Long-term thinking</li>
-            </ul>
-          </div>
-          <div class="clear"></div>
-        </section>
-
-        <section id="Education">
-          <div class="sectionTitle">
-            <h1>Education</h1>
-          </div>
-
-          <div class="sectionContent">
-            <article>
-              <h2>Bachelor’s of Science in Economics</h2>
-              <p class="subDetails">Wharton School of the University of Pennsylvania</p>
-              <p>09/1992 - 06/1995</p>
-            </article>
-
-            <article>
-              <h2>Bachelor of Science in Physics</h2>
-              <p class="subDetails">Penn's college of Arts and Sciences</p>
-              <p>09/1992 - 06/1995</p>
-            </article>
-          </div>
-          <div class="clear"></div>
-        </section>
-
-        <section>
-          <article>
-            <div class="sectionTitle">
-              <h1>Publications</h1>
-            </div>
-
-            <div class="sectionContent">
-              <p>Your text here</p>
-            </div>
-
-            <div class="sectionContent">
-              <p>Your text here.</p>
-            </div>
-
-            <div class="sectionContent">
-              <p>Your text here</p>
-            </div>
-          </article>
-          <div class="clear"></div>
-        </section>
+      <div class="about">
+        <span class="position">Software Engineer</span>
+        <span class="desc">
+          {{ cv.objective.objectiveDescription }}
+        </span>
       </div>
     </div>
-  </body>
+    <div class="details">
+      <div class="section">
+        <div class="section__title">Experience</div>
+        <div class="section__list" v-for="work in cv.workExperience" :key="work.workExperienceID">
+          <div class="section__list-item mt-5">
+            <div class="left">
+              <div class="font-bold">{{ work.companyName }}</div>
+              <div class="font-bold">{{ work.jobTitle }}</div>
+              <div class="font-medium">{{ work.jobAddress }}</div>
+              <div class="duration">{{ work.startDate }} - {{ work.endDate }}</div>
+              <div class="description mt-3">{{ work.jobDescription }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section__title">Education</div>
+        <div class="section__list" v-for="edu in cv.education" :key="edu.educationID">
+          <div class="section__list-item mt-5">
+            <div class="left">
+              <div class="font-bold">{{ edu.institution }}</div>
+              <div class="font-medium">{{ edu.course }}</div>
+              <div class="duration">{{ edu.startDate }} - {{ edu.endDate }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section__title">Projects</div>
+        <div class="section__list" v-for="project in cv.projects" :key="project.projectID">
+          <div class="section__list-item mt-5">
+            <div class="name">{{ project.projectName }}</div>
+            <div class="text">
+              {{ project.projectDescription }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section__title">Skills</div>
+        <div class="skills">
+          <div class="skills__item" v-for="skill in cv.skills" :key="skill.skillID">
+            <div class="left">
+              <h2 class="name">{{ skill.skillName }}</h2>
+            </div>
+            <div class="right">
+              <input id="ck1" type="checkbox" :checked="parseInt(skill.skillLevel) >= 1 ? true : false" />
+
+              <label for="ck1"></label>
+              <input id="ck2" type="checkbox" :checked="parseInt(skill.skillLevel) >= 2 ? true : false" />
+
+              <label for="ck2"></label>
+              <input id="ck3" type="checkbox" :checked="parseInt(skill.skillLevel) >= 3 ? true : false" />
+
+              <label for="ck3"></label>
+              <input id="ck4" type="checkbox" :checked="parseInt(skill.skillLevel) >= 4 ? true : false" />
+              <label for="ck4"></label>
+              <input id="ck5" type="checkbox" :checked="parseInt(skill.skillLevel) >= 5 ? true : false" />
+              <label for="ck5"></label>
+              <input id="ck6" type="checkbox" :checked="parseInt(skill.skillLevel) >= 6 ? true : false" />
+              <label for="ck6"></label>
+              <input id="ck7" type="checkbox" :checked="parseInt(skill.skillLevel) >= 7 ? true : false" />
+              <label for="ck7"></label>
+              <input id="ck8" type="checkbox" :checked="parseInt(skill.skillLevel) >= 8 ? true : false" />
+              <label for="ck8"></label>
+              <input id="ck9" type="checkbox" :checked="parseInt(skill.skillLevel) >= 9 ? true : false" />
+              <label for="ck9"></label>
+              <input id="ck10" type="checkbox" :checked="parseInt(skill.skillLevel) >= 10 ? true : false" />
+              <label for="ck10"></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section__title">Volunteer Experience</div>
+        <div class="section__list" v-for="volunteer in cv.volunteerExperience" :key="volunteer.volunteerExperienceID">
+          <div class="section__list-item mt-5">
+            <div class="left">
+              <div class="font-bold">{{ volunteer.organizationName }}</div>
+              <div class="font-bold">{{ volunteer.role }}</div>
+              <div class="duration font-medium">{{ volunteer.startDate }} - {{ volunteer.endDate }}</div>
+              <div class="description font-medium">{{ volunteer.volunteerDescription }}</div>
+            </div>
+            <!-- <div class="right">
+              <div class="name">{{ volunteer.organizationName }}</div>
+              <div class="addr">{{ volunteer.role }}</div>
+              <div class="duration">{{ volunteer.startDate }} - {{ volunteer.endDate }}</div>
+              <div class="description">{{ volunteer.volunteerDescription }}</div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script lang="ts" setup></script>
+<script setup lang="ts">
+const cv = reactive({
+  student: {
+    userID: '2',
+    firstName: 'Madhusha',
+    lastName: 'Prasad',
+    email: 'madushaprasad21@gmail.com',
+    phone: '987654321',
+    dob: '2000-05-20',
+    userPassword: 'password123',
+  },
+  address: {
+    addressID: '2',
+    lineOne: '789',
+    lineTwo: 'Street Name',
+    city: 'New York',
+    postCode: '10001',
+  },
+  cvProfile: {
+    cvID: '2',
+    profileImg: 'https://www.example.com/profile_image',
+    about: 'I am passionate about creating responsive and user-friendly mobile',
+    points: 8,
+    gender: 'female',
+  },
+  objective: {
+    objectiveID: '2',
+    objectiveDescription: 'I aspire to become a mobile developer and contribute to innovative projects.',
+  },
+  education: [
+    {
+      educationID: '2',
+      institution: 'Stanford University',
+      course: 'Computer Engineering',
+      startDate: '2019-09-01',
+      endDate: '2023-06-01',
+    },
+    {
+      educationID: '2',
+      institution: 'Stanford University',
+      course: 'Computer Engineering',
+      startDate: '2019-09-01',
+      endDate: '2023-06-01',
+    },
+  ],
+  skills: [
+    {
+      skillID: '2',
+      skillName: 'JavaScript',
+      skillLevel: '8',
+    },
+    {
+      skillID: '3',
+      skillName: 'HTML',
+      skillLevel: '5',
+    },
+    {
+      skillID: '4',
+      skillName: 'CSS',
+      skillLevel: '6',
+    },
+    {
+      skillID: '5',
+      skillName: 'Node.js',
+      skillLevel: '8',
+    },
+    {
+      skillID: '2',
+      skillName: 'React Native',
+      skillLevel: '4',
+    },
+    {
+      skillID: '2',
+      skillName: 'IOS',
+      skillLevel: '4',
+    },
+    {
+      skillID: '2',
+      skillName: 'Kotlin',
+      skillLevel: '4',
+    },
+  ],
+  socialMedia: [
+    {
+      socialMediaID: '2',
+      socialMediaName: 'GitHub',
+      socialMediaLink: 'https://github.com/janesmith',
+    },
+  ],
+  workExperience: [
+    {
+      workExperienceID: '3',
+      companyName: 'Apple Inc.',
+      jobTitle: 'Front-end Developer',
+      startDate: '2020-06-01',
+      endDate: '2022-12-31',
+      jobDescription: 'Developed user interfaces for web applications using modern front-end frameworks.',
+      jobAddress: 'Cupertino, CA',
+    },
+    {
+      workExperienceID: '4',
+      companyName: 'Facebook',
+      jobTitle: 'Full-stack Developer',
+      startDate: '2023-01-01',
+      endDate: '2024-03-01',
+      jobDescription: 'Contributed to the development of various features across the entire stack of web applications.',
+      jobAddress: 'Menlo Park, CA',
+    },
+  ],
+  volunteerExperience: [
+    {
+      volunteerExperienceID: '2',
+      organizationName: 'Code for America',
+      role: 'Web Developer Volunteer',
+      startDate: '2021-03-15',
+      endDate: '2022-05-30',
+      volunteerDescription: 'Worked on projects aimed at using technology for social good.',
+    },
+    {
+      volunteerExperienceID: '2',
+      organizationName: 'Code for America',
+      role: 'Web Developer Volunteer',
+      startDate: '2021-03-15',
+      endDate: '2022-05-30',
+      volunteerDescription: 'Worked on projects aimed at using technology for social good.',
+    },
+    {
+      volunteerExperienceID: '2',
+      organizationName: 'Code for America',
+      role: 'Web Developer Volunteer',
+      startDate: '2021-03-15',
+      endDate: '2022-05-30',
+      volunteerDescription: 'Worked on projects aimed at using technology for social good.',
+    },
+  ],
+  projects: [
+    {
+      projectID: '2',
+      projectName: 'E-commerce Website',
+      projectDescription:
+        'Developed a fully functional e-commerce website using React.js for the front end and Node.js for the back end.',
+    },
+    {
+      projectID: '3',
+      projectName: 'Portfolio Website',
+      projectDescription:
+        'Designed and developed a personal portfolio website to showcase skills, projects, and experience.',
+    },
+  ],
+})
+</script>
 
 <style scoped>
-html,
-body,
-div,
-span,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-abbr,
-address,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-samp,
-small,
-strong,
-sub,
-sup,
-var,
-b,
-i,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  border: 0;
-  font: inherit;
-  font-size: 100%;
-  margin: 0;
-  padding: 0;
-  vertical-align: baseline;
+.contact-info {
+  margin-top: 7px;
 }
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  display: block;
+
+html {
+  height: 100%;
 }
-/* We need to minimize the use of code, so we will be using roots...this is in the works */
-:root {
-  --highlight: #a29400;
-  --header-font: 'Gudea', Helvetica, Arial, sans-serif;
-  --content-font: 'Lato', Helvetica, Arial, sans-serif;
-}
-html,
 body {
-  background: #fff;
-  font-family: 'Lato', Helvetica, Arial, sans-serif;
-  font-feature-settings: 'calt', 'liga', 'hist', 'onum', 'pnum';
-  font-size: 1rem;
+  min-height: 100%;
+  background: #eee;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
   color: #222;
+  font-size: 14px;
+  line-height: 26px;
+  padding-bottom: 50px;
 }
-.clear {
-  clear: both;
-}
-#menu {
-  position: fixed;
-  right: 0;
-  top: 15%;
-  width: 8em;
-  margin-top: -2.5em;
-}
-p {
-  font-size: 1em;
-  line-height: 1.4em;
-  margin-bottom: 20px;
-  color: #444;
-  transition: all 1s linear;
-  -o-transition: all 1s linear;
-  -moz-transition: all 1s linear;
-  -webkit-transition: all 1s linear;
-}
-a {
-  color: inherit;
-}
-.cv {
-  max-width: 54rem;
+.container {
+  max-width: 700px;
   background: #fff;
-  margin: 30px auto;
+  margin: 0px auto 0px;
+  box-shadow: 1px 1px 2px #dad7d7;
+  border-radius: 3px;
+  padding: 40px;
+  margin-top: 50px;
 }
-.cv:hover {
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
+.header {
+  margin-bottom: 30px;
 }
-.cv:active {
-  cursor: grabbing;
-  cursor: -moz-grabbing;
-  cursor: -webkit-grabbing;
-}
-.mainDetails {
-  padding: 25px 35px;
-  border-bottom: 2px solid #cf8a05;
-  background: #f3f3f3;
-}
-#name h1 {
-  font-size: 2.5em;
-  font-family: 'Gudea', Helvetica, arial, sans-serif;
-}
-#name h2 {
-  font-size: 2em;
-  font-family: 'Gudea', Helvetica, arial, sans-serif;
-}
-#mainArea {
-  padding: 0 40px;
-}
-.wrap {
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.12),
-    0 1px 2px rgba(0, 0, 0, 0.24);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-.wrap:hover {
-  box-shadow:
-    0 14px 28px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
-}
-#headshot {
-  width: 12.5%;
-  float: left;
-  margin-right: 30px;
-}
-#headshot img {
-  width: 100%;
-  height: auto;
-  -webkit-border-radius: 50px;
-  border-radius: 50px;
-}
-#name {
-  float: left;
-}
-#contactDetails {
-  float: right;
-}
-#contactDetails ul {
-  list-style-type: none;
-  font-size: 0.9em;
-  margin-top: 2px;
-}
-#contactDetails ul li {
-  margin-bottom: 3px;
-  color: #444;
-  display: inline;
-}
-#contactDetails ul li a,
-a[href^='tel'] {
-  color: #444;
-  text-decoration: none;
-  -webkit-transition: all 0.3s ease-in;
-  -moz-transition: all 0.3s ease-in;
-  -o-transition: all 0.3s ease-in;
-  -ms-transition: all 0.3s ease-in;
-  transition: all 0.3s ease-in;
-}
-#contactDetails ul li a:hover {
-  color: #cf8a05;
-}
-section {
-  border-top: 1px solid #dedede;
-  padding: 20px 0 0;
-}
-section:first-child {
-  border-top: 0;
-}
-section:last-child {
-  padding: 20px 0 10px;
-}
-.sectionTitle {
-  float: left;
-  width: 25%;
-}
-.sectionContent {
-  float: right;
-  width: 72.5%;
-}
-.sectionTitle h1 {
-  font-family: 'Gudea', helvetica, arial, sans-serif;
-  font-size: 0.89em;
-  color: #cf8a05;
+.header .full-name > div > span {
+  font-size: 40px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  margin-bottom: 5px;
 }
-.sectionContent h2 {
-  font-family: 'Gudea', helvetica, arial, sans-serif;
-  font-size: 1.5em;
-  margin-bottom: -2px;
+.header .first-name {
+  font-weight: 700;
 }
-.subDetails {
-  font-size: 80%;
-  margin-bottom: 3px;
+.header .last-name {
+  font-weight: 300;
 }
-.keySkills {
-  list-style-type: none;
-  -moz-column-count: 3;
-  -webkit-column-count: 3;
-  column-count: 3;
+.header .contact-info {
   margin-bottom: 20px;
-  font-size: 1em;
-  color: #444;
 }
-.keySkills ul li {
-  margin-bottom: 3px;
+.header .email,
+.header .phone {
+  color: #999;
+  font-weight: 300;
 }
-@media all and (min-width: 602px) and (max-width: 800px) {
-  #headshot {
-    display: none;
-  }
-  .keySkills {
-    -moz-column-count: 2;
-    -webkit-column-count: 2;
-    column-count: 2;
-  }
+.header .separator {
+  height: 10px;
+  display: inline-block;
+  border-left: 2px solid #999;
+  margin: 0px 10px;
 }
-@media all and (max-width: 54rem) {
-  .cv {
-    width: 95%;
-    margin: 10px auto;
-    min-width: 280px;
-    transition: all 0.25s linear;
-    -o-transition: all 0.25s linear;
-    -moz-transition: all 0.25s linear;
-    -webkit-transition: all 0.25s linear;
-  }
-  #headshot {
-    display: none;
-  }
-  #name,
-  #contactDetails {
-    float: none;
-    width: 100%;
-    text-align: center;
-  }
-  .sectionTitle,
-  .sectionContent {
-    float: none;
-    width: 100%;
-  }
-  .sectionTitle {
-    margin-left: -2px;
-    font-size: 1.25em;
-  }
-  .keySkills {
-    -moz-column-count: 2;
-    -webkit-column-count: 2;
-    column-count: 2;
-  }
+.header .position {
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 10px;
+  text-decoration: underline;
 }
-@media all and (max-width: 480px) {
-  .mainDetails {
-    padding: 15px 15px;
-  }
-  section {
-    padding: 15px 0 0;
-  }
-  #mainArea {
-    padding: 0 25px;
-  }
-  .keySkills {
-    -moz-column-count: 1;
-    -webkit-column-count: 1;
-    column-count: 1;
-  }
-  #name h1 {
-    line-height: 0.8em;
-    margin-bottom: 4px;
-  }
+.details {
+  line-height: 20px;
 }
-@media print {
-  .cv {
-    width: 100%;
-  }
+.details .section {
+  margin-bottom: 40px;
 }
-@-webkit-keyframes reset {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
+.details .section:last-of-type {
+  margin-bottom: 0px;
 }
-@-webkit-keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.details .section__title {
+  letter-spacing: 2px;
+  color: #8e7810;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-transform: uppercase;
 }
-@-moz-keyframes reset {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
+.details .section__list-item {
+  margin-bottom: 40px;
 }
-@-moz-keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.details .section__list-item:last-of-type {
+  margin-bottom: 0;
 }
-@keyframes reset {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
+.details .left,
+.details .right {
+  vertical-align: top;
+  display: inline-block;
 }
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.details .left {
+  width: 60%;
 }
-.instaFade {
-  -webkit-animation-name: reset, fade-in;
-  -webkit-animation-duration: 1.5s;
-  -webkit-animation-timing-function: ease-in;
-  -moz-animation-name: reset, fade-in;
-  -moz-animation-duration: 1.5s;
-  -moz-animation-timing-function: ease-in;
-  animation-name: reset, fade-in;
-  animation-duration: 1.5s;
-  animation-timing-function: ease-in;
+.details .right {
+  tex-align: right;
+  width: 39%;
 }
-.quickFade {
-  -webkit-animation-name: reset, fade-in;
-  -webkit-animation-duration: 2.5s;
-  -webkit-animation-timing-function: ease-in;
-  -moz-animation-name: reset, fade-in;
-  -moz-animation-duration: 2.5s;
-  -moz-animation-timing-function: ease-in;
-  animation-name: reset, fade-in;
-  animation-duration: 2.5s;
-  animation-timing-function: ease-in;
+.details .name {
+  font-weight: bold;
 }
-.delayOne {
-  -webkit-animation-delay: 0, 0.5s;
-  -moz-animation-delay: 0, 0.5s;
-  animation-delay: 0, 0.5s;
+.details a {
+  text-decoration: none;
+  color: #000;
+  font-style: italic;
 }
-.delayTwo {
-  -webkit-animation-delay: 0, 1s;
-  -moz-animation-delay: 0, 1s;
-  animation-delay: 0, 1s;
+.details a:hover {
+  text-decoration: underline;
+  color: #000;
 }
-.delayThree {
-  -webkit-animation-delay: 0, 1.5s;
-  -moz-animation-delay: 0, 1.5s;
-  animation-delay: 0, 1.5s;
+.details .skills__item {
+  margin-bottom: 10px;
 }
-.delayFour {
-  -webkit-animation-delay: 0, 2s;
-  -moz-animation-delay: 0, 2s;
-  animation-delay: 0, 2s;
+.details .skills__item .right input {
+  display: none;
 }
-.delayFive {
-  -webkit-animation-delay: 0, 2.5s;
-  -moz-animation-delay: 0, 2.5s;
-  animation-delay: 0, 2.5s;
+.details .skills__item .right label {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: #eff3c3;
+  border-radius: 20px;
+  margin-right: 3px;
+}
+.details .skills__item .right input:checked + label {
+  background: #8e4b10;
 }
 </style>

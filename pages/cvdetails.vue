@@ -1,12 +1,25 @@
 <script lang="ts" setup>
 import { onMounted, toRaw } from 'vue'
 import { initFlowbite, Modal } from 'flowbite'
+import { useToast } from 'vue-toast-notification'
+import { useUserStore } from '~/store/user'
+import { useCvProfileStore } from '~/store/cvProfile'
+import 'vue-toast-notification/dist/theme-sugar.css'
 
 definePageMeta({
   layout: 'default',
 })
 
-// initialize components based on data attribute selectors
+const $toast = useToast()
+const userStore = useUserStore()
+const cvProfileStore = useCvProfileStore()
+const linkedinDetails: Ref<any> = ref({})
+const router: any = useRouter()
+
+onBeforeMount(async () => {
+  await cvProfileStore.getAllObjectives()
+})
+
 onMounted(() => {
   initFlowbite()
 
@@ -63,7 +76,7 @@ let startDateOfJob: any = reactive('')
 let endDateOfJob: any = reactive('')
 
 const terms = reactive({
-  linkedinID: '',
+  linkedinID: 'madhusha-prasad-045a82187',
   termsAgree: false,
 })
 
@@ -136,25 +149,212 @@ const removeWorkFields = (): void => {
 }
 
 const acceptTerms = (): void => {
-  const $acceptModalElement: HTMLElement | null = document.querySelector('#popup-accept-modal')
-  const $btnCancel: HTMLElement | null = document.querySelector('#btnCencelPopup-accept-modal')
-  const $btnClosePopupAcceptModal: HTMLElement | null = document.querySelector('#btnClosePopup-accept-modal')
+  if (terms.linkedinID) {
+    console.log('terms agreed', terms.linkedinID)
+    const $acceptModalElement: HTMLElement | null = document.querySelector('#popup-accept-modal')
+    const $btnCancel: HTMLElement | null = document.querySelector('#btnCencelPopup-accept-modal')
+    const $btnClosePopupAcceptModal: HTMLElement | null = document.querySelector('#btnClosePopup-accept-modal')
+    const modalOptions = {
+      backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+    }
 
-  const modalOptions = {
-    backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+    const acceptModal = new Modal($acceptModalElement, modalOptions)
+
+    acceptModal.toggle()
+
+    $btnClosePopupAcceptModal.addEventListener('click', function () {
+      acceptModal.hide()
+    })
+
+    $btnCancel.addEventListener('click', function () {
+      acceptModal.hide()
+    })
+  } else {
+    $toast.error('Please input correct linkedin id', {
+      position: 'top-right',
+      duration: 2000,
+    })
   }
+}
 
-  const acceptModal = new Modal($acceptModalElement, modalOptions)
+// interface CvProfileInfo {
+//   addressID: string
+//   userID: string
+//   cvID: string
+//   dob: string
+//   gender: string
+//   profile_img: string
+//   about: string
+//   points: 0
+//   lineOne: string
+//   lineTwo: string
+//   city: string
+//   postCode: string
+// }
 
-  acceptModal.toggle()
+const saveLinkedinDetails = async (): Promise<void> => {
+  router.push('courseList')
+  await userStore.getLinkedIn(terms.linkedinID)
+  linkedinDetails.value = userStore.linkedInData
 
-  $btnClosePopupAcceptModal.addEventListener('click', function () {
-    acceptModal.hide()
-  })
+  if (userStore.linkedInData) {
+    const objective: any = {
+      objectiveID: cvProfileStore.newObjectiveID,
+      cvID: '',
+      objective_description: linkedinDetails.value.summary,
+    }
 
-  $btnCancel.addEventListener('click', function () {
-    acceptModal.hide()
-  })
+    let education: any = []
+    let skiils: any = []
+    const socialMedia: any = []
+    let workExperience: any = []
+    let volunteerExperience: any = []
+    let project: any = []
+
+    if (toRaw(linkedinDetails.value).education.length !== 0) {
+      education = toRaw(linkedinDetails.value).education.map((edu: any, index: any) => {
+        console.log(index)
+        let startdate = ''
+        let endDate = ''
+        try {
+          startdate = toRaw(edu.starts_at.day) + '-' + toRaw(edu.starts_at.month) + '-' + toRaw(edu.starts_at.year)
+          endDate = toRaw(edu.ends_at.day) + '-' + toRaw(edu.ends_at.month) + '-' + toRaw(edu.ends_at.year)
+        } catch (e) {
+          console.log(e)
+        }
+        const realStartDate = new Date(startdate)
+        const realEndDate = new Date(endDate)
+
+        return {
+          educationID: `EDU${index + 1}`,
+          cvID: '',
+          institution: edu.school,
+          education_course: edu.degree_name + ' ' + edu.field_of_study,
+          education_start_date: realStartDate,
+          education_end_date: realEndDate,
+        }
+      })
+    }
+
+    if (toRaw(linkedinDetails.value).skills.length !== 0) {
+      skiils = toRaw(linkedinDetails.value).skills.map((skill: any, index: any) => {
+        return {
+          skillID: `SK${index + 1}`,
+          cvID: '',
+          skill_name: skill,
+          skill_level: '0',
+        }
+      })
+    }
+
+    if (toRaw(linkedinDetails.value).experiences.length !== 0) {
+      workExperience = toRaw(linkedinDetails.value).experiences.map((work: any, index: any) => {
+        let startdate = ''
+        let endDate = ''
+        try {
+          startdate =
+            toRaw(work.start_date.day) + '-' + toRaw(work.start_date.month) + '-' + toRaw(work.start_date.year)
+          endDate = toRaw(work.end_date.day) + '-' + toRaw(work.end_date.month) + '-' + toRaw(work.end_date.year)
+        } catch (e) {
+          console.log(e)
+        }
+        const realStartDate = new Date(startdate)
+        const realEndDate = new Date(endDate)
+
+        return {
+          workExperienceID: `WE${index + 1}`,
+          cvID: '',
+          company_name: work.company,
+          job_title: work.title,
+          job_description: work.description,
+          job_start_date: realStartDate,
+          job_end_date: realEndDate,
+          job_address: work.location,
+        }
+      })
+    }
+
+    if (toRaw(linkedinDetails.value).volunteer_work.length !== 0) {
+      volunteerExperience = toRaw(linkedinDetails.value).volunteer_work.map((volunteer: any, index: any) => {
+        let startdate = ''
+        let endDate = ''
+        try {
+          startdate =
+            toRaw(volunteer.start_date.day) +
+            '-' +
+            toRaw(volunteer.start_date.month) +
+            '-' +
+            toRaw(volunteer.start_date.year)
+          endDate =
+            toRaw(volunteer.end_date.day) + '-' + toRaw(volunteer.end_date.month) + '-' + toRaw(volunteer.end_date.year)
+        } catch (e) {
+          console.log(e)
+        }
+        const realStartDate = new Date(startdate)
+        const realEndDate = new Date(endDate)
+
+        return {
+          volunteerExperienceID: `VE${index + 1}`,
+          cvID: '',
+          organization_name: volunteer.company,
+          role: volunteer.title,
+          description: volunteer.description,
+          start_date: realStartDate,
+          end_date: realEndDate,
+        }
+      })
+    }
+
+    if (toRaw(linkedinDetails.value).accomplishment_projects.length !== 0) {
+      project = toRaw(linkedinDetails.value).accomplishment_projects.map((project: any, index: any) => {
+        let startdate = ''
+        let endDate = ''
+        try {
+          startdate =
+            toRaw(project.start_date.day) + '-' + toRaw(project.start_date.month) + '-' + toRaw(project.start_date.year)
+          endDate =
+            toRaw(project.end_date.day) + '-' + toRaw(project.end_date.month) + '-' + toRaw(project.end_date.year)
+        } catch (e) {
+          console.log(e)
+        }
+        const realStartDate = new Date(startdate)
+        const realEndDate = new Date(endDate)
+
+        return {
+          projectID: `PR${index + 1}`,
+          cvID: '',
+          project_name: project.title,
+          project_description: project.description,
+          start_date: realStartDate,
+          end_date: realEndDate,
+        }
+      })
+    }
+
+    const userResumeDataFromLinkedin = {
+      cvID: cvProfileStore.newCvProfileID,
+      objective,
+      education,
+      skiils,
+      socialMedia,
+      workExperience,
+      volunteerExperience,
+      project,
+    }
+
+    if (userResumeDataFromLinkedin) {
+      console.log(userResumeDataFromLinkedin)
+
+      await cvProfileStore.createResumeAtOnce(userResumeDataFromLinkedin)
+    }
+
+    // await cvProfileStore.createResumeAtOnce(userResumeDataFromLinkedin)
+  } else {
+    $toast.error('Please input correct linkedin id', {
+      position: 'top-right',
+      duration: 2000,
+    })
+  }
 }
 </script>
 
@@ -214,6 +414,7 @@ const acceptTerms = (): void => {
                     >
                     <input
                       id="linkedin_id"
+                      v-model="terms.linkedinID"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="Enter your linkedin user id"
                       required
@@ -224,9 +425,10 @@ const acceptTerms = (): void => {
                   <!-- input our terms and condition for linkedin id insertion and without checked it user cant continue -->
                   <div class="flex items-center">
                     <input
-                      type="checkbox"
                       id="terms"
+                      type="checkbox"
                       name="terms"
+                      v-model="terms.termsAgree"
                       class="h-4 w-4 rounded-sm text-blue-600 border-gray-300 focus:ring-blue-500"
                     />
                     <label for="terms" class="ml-2 block text-sm text-gray-900 dark:text-white">
@@ -240,11 +442,20 @@ const acceptTerms = (): void => {
                   <button
                     id="btnAccept"
                     data-modal-hide="linkedinModal"
-                    @click="acceptTerms"
                     type="button"
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    @click="acceptTerms"
+                    :disabled="!terms.termsAgree"
                   >
-                    I accept
+                    Register as a Student
+                  </button>
+                  <button
+                    id="btnAccept"
+                    data-modal-hide="linkedinModal"
+                    type="button"
+                    class="py-2.5 px-5 ms-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Register as a Recruiter
                   </button>
                   <button
                     data-modal-hide="linkedinModal"
@@ -307,13 +518,14 @@ const acceptTerms = (): void => {
                     />
                   </svg>
                   <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                    Are you sure you want to save your linkedin id?
+                    Are you sure you want to save your linkedin details?
                   </h3>
                   <button
                     id="btnYes"
                     data-modal-hide="popup-accept-modal"
                     type="button"
                     class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                    @click="saveLinkedinDetails"
                   >
                     Yes, I'm sure
                   </button>
