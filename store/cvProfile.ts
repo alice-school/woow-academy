@@ -48,6 +48,132 @@ export const useCvProfileStore = defineStore('cvProfile', () => {
 
   const predictedIndustry: Ref<string> = ref('')
 
+  const cv = reactive({
+    student: {
+      userID: '2',
+      firstName: 'Jane',
+      lastName: 'Smith',
+      email: 'jane.smith@example.com',
+      phone: '987654321',
+      dob: '2000-05-20',
+      userPassword: 'password123',
+    },
+    address: {
+      addressID: '2',
+      lineOne: '789',
+      lineTwo: 'Street Name',
+      city: 'New York',
+      postCode: '10001',
+    },
+    cvProfile: {
+      cvID: '2',
+      profileImg: 'https://www.example.com/profile_image',
+      about: 'I am passionate about creating responsive and user-friendly web applications.',
+      points: 8,
+      gender: 'female',
+    },
+    objective: {
+      objectiveID: '2',
+      objectiveDescription: 'I aspire to become a web developer and contribute to innovative projects.',
+    },
+    education: {
+      educationID: '2',
+      institution: 'Stanford University',
+      course: 'Computer Engineering',
+      startDate: '2019-09-01',
+      endDate: '2023-06-01',
+    },
+    skills: [
+      {
+        skillID: '2',
+        skillName: 'JavaScript',
+        skillLevel: 'Advanced',
+      },
+      {
+        skillID: '3',
+        skillName: 'HTML',
+        skillLevel: 'Intermediate',
+      },
+      {
+        skillID: '4',
+        skillName: 'CSS',
+        skillLevel: 'Intermediate',
+      },
+      {
+        skillID: '5',
+        skillName: 'Node.js',
+        skillLevel: 'Intermediate',
+      },
+      {
+        skillID: '2',
+        skillName: 'React',
+        skillLevel: 'Advanced',
+      },
+      {
+        skillID: '2',
+        skillName: 'Angular',
+        skillLevel: 'Advanced',
+      },
+      {
+        skillID: '2',
+        skillName: 'Vue.js',
+        skillLevel: 'Advanced',
+      },
+    ],
+    socialMedia: [
+      {
+        socialMediaID: '2',
+        socialMediaName: 'GitHub',
+        socialMediaLink: 'https://github.com/janesmith',
+      },
+    ],
+    workExperience: [
+      {
+        workExperienceID: '3',
+        companyName: 'Apple Inc.',
+        jobTitle: 'Front-end Developer',
+        startDate: '2020-06-01',
+        endDate: '2022-12-31',
+        jobDescription: 'Developed user interfaces for web applications using modern front-end frameworks.',
+        jobAddress: 'Cupertino, CA',
+      },
+      {
+        workExperienceID: '4',
+        companyName: 'Facebook',
+        jobTitle: 'Full-stack Developer',
+        startDate: '2023-01-01',
+        endDate: '2024-03-01',
+        jobDescription:
+          'Contributed to the development of various features across the entire stack of web applications.',
+        jobAddress: 'Menlo Park, CA',
+      },
+    ],
+    volunteerExperience: [
+      {
+        volunteerExperienceID: '2',
+        organizationName: 'Code for America',
+        role: 'Web Developer Volunteer',
+        startDate: '2021-03-15',
+        endDate: '2022-05-30',
+        volunteerDescription: 'Worked on projects aimed at using technology for social good.',
+      },
+    ],
+    projects: [
+      {
+        projectID: '2',
+        projectName: 'E-commerce Website',
+        projectDescription:
+          'Developed a fully functional e-commerce website using React.js for the front end and Node.js for the back end.',
+      },
+      {
+        projectID: '3',
+        projectName: 'Portfolio Website',
+        projectDescription:
+          'Designed and developed a personal portfolio website to showcase skills, projects, and experience.',
+      },
+    ],
+  })
+
   const cvProfileDetails: CvProfileInfo = reactive({
     addressID: '',
     userID: '',
@@ -402,7 +528,9 @@ export const useCvProfileStore = defineStore('cvProfile', () => {
   }
 
   async function getCVPredictedIndustry(): Promise<void> {
+    console.log('CV:', cv)
     await axios.post(`${BASEURL}/industry/predict-industry/`, cv).then((res) => {
+      console.log('Predicted Industry:', res.data.predicted_industry)
       predictedIndustry.value = res.data.predicted_industry
     })
   }

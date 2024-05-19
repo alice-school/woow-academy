@@ -184,19 +184,21 @@ const cv = reactive({
   cvProfile: {
     cvID: '2',
     profileImg: 'https://www.example.com/profile_image',
-    about: 'I am passionate about creating responsive and user-friendly mobile',
+    about:
+      'Developer 💻 | Tech enthusiast | Former Vice President @sliit-foss | Former Sub Dev Lead @ms-club-sliit | Student @vueschool | @mlsasrilanka (Alpha)',
     points: 8,
     gender: 'female',
   },
   objective: {
     objectiveID: '2',
-    objectiveDescription: 'I aspire to become a mobile developer and contribute to innovative projects.',
+    objectiveDescription:
+      'Developer 💻 | Tech enthusiast | Former Vice President @sliit-foss | Former Sub Dev Lead @ms-club-sliit | Student @vueschool | @mlsasrilanka (Alpha)',
   },
   education: [
     {
       educationID: '2',
-      institution: 'Stanford University',
-      course: 'Computer Engineering',
+      institution: 'Sri Lanka Institute of Information Technology',
+      course: 'Software Engineering',
       startDate: '2019-09-01',
       endDate: '2023-06-01',
     },
@@ -227,29 +229,29 @@ const cv = reactive({
     {
       skillID: '5',
       skillName: 'Node.js',
-      skillLevel: '8',
+      skillLevel: '9',
     },
     {
       skillID: '2',
-      skillName: 'React Native',
-      skillLevel: '4',
+      skillName: 'React',
+      skillLevel: '9',
     },
     {
       skillID: '2',
-      skillName: 'IOS',
-      skillLevel: '4',
+      skillName: 'Angular',
+      skillLevel: '6',
     },
     {
       skillID: '2',
-      skillName: 'Kotlin',
-      skillLevel: '4',
+      skillName: 'Vue',
+      skillLevel: '9',
     },
   ],
   socialMedia: [
     {
       socialMediaID: '2',
       socialMediaName: 'GitHub',
-      socialMediaLink: 'https://github.com/janesmith',
+      socialMediaLink: 'https://github.com/MadhushaPrasad',
     },
   ],
   workExperience: [

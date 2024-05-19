@@ -125,7 +125,7 @@ watch(userid, async () => {
   await userStore.getAddressByUserID()
   await userStore.getCVProfileByUserID()
   await userStore.getSocialMediaByUserID()
-  // await userStore.getLinkedIn('suraif-muhammad/')
+  await userCvProfileStore.getCVPredictedIndustry()
   student.value = userStore.student
   address.value = userStore.address
   cvProfileDetails.value = userStore.cvProfileDetails

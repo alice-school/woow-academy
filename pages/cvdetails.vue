@@ -252,9 +252,8 @@ const saveLinkedinDetails = async (): Promise<void> => {
         let startdate = ''
         let endDate = ''
         try {
-          startdate =
-            toRaw(work.start_date.day) + '-' + toRaw(work.start_date.month) + '-' + toRaw(work.start_date.year)
-          endDate = toRaw(work.end_date.day) + '-' + toRaw(work.end_date.month) + '-' + toRaw(work.end_date.year)
+          startdate = toRaw(work.starts_at.day) + '-' + toRaw(work.starts_at.month) + '-' + toRaw(work.starts_at.year)
+          endDate = toRaw(work.ends_at.day) + '-' + toRaw(work.ends_at.month) + '-' + toRaw(work.ends_at.year)
         } catch (e) {
           console.log(e)
         }
@@ -280,13 +279,13 @@ const saveLinkedinDetails = async (): Promise<void> => {
         let endDate = ''
         try {
           startdate =
-            toRaw(volunteer.start_date.day) +
+            toRaw(volunteer.starts_at.day) +
             '-' +
-            toRaw(volunteer.start_date.month) +
+            toRaw(volunteer.starts_at.month) +
             '-' +
-            toRaw(volunteer.start_date.year)
+            toRaw(volunteer.starts_at.year)
           endDate =
-            toRaw(volunteer.end_date.day) + '-' + toRaw(volunteer.end_date.month) + '-' + toRaw(volunteer.end_date.year)
+            toRaw(volunteer.ends_at.day) + '-' + toRaw(volunteer.ends_at.month) + '-' + toRaw(volunteer.ends_at.year)
         } catch (e) {
           console.log(e)
         }
@@ -311,9 +310,8 @@ const saveLinkedinDetails = async (): Promise<void> => {
         let endDate = ''
         try {
           startdate =
-            toRaw(project.start_date.day) + '-' + toRaw(project.start_date.month) + '-' + toRaw(project.start_date.year)
-          endDate =
-            toRaw(project.end_date.day) + '-' + toRaw(project.end_date.month) + '-' + toRaw(project.end_date.year)
+            toRaw(project.starts_at.day) + '-' + toRaw(project.starts_at.month) + '-' + toRaw(project.starts_at.year)
+          endDate = toRaw(project.ends_at.day) + '-' + toRaw(project.ends_at.month) + '-' + toRaw(project.ends_at.year)
         } catch (e) {
           console.log(e)
         }
