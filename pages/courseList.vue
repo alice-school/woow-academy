@@ -24,11 +24,11 @@ onBeforeMount(() => {})
         <div class="text-wrapper-2">Python for Data Science</div>
       </div>
       <div class="overlap-2">
-        <img class="img" src="~/assets/images/cr-python.png" />
+        <img class="img" src="~/assets/images/python1.jpeg" />
         <div class="text-wrapper-3">Intermediate Python</div>
       </div>
       <div class="overlap-3">
-        <img class="IMAGE" src="~/assets/images/html.png" />
+        <img class="IMAGE" src="~/assets/images/sql.jpg" />
         <div class="text-wrapper-4">SQL</div>
       </div>
       <div class="overlap-4">
@@ -40,11 +40,11 @@ onBeforeMount(() => {})
         <div class="text-wrapper-6">C#</div>
       </div>
       <div class="overlap-6">
-        <img class="IMAGE" src="~/assets/images/html.png" />
+        <img class="IMAGE" src="~/assets/images/angular.png" />
         <div class="text-wrapper-7">Angular + NestJS</div>
       </div>
       <div class="overlap-7">
-        <img class="IMAGE" src="~/assets/images/html.png" />
+        <img class="IMAGE" src="~/assets/images/Swift.jpeg" />
         <div class="text-wrapper-8">Swift 4</div>
       </div>
       <div class="overlap-8">
@@ -52,84 +52,52 @@ onBeforeMount(() => {})
         <div class="text-wrapper-9">Python for Finance</div>
       </div>
       <div class="overlap-9">
-        <img class="IMAGE" src="~/assets/images/html.png" />
+        <img class="IMAGE" src="~/assets/images/java.jpg" />
         <div class="text-wrapper-10">Java</div>
       </div>
       <div class="overlap-10">
-        <img class="IMAGE" src="~/assets/images/html.png" />
+        <img class="IMAGE" src="~/assets/images/C++.webp" />
         <div class="text-wrapper-11">C++</div>
       </div>
       <div class="overlap-11">
-        <img class="img" src="~/assets/images/html.png" />
+        <img class="img" src="~/assets/images/core.png" />
         <div class="text-wrapper-12">Python Core</div>
       </div>
       <div class="overlap-12">
-        <img class="IMAGE" src="~/assets/images/html.png" />
+        <img class="IMAGE" src="~/assets/images/react.png" />
         <div class="text-wrapper-13">React + Redux</div>
       </div>
       <div class="overlap-13">
-        <img class="IMAGE" src="~/assets/images/html.png" />
+        <img class="IMAGE" src="~/assets/images/css.png" />
         <div class="text-wrapper-14">CSS</div>
       </div>
       <div class="overlap-14">
-        <img class="img" src="~/assets/images/html.png" />
+        <img class="img" src="~/assets/images/php.png" />
         <div class="text-wrapper-15">Coding for Marketers</div>
       </div>
       <div class="overlap-15">
-        <img class="IMAGE" src="~/assets/images/html.png" />
+        <img class="IMAGE" src="~/assets/images/php.png" />
         <div class="text-wrapper-16">PHP</div>
       </div>
       <div class="overlap-16">
-        <img class="IMAGE" src="~/assets/images/html.png" />
+        <img class="IMAGE" src="~/assets/images/kotlin.jpeg" />
         <div class="text-wrapper-17">Kotlin</div>
       </div>
       <div class="overlap-17">
-        <img class="img" src="~/assets/images/cr-python.png" />
+        <img class="img" src="~/assets/images/python.png" />
         <div class="text-wrapper-18">Python Data Structures</div>
       </div>
       <div class="overlap-18">
-        <img class="IMAGE-2" src="~/assets/images/html.png" />
+        <img class="IMAGE-2" src="~/assets/images/js.png" />
         <div class="text-wrapper-19">Game Development with JS</div>
       </div>
       <div class="overlap-19">
-        <img class="IMAGE" src="~/assets/images/html.png" />
+        <img class="IMAGE" src="~/assets/images/r.png" />
         <div class="text-wrapper-20">Ruby</div>
       </div>
       <div class="overlap-20">
-        <img class="img" src="~/assets/images/html.png" />
+        <img class="img" src="~/assets/images/golang.png" />
         <div class="text-wrapper-21">Go</div>
-      </div>
-      <div class="overlap-21">
-        <img class="IMAGE" src="~/assets/images/html.png" />
-        <div class="text-wrapper-22">Data Science</div>
-      </div>
-      <div class="overlap-22">
-        <img class="IMAGE" src="~/assets/images/html.png" />
-        <div class="text-wrapper-23">R</div>
-      </div>
-      <div class="overlap-23">
-        <img class="img" src="~/assets/images/html.png" />
-        <div class="text-wrapper-24">Machine Learning</div>
-      </div>
-      <div class="overlap-24">
-        <img class="IMAGE" src="~/assets/images/html.png" />
-        <div class="text-wrapper-25">Responsive Web Design</div>
-      </div>
-      <div class="overlap-25">
-        <img class="IMAGE-2" src="~/assets/images/html.png" />
-        <div class="text-wrapper-26">Web Development Fundamentals</div>
-      </div>
-      <div class="overlap-26">
-        <img class="img" src="~/assets/images/html.png" />
-        <div class="text-wrapper-27">jQuery</div>
-      </div>
-      <div class="overlap-27">
-        <img class="IMAGE" src="~/assets/images/html.png" />
-        <div class="text-wrapper-28">C</div>
-      </div>
-      <div class="overlap-28">
-        <img class="IMAGE" src="~/assets/images/html.png" />
-        <div class="text-wrapper-29">JavaScript</div>
       </div>
       <div class="text-wrapper-30">My Courses</div>
     </div>

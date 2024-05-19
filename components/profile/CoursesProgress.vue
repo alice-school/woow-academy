@@ -55,9 +55,9 @@
       </div>
     </div>
     <!--    Browse Courses button section-->
-    <div>
+    <NuxtLink to="/courseList">
       <button class="border border-black rounded-md w-full pt-2 pb-2 pl-2 pr-2 text-center">Browse Courses</button>
-    </div>
+    </NuxtLink>
   </div>
 </template>
 
