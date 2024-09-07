@@ -1,19 +1,359 @@
 <script lang="ts" setup>
-import { onMounted } from 'vue'
-import { initFlowbite } from 'flowbite'
+import { onMounted, toRaw } from 'vue'
+import { initFlowbite, Modal } from 'flowbite'
+import { useToast } from 'vue-toast-notification'
+import { useUserStore } from '~/store/user'
+import { useCvProfileStore } from '~/store/cvProfile'
+import 'vue-toast-notification/dist/theme-sugar.css'
 
 definePageMeta({
   layout: 'default',
 })
 
-// initialize components based on data attribute selectors
-onMounted(() => {
-  initFlowbite()
+const $toast = useToast()
+const userStore = useUserStore()
+const cvProfileStore = useCvProfileStore()
+const linkedinDetails: Ref<any> = ref({})
+const router: any = useRouter()
+
+onBeforeMount(async () => {
+  await cvProfileStore.getAllObjectives()
 })
 
-const addNewEduc = () => {}
+onMounted(() => {
+  initFlowbite()
 
-const removeEduc = () => {}
+  const $modalElement: HTMLElement | null = document.querySelector('#linkedinModal')
+  // const $acceptModalElement: HTMLElement | null = document.querySelector('#popup-accept-modal')
+  const $btnSkipElement: HTMLElement | null = document.querySelector('#btnSkip')
+  const $closeButton: HTMLElement | null = document.querySelector('#linkedinModalClose')
+  const $btnAccept: HTMLElement | null = document.querySelector('#btnAccept')
+  // const $btnYes: HTMLElement | null = document.querySelector('#btnYes')
+  // const $btnCancel: HTMLElement | null = document.querySelector('#btnCancel')
+  // const $btnClosePopupAcceptModal: HTMLElement | null = document.querySelector('#btnClosePopup-accept-modal')
+
+  // set modal options
+  const modalOptions = {
+    backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+  }
+
+  // create a new modal instance
+  if (
+    ($modalElement !== null && $btnSkipElement !== null) ||
+    ($modalElement !== undefined && $btnSkipElement !== undefined)
+  ) {
+    const modal = new Modal($modalElement, modalOptions)
+
+    // set event listeners for the button to show the modal
+    $btnSkipElement.addEventListener('click', function () {
+      modal.toggle()
+    })
+
+    $closeButton.addEventListener('click', function () {
+      modal.hide()
+    })
+
+    $btnAccept.addEventListener('click', function () {
+      modal.hide()
+    })
+  }
+})
+
+// education
+const enteredEducation: any = reactive([])
+let institute: any = reactive('')
+let course: any = reactive('')
+let startDate: any = reactive('')
+let endDate: any = reactive('')
+
+// working experence
+const enteredWorkingExperience: any = reactive([])
+let companyName: string = reactive('')
+let jobTitle: any = reactive('')
+let jobAddress: any = reactive('')
+let jobDescription: any = reactive('')
+let startDateOfJob: any = reactive('')
+let endDateOfJob: any = reactive('')
+
+const terms = reactive({
+  linkedinID: 'madhusha-prasad-045a82187',
+  termsAgree: false,
+})
+
+const addNewEduc = (): void => {
+  const enteredEducationDetails: {
+    institution: string
+    education_course: string
+    education_start_date: string
+    education_end_date: string
+  } = {
+    institution: institute.value,
+    education_course: course.value,
+    education_start_date: startDate.value,
+    education_end_date: endDate.value,
+  }
+
+  enteredEducation.push(enteredEducationDetails)
+
+  console.log(toRaw(enteredEducation))
+
+  clearCurrentField()
+}
+
+const removeEduc = (index: any): void => {
+  console.log(index)
+  enteredEducation.splice(index, 1)
+}
+
+const clearCurrentField = (): void => {
+  institute.value = ''
+  course.value = ''
+  startDate.value = ''
+  endDate.value = ''
+}
+
+const removeWork = (index: any): void => {
+  console.log(index)
+  enteredWorkingExperience.splice(index, 1)
+}
+
+const addNewWork = (): void => {
+  const enteredWorkingExperienceDetails: {
+    company_name: string
+    job_title: string
+    job_address: string
+    job_description: string
+    job_start_date: string
+    job_end_date: string
+  } = {
+    company_name: companyName.value,
+    job_title: jobTitle.value,
+    job_address: jobAddress.value,
+    job_description: jobDescription.value,
+    job_start_date: startDateOfJob.value,
+    job_end_date: endDateOfJob.value,
+  }
+
+  enteredWorkingExperience.push(enteredWorkingExperienceDetails)
+
+  removeWorkFields()
+}
+
+const removeWorkFields = (): void => {
+  companyName.value = ''
+  jobTitle.value = ''
+  jobAddress.value = ''
+  jobDescription.value = ''
+  startDateOfJob.value = ''
+  endDateOfJob.value = ''
+}
+
+const acceptTerms = (): void => {
+  if (terms.linkedinID) {
+    console.log('terms agreed', terms.linkedinID)
+    const $acceptModalElement: HTMLElement | null = document.querySelector('#popup-accept-modal')
+    const $btnCancel: HTMLElement | null = document.querySelector('#btnCencelPopup-accept-modal')
+    const $btnClosePopupAcceptModal: HTMLElement | null = document.querySelector('#btnClosePopup-accept-modal')
+    const modalOptions = {
+      backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+    }
+
+    const acceptModal = new Modal($acceptModalElement, modalOptions)
+
+    acceptModal.toggle()
+
+    $btnClosePopupAcceptModal.addEventListener('click', function () {
+      acceptModal.hide()
+    })
+
+    $btnCancel.addEventListener('click', function () {
+      acceptModal.hide()
+    })
+  } else {
+    $toast.error('Please input correct linkedin id', {
+      position: 'top-right',
+      duration: 2000,
+    })
+  }
+}
+
+// interface CvProfileInfo {
+//   addressID: string
+//   userID: string
+//   cvID: string
+//   dob: string
+//   gender: string
+//   profile_img: string
+//   about: string
+//   points: 0
+//   lineOne: string
+//   lineTwo: string
+//   city: string
+//   postCode: string
+// }
+
+const saveLinkedinDetails = async (): Promise<void> => {
+  router.push('courseList')
+  await userStore.getLinkedIn(terms.linkedinID)
+  linkedinDetails.value = userStore.linkedInData
+
+  if (userStore.linkedInData) {
+    const objective: any = {
+      objectiveID: cvProfileStore.newObjectiveID,
+      cvID: '',
+      objective_description: linkedinDetails.value.summary,
+    }
+
+    let education: any = []
+    let skiils: any = []
+    const socialMedia: any = []
+    let workExperience: any = []
+    let volunteerExperience: any = []
+    let project: any = []
+
+    if (toRaw(linkedinDetails.value).education.length !== 0) {
+      education = toRaw(linkedinDetails.value).education.map((edu: any, index: any) => {
+        console.log(index)
+        let startdate = ''
+        let endDate = ''
+        try {
+          startdate = toRaw(edu.starts_at.day) + '-' + toRaw(edu.starts_at.month) + '-' + toRaw(edu.starts_at.year)
+          endDate = toRaw(edu.ends_at.day) + '-' + toRaw(edu.ends_at.month) + '-' + toRaw(edu.ends_at.year)
+        } catch (e) {
+          console.log(e)
+        }
+        const realStartDate = new Date(startdate)
+        const realEndDate = new Date(endDate)
+
+        return {
+          educationID: `EDU${index + 1}`,
+          cvID: '',
+          institution: edu.school,
+          education_course: edu.degree_name + ' ' + edu.field_of_study,
+          education_start_date: realStartDate,
+          education_end_date: realEndDate,
+        }
+      })
+    }
+
+    if (toRaw(linkedinDetails.value).skills.length !== 0) {
+      skiils = toRaw(linkedinDetails.value).skills.map((skill: any, index: any) => {
+        return {
+          skillID: `SK${index + 1}`,
+          cvID: '',
+          skill_name: skill,
+          skill_level: '0',
+        }
+      })
+    }
+
+    if (toRaw(linkedinDetails.value).experiences.length !== 0) {
+      workExperience = toRaw(linkedinDetails.value).experiences.map((work: any, index: any) => {
+        let startdate = ''
+        let endDate = ''
+        try {
+          startdate = toRaw(work.starts_at.day) + '-' + toRaw(work.starts_at.month) + '-' + toRaw(work.starts_at.year)
+          endDate = toRaw(work.ends_at.day) + '-' + toRaw(work.ends_at.month) + '-' + toRaw(work.ends_at.year)
+        } catch (e) {
+          console.log(e)
+        }
+        const realStartDate = new Date(startdate)
+        const realEndDate = new Date(endDate)
+
+        return {
+          workExperienceID: `WE${index + 1}`,
+          cvID: '',
+          company_name: work.company,
+          job_title: work.title,
+          job_description: work.description,
+          job_start_date: realStartDate,
+          job_end_date: realEndDate,
+          job_address: work.location,
+        }
+      })
+    }
+
+    if (toRaw(linkedinDetails.value).volunteer_work.length !== 0) {
+      volunteerExperience = toRaw(linkedinDetails.value).volunteer_work.map((volunteer: any, index: any) => {
+        let startdate = ''
+        let endDate = ''
+        try {
+          startdate =
+            toRaw(volunteer.starts_at.day) +
+            '-' +
+            toRaw(volunteer.starts_at.month) +
+            '-' +
+            toRaw(volunteer.starts_at.year)
+          endDate =
+            toRaw(volunteer.ends_at.day) + '-' + toRaw(volunteer.ends_at.month) + '-' + toRaw(volunteer.ends_at.year)
+        } catch (e) {
+          console.log(e)
+        }
+        const realStartDate = new Date(startdate)
+        const realEndDate = new Date(endDate)
+
+        return {
+          volunteerExperienceID: `VE${index + 1}`,
+          cvID: '',
+          organization_name: volunteer.company,
+          role: volunteer.title,
+          description: volunteer.description,
+          start_date: realStartDate,
+          end_date: realEndDate,
+        }
+      })
+    }
+
+    if (toRaw(linkedinDetails.value).accomplishment_projects.length !== 0) {
+      project = toRaw(linkedinDetails.value).accomplishment_projects.map((project: any, index: any) => {
+        let startdate = ''
+        let endDate = ''
+        try {
+          startdate =
+            toRaw(project.starts_at.day) + '-' + toRaw(project.starts_at.month) + '-' + toRaw(project.starts_at.year)
+          endDate = toRaw(project.ends_at.day) + '-' + toRaw(project.ends_at.month) + '-' + toRaw(project.ends_at.year)
+        } catch (e) {
+          console.log(e)
+        }
+        const realStartDate = new Date(startdate)
+        const realEndDate = new Date(endDate)
+
+        return {
+          projectID: `PR${index + 1}`,
+          cvID: '',
+          project_name: project.title,
+          project_description: project.description,
+          start_date: realStartDate,
+          end_date: realEndDate,
+        }
+      })
+    }
+
+    const userResumeDataFromLinkedin = {
+      cvID: cvProfileStore.newCvProfileID,
+      objective,
+      education,
+      skiils,
+      socialMedia,
+      workExperience,
+      volunteerExperience,
+      project,
+    }
+
+    if (userResumeDataFromLinkedin) {
+      console.log(userResumeDataFromLinkedin)
+
+      await cvProfileStore.createResumeAtOnce(userResumeDataFromLinkedin)
+    }
+
+    // await cvProfileStore.createResumeAtOnce(userResumeDataFromLinkedin)
+  } else {
+    $toast.error('Please input correct linkedin id', {
+      position: 'top-right',
+      duration: 2000,
+    })
+  }
+}
 </script>
 
 <template>
@@ -26,6 +366,248 @@ const removeEduc = () => {}
         </b>
 
         <div class="px-28 mt-20">
+          <!-- linkedin userid section start -->
+          <!-- Main modal -->
+          <div
+            id="linkedinModal"
+            tabindex="-1"
+            aria-hidden="true"
+            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+          >
+            <div class="relative p-4 w-full max-w-2xl max-h-full">
+              <!-- Modal content -->
+              <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Terms of Service</h3>
+                  <button
+                    id="linkedinModalClose"
+                    type="button"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-hide="linkedinModal"
+                  >
+                    <svg
+                      class="w-3 h-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 14 14"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                      />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                  </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5 space-y-4">
+                  <div class="mb-3">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="linkedin_id"
+                      >Linkedin User ID</label
+                    >
+                    <input
+                      id="linkedin_id"
+                      v-model="terms.linkedinID"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Enter your linkedin user id"
+                      required
+                      type="text"
+                    />
+                  </div>
+
+                  <!-- input our terms and condition for linkedin id insertion and without checked it user cant continue -->
+                  <div class="flex items-center">
+                    <input
+                      id="terms"
+                      type="checkbox"
+                      name="terms"
+                      v-model="terms.termsAgree"
+                      class="h-4 w-4 rounded-sm text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label for="terms" class="ml-2 block text-sm text-gray-900 dark:text-white">
+                      I accept the
+                      <a href="#" class="text-blue-600 hover:underline"> Terms of Service </a>
+                    </label>
+                  </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                  <button
+                    id="btnAccept"
+                    data-modal-hide="linkedinModal"
+                    type="button"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    @click="acceptTerms"
+                    :disabled="!terms.termsAgree"
+                  >
+                    Register as a Student
+                  </button>
+                  <button
+                    id="btnAccept"
+                    data-modal-hide="linkedinModal"
+                    type="button"
+                    class="py-2.5 px-5 ms-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Register as a Recruiter
+                  </button>
+                  <button
+                    data-modal-hide="linkedinModal"
+                    type="button"
+                    class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                  >
+                    Decline
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- linkedin userid section finished -->
+          <!-- confirmation button -->
+          <div
+            id="popup-accept-modal"
+            tabindex="-1"
+            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+          >
+            <div class="relative p-4 w-full max-w-md max-h-full">
+              <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <button
+                  id="btnClosePopup-accept-modal"
+                  type="button"
+                  class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  data-modal-hide="popup-accept-modal"
+                >
+                  <svg
+                    class="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span class="sr-only">Close modal</span>
+                </button>
+                <div class="p-4 md:p-5 text-center">
+                  <svg
+                    class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                  <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                    Are you sure you want to save your linkedin details?
+                  </h3>
+                  <button
+                    id="btnYes"
+                    data-modal-hide="popup-accept-modal"
+                    type="button"
+                    class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                    @click="saveLinkedinDetails"
+                  >
+                    Yes, I'm sure
+                  </button>
+                  <button
+                    id="btnCencelPopup-accept-modal"
+                    data-modal-hide="popup-accept-modal"
+                    type="button"
+                    class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                  >
+                    No, cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- confirmation button finished -->
+          <!-- confirm modal -->
+          <div
+            id="popup-decline-modal"
+            tabindex="-1"
+            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+          >
+            <div class="relative p-4 w-full max-w-md max-h-full">
+              <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <button
+                  type="button"
+                  class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  data-modal-hide="popup-modal"
+                >
+                  <svg
+                    class="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span class="sr-only">Close modal</span>
+                </button>
+                <div class="p-4 md:p-5 text-center">
+                  <svg
+                    class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                  <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                    Are you sure you want to save your linkedin id?
+                  </h3>
+                  <button
+                    data-modal-hide="popup-modal"
+                    type="button"
+                    class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                  >
+                    Yes, I'm sure
+                  </button>
+                  <button
+                    data-modal-hide="popup-modal"
+                    type="button"
+                    class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                  >
+                    No, cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- confirmation section done -->
           <div id="accordion-open" data-accordion="open">
             <h2 id="accordion-open-heading-1">
               <button
@@ -77,7 +659,11 @@ const removeEduc = () => {}
                 </p>
 
                 <!--                v-for element start-->
-                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                <div
+                  v-for="(education, index) in enteredEducation"
+                  :key="index"
+                  class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg"
+                >
                   <div class="text-gray-500 dark:text-gray-400">
                     <div class="w-20 flex flex-row justify-end items-center float-end">
                       <Icon
@@ -94,6 +680,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="institute"
+                        :value="toRaw(education.institution)"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         readonly
@@ -108,6 +695,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="education_course"
+                        :value="toRaw(education.education_course)"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         readonly
@@ -123,6 +711,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="start_date"
+                        :value="toRaw(education.education_start_date)"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         onfocus="(this.type='date')"
@@ -139,6 +728,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="start_date"
+                        :placeholder="toRaw(education.education_end_date)"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         onfocus="(this.type='date')"
@@ -167,7 +757,7 @@ const removeEduc = () => {}
                         color="red"
                         name="ep:remove-filled"
                         size="20px"
-                        @click="removeEduc"
+                        @click="clearCurrentField"
                       />
                     </div>
                     <div>
@@ -176,6 +766,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="institute"
+                        v-model="institute"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="SLIIT"
                         required
@@ -190,6 +781,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="education_course"
+                        v-model="course"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Software Engineering"
                         required
@@ -204,6 +796,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="start_date"
+                        v-model="startDate"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         onfocus="(this.type='date')"
                         placeholder="2020-6-14"
@@ -219,6 +812,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="start_date"
+                        v-model="endDate"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         onfocus="(this.type='date')"
                         placeholder="2020-6-14"
@@ -279,7 +873,11 @@ const removeEduc = () => {}
                 </p>
 
                 <!--                v-for element start-->
-                <div class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg">
+                <div
+                  v-for="(workingExperience, index) in enteredWorkingExperience"
+                  :key="index"
+                  class="mb-3 border border-b-0 border-gray-200 py-2 px-4 pt-3 rounded-lg"
+                >
                   <div class="text-gray-500 dark:text-gray-400">
                     <div class="w-20 flex flex-row justify-end items-center float-end">
                       <Icon
@@ -287,7 +885,7 @@ const removeEduc = () => {}
                         color="red"
                         name="ep:remove-filled"
                         size="20px"
-                        @click="removeEduc(index)"
+                        @click="removeWork(index)"
                       />
                     </div>
                     <div>
@@ -296,6 +894,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="institute"
+                        :value="workingExperience.company_name"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         readonly
@@ -310,6 +909,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="education_course"
+                        :value="workingExperience.job_title"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         readonly
@@ -324,6 +924,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="education_course"
+                        :value="workingExperience.job_address"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         readonly
@@ -338,6 +939,7 @@ const removeEduc = () => {}
                       >
                       <textarea
                         id="education_course"
+                        :value="workingExperience.job_description"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         readonly
@@ -353,6 +955,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="start_date"
+                        :value="workingExperience.job_start_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         onfocus="(this.type='date')"
@@ -368,6 +971,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="start_date"
+                        :value="workingExperience.job_end_date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         disabled
                         onfocus="(this.type='date')"
@@ -388,14 +992,14 @@ const removeEduc = () => {}
                         color="green"
                         name="ep:circle-plus-filled"
                         size="20px"
-                        @click="addNewEduc"
+                        @click="addNewWork"
                       />
                       <Icon
                         class="cursor-pointer"
                         color="red"
                         name="ep:remove-filled"
                         size="20px"
-                        @click="removeEduc"
+                        @click="removeWorkFeilds"
                       />
                     </div>
                     <div>
@@ -404,6 +1008,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="institute"
+                        v-model="companyName"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="IFS"
                         required
@@ -418,6 +1023,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="education_course"
+                        v-model="jobTitle"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Software engineer"
                         required
@@ -432,6 +1038,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="education_course"
+                        v-model="jobAddress"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Colombo"
                         required
@@ -446,6 +1053,7 @@ const removeEduc = () => {}
                       >
                       <textarea
                         id="education_course"
+                        v-model="jobDescription"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Lorem lorem lorem lorem"
                         required
@@ -460,6 +1068,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="start_date"
+                        v-model="startDateOfJob"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         onfocus="(this.type='date')"
                         placeholder="2020-6-14"
@@ -475,6 +1084,7 @@ const removeEduc = () => {}
                       >
                       <input
                         id="start_date"
+                        v-model="endDateOfJob"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         onfocus="(this.type='date')"
                         placeholder="2020-6-14"
@@ -941,136 +1551,136 @@ const removeEduc = () => {}
                         <div class="flex items-center me-4">
                           <input
                             id="inline-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
-                          <label for="inline-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="inline-radio"
                             >1</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-2-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
-                          <label for="inline-2-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="inline-2-radio"
                             >2</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >3</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >4</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >5</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >6</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >7</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >8</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >9</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >10</label
                           >
                         </div>
@@ -1123,137 +1733,137 @@ const removeEduc = () => {}
                         <div class="flex items-center me-4">
                           <input
                             id="inline-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
-                          <label for="inline-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="inline-radio"
                             >1</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-2-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
-                          <label for="inline-2-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="inline-2-radio"
                             >2</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >3</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >4</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >5</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >6</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
-                            checked
                             id="inline-checked-radio"
+                            checked
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >7</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >8</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >9</label
                           >
                         </div>
                         <div class="flex items-center me-4">
                           <input
                             id="inline-checked-radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            name="inline-radio-group"
                             type="radio"
                             value=""
-                            name="inline-radio-group"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           />
                           <label
-                            for="inline-checked-radio"
                             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            for="inline-checked-radio"
                             >10</label
                           >
                         </div>
@@ -1405,10 +2015,15 @@ const removeEduc = () => {}
               </div>
             </div>
           </div>
-          <div class="flex flex-row justify-between items-center mt-12">
-            <NuxtLink to="/course"><button class="btn">Skip</button></NuxtLink>
-            <NuxtLink to="/cvprofile"><button class="btn">Back</button></NuxtLink>
-            <NuxtLink to="/course"><button class="btn">Save</button></NuxtLink>
+          <div class="flex flex-row justify-between items-center mt-12 pb-10">
+            <button id="btnSkip" class="btn">Skip</button>
+
+            <NuxtLink to="/cvprofile">
+              <button class="btn">Back</button>
+            </NuxtLink>
+            <NuxtLink to="/courseList">
+              <button class="btn">Save</button>
+            </NuxtLink>
           </div>
         </div>
       </div>

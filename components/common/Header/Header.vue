@@ -75,10 +75,10 @@ const cvProfileDetails: Ref<CvProfileInfo> = ref({
 })
 
 onBeforeMount(async () => {
-  if (localStorage.getItem('userid') && localStorage.getItem('userEmail')) {
-    userid.value = localStorage.getItem('userid')
-    userEmail.value = localStorage.getItem('userEmail')
-  }
+  // if (localStorage.getItem('userid') && localStorage.getItem('userEmail')) {
+  //   userid.value = localStorage.getItem('userid')
+  //   userEmail.value = localStorage.getItem('userEmail')
+  // }
 
   await userStore.getStudentByID()
   await userStore.getAddressByUserID()
@@ -87,13 +87,13 @@ onBeforeMount(async () => {
 
 onMounted(() => {
   initFlowbite()
-  if (!(userid.value && userEmail.value)) {
-    $toast.error('Please login to continue', {
-      position: 'top-right',
-      duration: 2000,
-    })
-    router.push('/')
-  }
+  // if (!(userid.value && userEmail.value)) {
+  //   $toast.error('Please login to continue', {
+  //     position: 'top-right',
+  //     duration: 2000,
+  //   })
+  //   router.push('/')
+  // }
 })
 
 watch(userid, async () => {
@@ -122,7 +122,7 @@ watch(userid, async () => {
               <div class="relative ml-3 mr-2">
                 <div class="w-10 flex flex-row justify-between items-center">
                   <img alt="point image" class="h-6 sm:h-7" src="../../../assets/images/points-icon.png" />
-                  <h5 class="text-white ml-2">{{ cvProfileDetails.points }}</h5>
+                  <h5 class="text-white ml-2">{{ userStore.points }}</h5>
                 </div>
               </div>
             </div>

@@ -35,17 +35,23 @@
     <p>{{ lesson.text }}</p>
 
     <div class="mt-9">
-      <LessonCompleteButton :model-value="isLessonComplete" @update:model-value="toggleComplete" />
+      <LessonCompleteButton
+        :model-value="isLessonComplete"
+        @update:model-value="toggleComplete"
+        @click="userStore.increesePoints(lesson.points)"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useLocalStorage } from '@vueuse/core'
+import { useUserStore } from '~/store/user'
 import axios from 'axios'
 const BASEURL = 'http://127.0.0.1:8000/'
 const course = useCourse()
 const route = useRoute()
+const userStore = useUserStore()
 
 let cvProfileDetails = reactive({})
 
